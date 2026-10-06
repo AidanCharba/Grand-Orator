@@ -258,6 +258,117 @@ button:disabled {
     margin: 0 0 25px;
 }
 
+/* =========================
+   LEADERBOARD
+========================= */
+
+.leaderboard-section {
+    margin: 30px;
+    padding: 24px;
+    border-radius: 14px;
+    background: #151515;
+    border: 1px solid #333;
+}
+
+.leaderboard-section h2 {
+    margin-bottom: 4px;
+}
+
+.leaderboard-subtitle {
+    margin-top: 0;
+    opacity: 0.7;
+}
+
+.student-profile {
+    margin: 20px 0;
+    padding: 16px;
+    border-radius: 10px;
+    background: #202020;
+}
+
+.student-profile label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.profile-row {
+    display: flex;
+    gap: 8px;
+}
+
+.profile-row input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px;
+    border-radius: 7px;
+    border: 1px solid #444;
+    background: #101010;
+    color: white;
+}
+
+.profile-row button,
+#refreshLeaderboardButton {
+    padding: 10px 14px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+#profileStatus {
+    margin-top: 8px;
+    font-size: 0.9em;
+    opacity: 0.7;
+}
+
+.online-recording-count {
+    margin-top: 12px;
+    font-weight: bold;
+}
+
+#leaderboard {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.leaderboard-row {
+    display: grid;
+    grid-template-columns: 50px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: #202020;
+}
+
+.leaderboard-rank {
+    font-weight: bold;
+    text-align: center;
+}
+
+.leaderboard-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.leaderboard-count {
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.leaderboard-loading,
+.leaderboard-empty,
+.leaderboard-error {
+    padding: 20px;
+    text-align: center;
+    opacity: 0.7;
+}
+
+#refreshLeaderboardButton {
+    margin-top: 15px;
+}
+
 .navigation {
     display: flex;
     justify-content: space-between;
@@ -300,9 +411,18 @@ button:disabled {
         padding: 20px;
     }
 
+    .leaderboard-section {
+        margin: 20px;
+    }
+
     #lineText {
         font-size: 24px;
     }
+
+    .profile-row {
+        flex-direction: column;
+    }
+
 }
 
 </style>
@@ -316,259 +436,321 @@ button:disabled {
 
 <div class="app">
 
-<aside class="library">
+    <aside class="library">
 
-    <h2>Speech Library</h2>
+        <h2>Speech Library</h2>
 
-    <div id="library"></div>
+        <div id="library"></div>
 
-</aside>
+    </aside>
 
+    <main class="content">
 
-<main class="content">
+        <div id="speakerName"></div>
 
-    <div id="speakerName"></div>
+        <h1 id="speechTitle"></h1>
 
-    <h1 id="speechTitle"></h1>
+        <!-- =====================================================
+             FULL PERFORMANCE
+        ====================================================== -->
 
+        <section class="section">
 
-    <!-- =====================================================
-         FULL PERFORMANCE
-    ====================================================== -->
+            <h2>Full Performance</h2>
 
-    <section class="section">
+            <p style="color:#999;">
+                Once you have recorded every line, your recordings
+                can be assembled into one complete performance.
+            </p>
 
-        <h2>Full Performance</h2>
+            <div class="wave-label">
+                Your Complete Speech
+            </div>
 
-        <p style="color:#999;">
-            Once you have recorded every line, your recordings
-            can be assembled into one complete performance.
-        </p>
+            <canvas
+                id="fullPerformanceWaveform"
+                width="1200"
+                height="100">
+            </canvas>
 
+            <div class="controls">
 
-        <div class="wave-label">
-            Your Complete Speech
-        </div>
+                <button
+                    id="buildPerformanceButton"
+                    class="primary">
+                    Assemble My Speech
+                </button>
 
-        <canvas
-            id="fullPerformanceWaveform"
-            width="1200"
-            height="100">
-        </canvas>
+                <button
+                    id="performanceButton"
+                    disabled>
+                    ▶ Play My Speech
+                </button>
 
+                <button
+                    id="downloadPerformanceButton"
+                    class="download"
+                    disabled>
+                    ↓ Download Full Speech
+                </button>
 
-        <div class="controls">
+            </div>
 
-            <button
-                id="buildPerformanceButton"
-                class="primary">
-                Assemble My Speech
-            </button>
+            <div class="progress-container">
 
-            <button
-                id="performanceButton"
-                disabled>
-                ▶ Play My Speech
-            </button>
+                <div class="progress-background">
 
-            <button
-                id="downloadPerformanceButton"
-                class="download"
-                disabled>
-                ↓ Download Full Speech
-            </button>
+                    <div
+                        id="performanceProgress"
+                        class="progress-bar">
+                    </div>
 
-        </div>
-
-
-        <div class="progress-container">
-
-            <div class="progress-background">
-
-                <div
-                    id="performanceProgress"
-                    class="progress-bar">
                 </div>
 
             </div>
 
-        </div>
+            <div
+                id="performanceInfo"
+                class="performance-info">
+            </div>
+
+            <div
+                id="performanceStatus"
+                class="status">
+            </div>
+
+        </section>
 
 
-        <div
-            id="performanceInfo"
-            class="performance-info">
-        </div>
+        <!-- =====================================================
+             MASTER REFERENCE
+        ====================================================== -->
+
+        <section class="section">
+
+            <h2>Master Recording</h2>
+
+            <div class="wave-label">
+                Original Speech
+            </div>
+
+            <canvas
+                id="masterReferenceWaveform"
+                width="1200"
+                height="100">
+            </canvas>
+
+            <div class="controls">
+
+                <button id="masterReferenceButton">
+                    ▶ Listen to Speech
+                </button>
+
+            </div>
+
+            <div class="wave-label">
+                Record the entire speech at once
+            </div>
+
+            <div class="controls">
+
+                <button
+                    id="masterRecordButton"
+                    class="record">
+                    ● Record Entire Speech
+                </button>
+
+                <button
+                    id="masterStopButton"
+                    class="stop"
+                    disabled>
+                    ■ Stop
+                </button>
+
+                <button
+                    id="masterRecordingButton"
+                    disabled>
+                    ▶ Play My Master Recording
+                </button>
+
+            </div>
+
+            <div
+                id="masterStatus"
+                class="status">
+            </div>
+
+        </section>
 
 
-        <div
-            id="performanceStatus"
-            class="status">
-        </div>
+        <!-- =====================================================
+             LINE PRACTICE
+        ====================================================== -->
 
-    </section>
+        <section class="section">
 
+            <h2>Line-by-Line Practice</h2>
 
-    <!-- =====================================================
-         MASTER REFERENCE
-    ====================================================== -->
+            <div id="lineNumber"></div>
 
-    <section class="section">
+            <p id="lineText"></p>
 
-        <h2>Master Recording</h2>
+            <div class="wave-label">
+                Original Recording
+            </div>
 
-        <div class="wave-label">
-            Original Speech
-        </div>
+            <canvas
+                id="referenceWaveform"
+                width="1200"
+                height="100">
+            </canvas>
 
-        <canvas
-            id="masterReferenceWaveform"
-            width="1200"
-            height="100">
-        </canvas>
+            <div class="controls">
 
+                <button id="referenceButton">
+                    ▶ Play Original
+                </button>
 
-        <div class="controls">
+            </div>
 
-            <button id="masterReferenceButton">
-                ▶ Listen to Speech
-            </button>
+            <div class="wave-label">
+                Your Recording
+            </div>
 
-        </div>
+            <canvas
+                id="recordingWaveform"
+                width="1200"
+                height="100">
+            </canvas>
 
+            <div class="controls">
 
-        <div class="wave-label">
-            Record the entire speech at once
-        </div>
+                <button
+                    id="recordButton"
+                    class="record">
+                    ● Record
+                </button>
 
-        <div class="controls">
+                <button
+                    id="stopButton"
+                    class="stop"
+                    disabled>
+                    ■ Stop
+                </button>
 
-            <button
-                id="masterRecordButton"
-                class="record">
-                ● Record Entire Speech
-            </button>
+                <button
+                    id="recordingButton"
+                    disabled>
+                    ▶ Play My Recording
+                </button>
 
-            <button
-                id="masterStopButton"
-                class="stop"
-                disabled>
-                ■ Stop
-            </button>
+            </div>
 
-            <button
-                id="masterRecordingButton"
-                disabled>
-                ▶ Play My Master Recording
-            </button>
+            <div
+                id="status"
+                class="status">
+            </div>
 
-        </div>
+            <div class="navigation">
 
+                <button id="previousButton">
+                    ← Previous
+                </button>
 
-        <div
-            id="masterStatus"
-            class="status">
-        </div>
+                <div id="lineCounter"></div>
 
-    </section>
+                <button id="nextButton">
+                    Next →
+                </button>
 
+            </div>
 
-    <!-- =====================================================
-         LINE PRACTICE
-    ====================================================== -->
+        </section>
 
-    <section class="section">
-
-        <h2>Line-by-Line Practice</h2>
-
-        <div id="lineNumber"></div>
-
-        <p id="lineText"></p>
-
-
-        <!-- ORIGINAL -->
-
-        <div class="wave-label">
-            Original Recording
-        </div>
-
-        <canvas
-            id="referenceWaveform"
-            width="1200"
-            height="100">
-        </canvas>
-
-        <div class="controls">
-
-            <button id="referenceButton">
-                ▶ Play Original
-            </button>
-
-        </div>
-
-
-        <!-- USER -->
-
-        <div class="wave-label">
-            Your Recording
-        </div>
-
-        <canvas
-            id="recordingWaveform"
-            width="1200"
-            height="100">
-        </canvas>
-
-
-        <div class="controls">
-
-            <button
-                id="recordButton"
-                class="record">
-                ● Record
-            </button>
-
-            <button
-                id="stopButton"
-                class="stop"
-                disabled>
-                ■ Stop
-            </button>
-
-            <button
-                id="recordingButton"
-                disabled>
-                ▶ Play My Recording
-            </button>
-
-        </div>
-
-
-        <div
-            id="status"
-            class="status">
-        </div>
-
-
-        <div class="navigation">
-
-            <button id="previousButton">
-                ← Previous
-            </button>
-
-            <div id="lineCounter"></div>
-
-            <button id="nextButton">
-                Next →
-            </button>
-
-        </div>
-
-    </section>
-
-</main>
+    </main>
 
 </div>
+
+
+<!-- ============================================================
+     LEADERBOARD
+============================================================ -->
+
+<section class="leaderboard-section">
+
+    <h2>🏆 Recording Leaderboard</h2>
+
+    <p class="leaderboard-subtitle">
+        Most recordings made
+    </p>
+
+    <div class="student-profile">
+
+        <label for="displayNameInput">
+            Your leaderboard name
+        </label>
+
+        <div class="profile-row">
+
+            <input
+                id="displayNameInput"
+                type="text"
+                maxlength="30"
+                placeholder="Enter a display name"
+            >
+
+            <button id="saveDisplayNameButton">
+                Save Name
+            </button>
+
+        </div>
+
+        <div id="profileStatus"></div>
+
+    </div>
+
+    <div id="leaderboard">
+
+        <div class="leaderboard-loading">
+            Loading leaderboard...
+        </div>
+
+    </div>
+
+    <button id="refreshLeaderboardButton">
+        Refresh Leaderboard
+    </button>
+
+</section>
+
+
+<!-- ============================================================
+     SUPABASE
+============================================================ -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+    "https://kyfjignhjtuqkqvhxgxv.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_8i8b5HkU9ZjAnzR9w_Kf9Q_i1Ya0jJR";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY,
+        {
+            auth: {
+                persistSession: true,
+                autoRefreshToken: true
+            }
+        }
+    );
+
+</script>
 
 
 <script>
@@ -587,621 +769,632 @@ const library = [
             {
                 title: "We Shall Fight on the Beaches",
 
+                /*
+                 * Compressed Churchill master recording.
+                 * Keep this file at:
+                 *
+                 * audio/churchill/beaches/master.mp3
+                 */
+
                 masterAudio:
                     "audio/churchill/beaches/master.mp3",
 
                 lines: [
 
-                   {
-    text: "When a week ago to-day, Mr. Speaker, I asked the House",
-    audio: "audio/churchill/beaches/01.mp3"
-},
-{
-    text: "to fix this afternoon as the occasion for a statement,",
-    audio: "audio/churchill/beaches/02.mp3"
-},
-{
-    text: "I feared it would be my hard lot to announce",
-    audio: "audio/churchill/beaches/03.mp3"
-},
-{
-    text: "the greatest military disaster in our long history.",
-    audio: "audio/churchill/beaches/04.mp3"
-},
-{
-    text: "I thought—and some good judges agreed with me—that perhaps",
-    audio: "audio/churchill/beaches/05.mp3"
-},
-{
-    text: "20,000 or 30,000 men might be re-embarked.",
-    audio: "audio/churchill/beaches/06.mp3"
-},
-{
-    text: "But it certainly seemed that the whole of the French",
-    audio: "audio/churchill/beaches/07.mp3"
-},
-{
-    text: "First Army and the whole of the British Expeditionary Force",
-    audio: "audio/churchill/beaches/08.mp3"
-},
-{
-    text: "north of the Amiens-Abbeville gap, would be broken up",
-    audio: "audio/churchill/beaches/09.mp3"
-},
-{
-    text: "in the open field or else would have to capitulate",
-    audio: "audio/churchill/beaches/10.mp3"
-},
-{
-    text: "for lack of food and ammunition.",
-    audio: "audio/churchill/beaches/11.mp3"
-},
-{
-    text: "These were the hard and heavy tidings for which",
-    audio: "audio/churchill/beaches/12.mp3"
-},
-{
-    text: "I called upon the House and the nation to prepare",
-    audio: "audio/churchill/beaches/13.mp3"
-},
-{
-    text: "themselves a week ago.",
-    audio: "audio/churchill/beaches/14.mp3"
-},
-{
-    text: "The whole root and core and brain of the British Army,",
-    audio: "audio/churchill/beaches/15.mp3"
-},
-{
-    text: "on which and around which we were to build,",
-    audio: "audio/churchill/beaches/16.mp3"
-},
-{
-    text: "and are to build, the great British Armies in",
-    audio: "audio/churchill/beaches/17.mp3"
-},
-{
-    text: "the later years of the war, seemed about to perish",
-    audio: "audio/churchill/beaches/18.mp3"
-},
-{
-    text: "upon the field or to be led into an ignominious",
-    audio: "audio/churchill/beaches/19.mp3"
-},
-{
-    text: "and starving captivity.",
-    audio: "audio/churchill/beaches/20.mp3"
-},
-{
-    text: "The enemy attacked on all sides with great strength and fierceness,",
-    audio: "audio/churchill/beaches/58.mp3"
-},
-{
-    text: "and their main power, the power of their far more numerous",
-    audio: "audio/churchill/beaches/59.mp3"
-},
-{
-    text: "air force, was thrown into the battle or else concentrated",
-    audio: "audio/churchill/beaches/60.mp3"
-},
-{
-    text: "upon Dunkirk and the beaches.",
-    audio: "audio/churchill/beaches/61.mp3"
-},
-{
-    text: "Pressing in upon the narrow exit, both from the east and",
-    audio: "audio/churchill/beaches/62.mp3"
-},
-{
-    text: "from the west, the enemy began to fire with cannon",
-    audio: "audio/churchill/beaches/63.mp3"
-},
-{
-    text: "upon the beaches by which alone the shipping could approach or depart.",
-    audio: "audio/churchill/beaches/64.mp3"
-},
-{
-    text: "They sowed magnetic mines in the channels and seas;",
-    audio: "audio/churchill/beaches/65.mp3"
-},
-{
-    text: "they sent repeated waves of hostile aircraft, sometimes more than",
-    audio: "audio/churchill/beaches/66.mp3"
-},
-{
-    text: "100 strong in one formation, to cast their bombs upon",
-    audio: "audio/churchill/beaches/67.mp3"
-},
-{
-    text: "the single pier that remained, and upon the sand dunes",
-    audio: "audio/churchill/beaches/68.mp3"
-},
-{
-    text: "upon which the troops had their eyes for shelter.",
-    audio: "audio/churchill/beaches/69.mp3"
-},
-{
-    text: "Their U-boats, one of which was sunk, and their motor launches",
-    audio: "audio/churchill/beaches/70.mp3"
-},
-{
-    text: "took their toll of the vast traffic which now began.",
-    audio: "audio/churchill/beaches/71.mp3"
-},
-{
-    text: "For four or five days an intense struggle reigned.",
-    audio: "audio/churchill/beaches/72.mp3"
-},
-{
-    text: "All their armoured divisions—or what was left of them—together with",
-    audio: "audio/churchill/beaches/73.mp3"
-},
-{
-    text: "great masses of German infantry and artillery, hurled themselves in vain",
-    audio: "audio/churchill/beaches/74.mp3"
-},
-{
-    text: "upon the ever-narrowing, ever-contracting appendix within which the British",
-    audio: "audio/churchill/beaches/75.mp3"
-},
-{
-    text: "and French Armies fought.",
-    audio: "audio/churchill/beaches/76.mp3"
-},
-{
-    text: "Meanwhile, the Royal Navy, with the willing help of countless merchant seamen,",
-    audio: "audio/churchill/beaches/77.mp3"
-},
-{
-    text: "strained every nerve to embark the British and Allied troops.",
-    audio: "audio/churchill/beaches/78.mp3"
-},
-{
-    text: "Two hundred and twenty light warships and 650 other vessels were engaged.",
-    audio: "audio/churchill/beaches/79.mp3"
-},
-{
-    text: "They had to operate upon the difficult coast, often in adverse weather,",
-    audio: "audio/churchill/beaches/80.mp3"
-},
-{
-    text: "under an almost ceaseless hail of bombs and an increasing concentration",
-    audio: "audio/churchill/beaches/81.mp3"
-},
-{
-    text: "of artillery fire.",
-    audio: "audio/churchill/beaches/82.mp3"
-},
-{
-    text: "Nor  s, as I have said, themselves free",
-    audio: "audio/churchill/beaches/83.mp3"
-},
-{
-    text: "from mines and torpedoes.",
-    audio: "audio/churchill/beaches/84.mp3"
-},
-{
-    text: "It was in conditions such as these that our men carried on,",
-    audio: "audio/churchill/beaches/85.mp3"
-},
-{
-    text: "with little or no rest, for days and nights on end,",
-    audio: "audio/churchill/beaches/86.mp3"
-},
-{
-    text: "making trip after trip across the dangerous waters, bringing with them",
-    audio: "audio/churchill/beaches/87.mp3"
-},
-{
-    text: "always men whom they had rescued.",
-    audio: "audio/churchill/beaches/88.mp3"
-},
-{
-    text: "The numbers they have brought back are the measure of their devotion",
-    audio: "audio/churchill/beaches/89.mp3"
-},
-{
-    text: "and their courage.",
-    audio: "audio/churchill/beaches/90.mp3"
-},
-{
-    text: "The hospital ships, which brought off many thousands of British and French wounded,",
-    audio: "audio/churchill/beaches/91.mp3"
-},
-{
-    text: "being so plainly marked were a special target for Nazi bombs;",
-    audio: "audio/churchill/beaches/92.mp3"
-},
-{
-    text: "but the men and women on board them never faltered in their duty.",
-    audio: "audio/churchill/beaches/93.mp3"
-},
-{
-    text: "Meanwhile, the Royal Air Force, which had already been intervening in the battle,",
-    audio: "audio/churchill/beaches/94.mp3"
-},
-{
-    text: "so far as its range would allow, from home bases, now used part",
-    audio: "audio/churchill/beaches/95.mp3"
-},
-{
-    text: "of its main metropolitan fighter strength, and struck at the German bombers,",
-    audio: "audio/churchill/beaches/96.mp3"
-},
-{
-    text: "and at the fighters which in large numbers protected them.",
-    audio: "audio/churchill/beaches/97.mp3"
-},
-{
-    text: "This struggle was protracted and fierce.",
-    audio: "audio/churchill/beaches/98.mp3"
-},
-{
-    text: "Suddenly the scene has cleared, the crash and thunder has for the moment—",
-    audio: "audio/churchill/beaches/99.mp3"
-},
-{
-    text: "but only for the moment—died away.",
-    audio: "audio/churchill/beaches/100.mp3"
-},
-{
-    text: "A miracle of deliverance, achieved by valour, by perseverance, by perfect discipline,",
-    audio: "audio/churchill/beaches/101.mp3"
-},
-{
-    text: "by faultless service, by resource, by skill, by unconquerable fidelity,",
-    audio: "audio/churchill/beaches/102.mp3"
-},
-{
-    text: "is manifest to us all.",
-    audio: "audio/churchill/beaches/103.mp3"
-},
-{
-    text: "The enemy was hurled back by the retreating British and French troops.",
-    audio: "audio/churchill/beaches/104.mp3"
-},
-{
-    text: "He was so roughly handled that he did not harry their departure seriously.",
-    audio: "audio/churchill/beaches/105.mp3"
-},
+                    {
+                        text: "When a week ago to-day, Mr. Speaker, I asked the House",
+                        audio: "audio/churchill/beaches/01.mp3"
+                    },
+                    {
+                        text: "to fix this afternoon as the occasion for a statement,",
+                        audio: "audio/churchill/beaches/02.mp3"
+                    },
+                    {
+                        text: "I feared it would be my hard lot to announce",
+                        audio: "audio/churchill/beaches/03.mp3"
+                    },
+                    {
+                        text: "the greatest military disaster in our long history.",
+                        audio: "audio/churchill/beaches/04.mp3"
+                    },
+                    {
+                        text: "I thought—and some good judges agreed with me—that perhaps",
+                        audio: "audio/churchill/beaches/05.mp3"
+                    },
+                    {
+                        text: "20,000 or 30,000 men might be re-embarked.",
+                        audio: "audio/churchill/beaches/06.mp3"
+                    },
+                    {
+                        text: "But it certainly seemed that the whole of the French",
+                        audio: "audio/churchill/beaches/07.mp3"
+                    },
+                    {
+                        text: "First Army and the whole of the British Expeditionary Force",
+                        audio: "audio/churchill/beaches/08.mp3"
+                    },
+                    {
+                        text: "north of the Amiens-Abbeville gap, would be broken up",
+                        audio: "audio/churchill/beaches/09.mp3"
+                    },
+                    {
+                        text: "in the open field or else would have to capitulate",
+                        audio: "audio/churchill/beaches/10.mp3"
+                    },
+                    {
+                        text: "for lack of food and ammunition.",
+                        audio: "audio/churchill/beaches/11.mp3"
+                    },
+                    {
+                        text: "These were the hard and heavy tidings for which",
+                        audio: "audio/churchill/beaches/12.mp3"
+                    },
+                    {
+                        text: "I called upon the House and the nation to prepare",
+                        audio: "audio/churchill/beaches/13.mp3"
+                    },
+                    {
+                        text: "themselves a week ago.",
+                        audio: "audio/churchill/beaches/14.mp3"
+                    },
+                    {
+                        text: "The whole root and core and brain of the British Army,",
+                        audio: "audio/churchill/beaches/15.mp3"
+                    },
+                    {
+                        text: "on which and around which we were to build,",
+                        audio: "audio/churchill/beaches/16.mp3"
+                    },
+                    {
+                        text: "and are to build, the great British Armies in",
+                        audio: "audio/churchill/beaches/17.mp3"
+                    },
+                    {
+                        text: "the later years of the war, seemed about to perish",
+                        audio: "audio/churchill/beaches/18.mp3"
+                    },
+                    {
+                        text: "upon the field or to be led into an ignominious",
+                        audio: "audio/churchill/beaches/19.mp3"
+                    },
+                    {
+                        text: "and starving captivity.",
+                        audio: "audio/churchill/beaches/20.mp3"
+                    },
 
-{
-    text: "Sir, we must be very careful not to assign to this deliverance",
-    audio: "audio/churchill/beaches/112.mp3"
-},
-{
-    text: "the attributes of a victory.",
-    audio: "audio/churchill/beaches/113.mp3"
-},
-{
-    text: "Wars are not won by evacuations.",
-    audio: "audio/churchill/beaches/114.mp3"
-},
-{
-    text: "But there was a victory inside this deliverance, which should be noted.",
-    audio: "audio/churchill/beaches/115.mp3"
-},
-{
-    text: "It was gained by the Air Force.",
-    audio: "audio/churchill/beaches/116.mp3"
-},
-{
-    text: "Many of our soldiers coming back have not seen the Air Force at work;",
-    audio: "audio/churchill/beaches/117.mp3"
-},
-{
-    text: "they saw only the bombers which escaped its protective attack.",
-    audio: "audio/churchill/beaches/118.mp3"
-},
-{
-    text: "They underrate its achievements.",
-    audio: "audio/churchill/beaches/119.mp3"
-},
-{
-    text: "I have heard much talk of this; that is why I go out of my way",
-    audio: "audio/churchill/beaches/120.mp3"
-},
-{
-    text: "to say this.",
-    audio: "audio/churchill/beaches/121.mp3"
-},
-{
-    text: "I will tell you about it.",
-    audio: "audio/churchill/beaches/122.mp3"
-},
-{
-    text: "This was a great trial of strength between the British and German Air Forces.",
-    audio: "audio/churchill/beaches/123.mp3"
-},
-{
-    text: "Can you conceive a greater objective for the Germans in the air",
-    audio: "audio/churchill/beaches/124.mp3"
-},
-{
-    text: "than to make evacuation from these beaches impossible, and to sink all these ships",
-    audio: "audio/churchill/beaches/125.mp3"
-},
-{
-    text: "which were displayed, almost to the extent of thousands?",
-    audio: "audio/churchill/beaches/126.mp3"
-},
-{
-    text: "Could there have been an objective of greater military importance and significance",
-    audio: "audio/churchill/beaches/127.mp3"
-},
-{
-    text: "for the whole purpose of the war than this?",
-    audio: "audio/churchill/beaches/128.mp3"
-},
-{
-    text: "They tried hard, and they were beaten back;",
-    audio: "audio/churchill/beaches/129.mp3"
-},
-{
-    text: "they were frustrated in their task.",
-    audio: "audio/churchill/beaches/130.mp3"
-},
-{
-    text: "We got the Army away; and they have paid fourfold",
-    audio: "audio/churchill/beaches/131.mp3"
-},
-{
-    text: "for any losses which they have inflicted.",
-    audio: "audio/churchill/beaches/132.mp3"
-},
-{
-    text: "When we consider how much greater would be our advantage in defending the air",
-    audio: "audio/churchill/beaches/142.mp3"
-},
-{
-    text: "above this island against an overseas attack, I must say that I find",
-    audio: "audio/churchill/beaches/143.mp3"
-},
-{
-    text: "in these facts a sure basis upon which practical and reassuring thoughts may rest.",
-    audio: "audio/churchill/beaches/144.mp3"
-},
-{
-    text: "I will pay my tribute to these young airmen.",
-    audio: "audio/churchill/beaches/145.mp3"
-},
-{
-    text: "The great French Army was very largely, for the time being, cast back",
-    audio: "audio/churchill/beaches/146.mp3"
-},
-{
-    text: "and disturbed by the onrush of a few thousands of armoured vehicles.",
-    audio: "audio/churchill/beaches/147.mp3"
-},
-{
-    text: "May it not also be that the cause of civilisation itself",
-    audio: "audio/churchill/beaches/148.mp3"
-},
-{
-    text: "will be defended by the skill and devotion of a few thousand airmen?",
-    audio: "audio/churchill/beaches/149.mp3"
-},
-{
-    text: "There never had been, I suppose, in all the world, in all the history of war,",
-    audio: "audio/churchill/beaches/150.mp3"
-},
-{
-    text: "such an opportunity for youth.",
-    audio: "audio/churchill/beaches/151.mp3"
-},
-{
-    text: "The Knights of the Round Table, the Crusaders, all fall back into a prosaic past:",
-    audio: "audio/churchill/beaches/152.mp3"
-},
-{
-    text: "not only distant but prosaic;",
-    audio: "audio/churchill/beaches/153.mp3"
-},
-{
-    text: "but these young men, going forth every morn to guard their native land",
-    audio: "audio/churchill/beaches/154.mp3"
-},
-{
-    text: "and all that we stand for, holding in their hands these instruments",
-    audio: "audio/churchill/beaches/155.mp3"
-},
-{
-    text: "of colossal and shattering power, of whom it may be said that",
-    audio: "audio/churchill/beaches/156.mp3"
-},
-{
-    text: "When every morning brought a noble chance,",
-    audio: "audio/churchill/beaches/157.mp3"
-},
-{
-    text: "And every chance brought out a noble knight,",
-    audio: "audio/churchill/beaches/158.mp3"
-},
-{
-    text: "deserve our gratitude, as do all of the brave men",
-    audio: "audio/churchill/beaches/159.mp3"
-},
-{
-    text: "who, in so many ways and on so many occasions, are ready,",
-    audio: "audio/churchill/beaches/160.mp3"
-},
-{
-    text: "and continue ready, to give life and all for their native land.",
-    audio: "audio/churchill/beaches/161.mp3"
-},
-{
-    text: "Nevertheless, our thankfulness at the escape of our Army and so many men,",
-    audio: "audio/churchill/beaches/206.mp3"
-},
-{
-    text: "whose loved ones have passed through an agonising week,",
-    audio: "audio/churchill/beaches/207.mp3"
-},
-{
-    text: "must not blind us to the fact that what has happened in France and Belgium",
-    audio: "audio/churchill/beaches/208.mp3"
-},
-{
-    text: "is a colossal military disaster.",
-    audio: "audio/churchill/beaches/209.mp3"
-},
-{
-    text: "The French Army has been weakened, the Belgian Army has been lost,",
-    audio: "audio/churchill/beaches/210.mp3"
-},
-{
-    text: "a large part of those fortified lines upon which so much faith had been reposed is gone,",
-    audio: "audio/churchill/beaches/211.mp3"
-},
-{
-    text: "many valuable mining districts and factories have passed into the enemy's possession,",
-    audio: "audio/churchill/beaches/212.mp3"
-},
-{
-    text: "the whole of the Channel ports are in his hands,",
-    audio: "audio/churchill/beaches/213.mp3"
-},
-{
-    text: "with all the tragic consequences that follow from that,",
-    audio: "audio/churchill/beaches/214.mp3"
-},
-{
-    text: "and we must expect another blow to be struck almost immediately at us or at France.",
-    audio: "audio/churchill/beaches/215.mp3"
-},
-{
-    text: "We are told that Herr Hitler has a plan for invading the British Isles.",
-    audio: "audio/churchill/beaches/216.mp3"
-},
-{
-    text: "This has often been thought of before.",
-    audio: "audio/churchill/beaches/217.mp3"
-},
-{
-    text: "When Napoleon lay at Boulogne for a year with his flat-bottomed boats",
-    audio: "audio/churchill/beaches/218.mp3"
-},
-{
-    text: "and his Grand Army, he was told by someone,",
-    audio: "audio/churchill/beaches/219.mp3"
-},
-{
-    text: "\"There are bitter weeds in England.\"",
-    audio: "audio/churchill/beaches/220.mp3"
-},
-{
-    text: "There are certainly a great many more of them since the British Expeditionary Force returned.",
-    audio: "audio/churchill/beaches/221.mp3"
-}, 
-{
-    text: "I have, myself, full confidence that if all do their duty,",
-    audio: "audio/churchill/beaches/280.mp3"
-},
-{
-    text: "if nothing is neglected, and if the best arrangements are made, as they are being made,",
-    audio: "audio/churchill/beaches/281.mp3"
-},
-{
-    text: "we shall prove ourselves once again able to defend our island home,",
-    audio: "audio/churchill/beaches/282.mp3"
-},
-{
-    text: "to ride out the storm of war, and to outlive the menace of tyranny,",
-    audio: "audio/churchill/beaches/283.mp3"
-},
-{
-    text: "if necessary for years, if necessary alone.",
-    audio: "audio/churchill/beaches/284.mp3"
-},
-{
-    text: "At any rate, that is what we are going to try to do.",
-    audio: "audio/churchill/beaches/285.mp3"
-},
-{
-    text: "That is the resolve of His Majesty's Government—every man of them.",
-    audio: "audio/churchill/beaches/286.mp3"
-},
-{
-    text: "That is the will of Parliament and the nation.",
-    audio: "audio/churchill/beaches/287.mp3"
-},
-{
-    text: "The British Empire and the French Republic, linked together in their cause and in their need,",
-    audio: "audio/churchill/beaches/288.mp3"
-},
-{
-    text: "will defend to the death their native soil, aiding each other",
-    audio: "audio/churchill/beaches/289.mp3"
-},
-{
-    text: "like good comrades to the utmost of their strength.",
-    audio: "audio/churchill/beaches/290.mp3"
-},
+                    {
+                        text: "The enemy attacked on all sides with great strength and fierceness,",
+                        audio: "audio/churchill/beaches/58.mp3"
+                    },
+                    {
+                        text: "and their main power, the power of their far more numerous",
+                        audio: "audio/churchill/beaches/59.mp3"
+                    },
+                    {
+                        text: "air force, was thrown into the battle or else concentrated",
+                        audio: "audio/churchill/beaches/60.mp3"
+                    },
+                    {
+                        text: "upon Dunkirk and the beaches.",
+                        audio: "audio/churchill/beaches/61.mp3"
+                    },
+                    {
+                        text: "Pressing in upon the narrow exit, both from the east and",
+                        audio: "audio/churchill/beaches/62.mp3"
+                    },
+                    {
+                        text: "from the west, the enemy began to fire with cannon",
+                        audio: "audio/churchill/beaches/63.mp3"
+                    },
+                    {
+                        text: "upon the beaches by which alone the shipping could approach or depart.",
+                        audio: "audio/churchill/beaches/64.mp3"
+                    },
+                    {
+                        text: "They sowed magnetic mines in the channels and seas;",
+                        audio: "audio/churchill/beaches/65.mp3"
+                    },
+                    {
+                        text: "they sent repeated waves of hostile aircraft, sometimes more than",
+                        audio: "audio/churchill/beaches/66.mp3"
+                    },
+                    {
+                        text: "100 strong in one formation, to cast their bombs upon",
+                        audio: "audio/churchill/beaches/67.mp3"
+                    },
+                    {
+                        text: "the single pier that remained, and upon the sand dunes",
+                        audio: "audio/churchill/beaches/68.mp3"
+                    },
+                    {
+                        text: "upon which the troops had their eyes for shelter.",
+                        audio: "audio/churchill/beaches/69.mp3"
+                    },
+                    {
+                        text: "Their U-boats, one of which was sunk, and their motor launches",
+                        audio: "audio/churchill/beaches/70.mp3"
+                    },
+                    {
+                        text: "took their toll of the vast traffic which now began.",
+                        audio: "audio/churchill/beaches/71.mp3"
+                    },
+                    {
+                        text: "For four or five days an intense struggle reigned.",
+                        audio: "audio/churchill/beaches/72.mp3"
+                    },
+                    {
+                        text: "All their armoured divisions—or what was left of them—together with",
+                        audio: "audio/churchill/beaches/73.mp3"
+                    },
+                    {
+                        text: "great masses of German infantry and artillery, hurled themselves in vain",
+                        audio: "audio/churchill/beaches/74.mp3"
+                    },
+                    {
+                        text: "upon the ever-narrowing, ever-contracting appendix within which the British",
+                        audio: "audio/churchill/beaches/75.mp3"
+                    },
+                    {
+                        text: "and French Armies fought.",
+                        audio: "audio/churchill/beaches/76.mp3"
+                    },
+                    {
+                        text: "Meanwhile, the Royal Navy, with the willing help of countless merchant seamen,",
+                        audio: "audio/churchill/beaches/77.mp3"
+                    },
+                    {
+                        text: "strained every nerve to embark the British and Allied troops.",
+                        audio: "audio/churchill/beaches/78.mp3"
+                    },
+                    {
+                        text: "Two hundred and twenty light warships and 650 other vessels were engaged.",
+                        audio: "audio/churchill/beaches/79.mp3"
+                    },
+                    {
+                        text: "They had to operate upon the difficult coast, often in adverse weather,",
+                        audio: "audio/churchill/beaches/80.mp3"
+                    },
+                    {
+                        text: "under an almost ceaseless hail of bombs and an increasing concentration",
+                        audio: "audio/churchill/beaches/81.mp3"
+                    },
+                    {
+                        text: "of artillery fire.",
+                        audio: "audio/churchill/beaches/82.mp3"
+                    },
+                    {
+                        text: "Nor were they, as I have said, themselves free",
+                        audio: "audio/churchill/beaches/83.mp3"
+                    },
+                    {
+                        text: "from mines and torpedoes.",
+                        audio: "audio/churchill/beaches/84.mp3"
+                    },
+                    {
+                        text: "It was in conditions such as these that our men carried on,",
+                        audio: "audio/churchill/beaches/85.mp3"
+                    },
+                    {
+                        text: "with little or no rest, for days and nights on end,",
+                        audio: "audio/churchill/beaches/86.mp3"
+                    },
+                    {
+                        text: "making trip after trip across the dangerous waters, bringing with them",
+                        audio: "audio/churchill/beaches/87.mp3"
+                    },
+                    {
+                        text: "always men whom they had rescued.",
+                        audio: "audio/churchill/beaches/88.mp3"
+                    },
+                    {
+                        text: "The numbers they have brought back are the measure of their devotion",
+                        audio: "audio/churchill/beaches/89.mp3"
+                    },
+                    {
+                        text: "and their courage.",
+                        audio: "audio/churchill/beaches/90.mp3"
+                    },
+                    {
+                        text: "The hospital ships, which brought off many thousands of British and French wounded,",
+                        audio: "audio/churchill/beaches/91.mp3"
+                    },
+                    {
+                        text: "being so plainly marked were a special target for Nazi bombs;",
+                        audio: "audio/churchill/beaches/92.mp3"
+                    },
+                    {
+                        text: "but the men and women on board them never faltered in their duty.",
+                        audio: "audio/churchill/beaches/93.mp3"
+                    },
+                    {
+                        text: "Meanwhile, the Royal Air Force, which had already been intervening in the battle,",
+                        audio: "audio/churchill/beaches/94.mp3"
+                    },
+                    {
+                        text: "so far as its range would allow, from home bases, now used part",
+                        audio: "audio/churchill/beaches/95.mp3"
+                    },
+                    {
+                        text: "of its main metropolitan fighter strength, and struck at the German bombers,",
+                        audio: "audio/churchill/beaches/96.mp3"
+                    },
+                    {
+                        text: "and at the fighters which in large numbers protected them.",
+                        audio: "audio/churchill/beaches/97.mp3"
+                    },
+                    {
+                        text: "This struggle was protracted and fierce.",
+                        audio: "audio/churchill/beaches/98.mp3"
+                    },
+                    {
+                        text: "Suddenly the scene has cleared, the crash and thunder has for the moment—",
+                        audio: "audio/churchill/beaches/99.mp3"
+                    },
+                    {
+                        text: "but only for the moment—died away.",
+                        audio: "audio/churchill/beaches/100.mp3"
+                    },
+                    {
+                        text: "A miracle of deliverance, achieved by valour, by perseverance, by perfect discipline,",
+                        audio: "audio/churchill/beaches/101.mp3"
+                    },
+                    {
+                        text: "by faultless service, by resource, by skill, by unconquerable fidelity,",
+                        audio: "audio/churchill/beaches/102.mp3"
+                    },
+                    {
+                        text: "is manifest to us all.",
+                        audio: "audio/churchill/beaches/103.mp3"
+                    },
+                    {
+                        text: "The enemy was hurled back by the retreating British and French troops.",
+                        audio: "audio/churchill/beaches/104.mp3"
+                    },
+                    {
+                        text: "He was so roughly handled that he did not harry their departure seriously.",
+                        audio: "audio/churchill/beaches/105.mp3"
+                    },
 
-{
-    text: "We shall go on to the end.",
-    audio: "audio/churchill/beaches/295.mp3"
-},
-{
-    text: "We shall fight in France,",
-    audio: "audio/churchill/beaches/296.mp3"
-},
-{
-    text: "we shall fight on the seas and oceans,",
-    audio: "audio/churchill/beaches/297.mp3"
-},
-{
-    text: "we shall fight with growing confidence and growing strength in the air,",
-    audio: "audio/churchill/beaches/298.mp3"
-},
-{
-    text: "we shall defend our island, whatever the cost may be.",
-    audio: "audio/churchill/beaches/299.mp3"
-},
-{
-    text: "We shall fight on the beaches,",
-    audio: "audio/churchill/beaches/300.mp3"
-},
-{
-    text: "we shall fight on the landing grounds,",
-    audio: "audio/churchill/beaches/301.mp3"
-},
-{
-    text: "we shall fight in the fields and in the streets,",
-    audio: "audio/churchill/beaches/302.mp3"
-},
-{
-    text: "we shall fight in the hills;",
-    audio: "audio/churchill/beaches/303.mp3"
-},
-{
-    text: "we shall never surrender,",
-    audio: "audio/churchill/beaches/304.mp3"
-},
-{
-    text: "and even if, which I do not for a moment believe,",
-    audio: "audio/churchill/beaches/305.mp3"
-},
-{
-    text: "this island or a large part of it were subjugated and starving,",
-    audio: "audio/churchill/beaches/306.mp3"
-},
-{
-    text: "then our Empire beyond the seas, armed and guarded by the British Fleet,",
-    audio: "audio/churchill/beaches/307.mp3"
-},
-{
-    text: "would carry on the struggle, until, in God's good time,",
-    audio: "audio/churchill/beaches/308.mp3"
-},
-{
-    text: "the new world, with all its power and might,",
-    audio: "audio/churchill/beaches/309.mp3"
-},
-{
-    text: "steps forth to the rescue and the liberation of the old.",
-    audio: "audio/churchill/beaches/310.mp3"
-},
+                    {
+                        text: "Sir, we must be very careful not to assign to this deliverance",
+                        audio: "audio/churchill/beaches/112.mp3"
+                    },
+                    {
+                        text: "the attributes of a victory.",
+                        audio: "audio/churchill/beaches/113.mp3"
+                    },
+                    {
+                        text: "Wars are not won by evacuations.",
+                        audio: "audio/churchill/beaches/114.mp3"
+                    },
+                    {
+                        text: "But there was a victory inside this deliverance, which should be noted.",
+                        audio: "audio/churchill/beaches/115.mp3"
+                    },
+                    {
+                        text: "It was gained by the Air Force.",
+                        audio: "audio/churchill/beaches/116.mp3"
+                    },
+                    {
+                        text: "Many of our soldiers coming back have not seen the Air Force at work;",
+                        audio: "audio/churchill/beaches/117.mp3"
+                    },
+                    {
+                        text: "they saw only the bombers which escaped its protective attack.",
+                        audio: "audio/churchill/beaches/118.mp3"
+                    },
+                    {
+                        text: "They underrate its achievements.",
+                        audio: "audio/churchill/beaches/119.mp3"
+                    },
+                    {
+                        text: "I have heard much talk of this; that is why I go out of my way",
+                        audio: "audio/churchill/beaches/120.mp3"
+                    },
+                    {
+                        text: "to say this.",
+                        audio: "audio/churchill/beaches/121.mp3"
+                    },
+                    {
+                        text: "I will tell you about it.",
+                        audio: "audio/churchill/beaches/122.mp3"
+                    },
+                    {
+                        text: "This was a great trial of strength between the British and German Air Forces.",
+                        audio: "audio/churchill/beaches/123.mp3"
+                    },
+                    {
+                        text: "Can you conceive a greater objective for the Germans in the air",
+                        audio: "audio/churchill/beaches/124.mp3"
+                    },
+                    {
+                        text: "than to make evacuation from these beaches impossible, and to sink all these ships",
+                        audio: "audio/churchill/beaches/125.mp3"
+                    },
+                    {
+                        text: "which were displayed, almost to the extent of thousands?",
+                        audio: "audio/churchill/beaches/126.mp3"
+                    },
+                    {
+                        text: "Could there have been an objective of greater military importance and significance",
+                        audio: "audio/churchill/beaches/127.mp3"
+                    },
+                    {
+                        text: "for the whole purpose of the war than this?",
+                        audio: "audio/churchill/beaches/128.mp3"
+                    },
+                    {
+                        text: "They tried hard, and they were beaten back;",
+                        audio: "audio/churchill/beaches/129.mp3"
+                    },
+                    {
+                        text: "they were frustrated in their task.",
+                        audio: "audio/churchill/beaches/130.mp3"
+                    },
+                    {
+                        text: "We got the Army away; and they have paid fourfold",
+                        audio: "audio/churchill/beaches/131.mp3"
+                    },
+                    {
+                        text: "for any losses which they have inflicted.",
+                        audio: "audio/churchill/beaches/132.mp3"
+                    },
+
+                    {
+                        text: "When we consider how much greater would be our advantage in defending the air",
+                        audio: "audio/churchill/beaches/142.mp3"
+                    },
+                    {
+                        text: "above this island against an overseas attack, I must say that I find",
+                        audio: "audio/churchill/beaches/143.mp3"
+                    },
+                    {
+                        text: "in these facts a sure basis upon which practical and reassuring thoughts may rest.",
+                        audio: "audio/churchill/beaches/144.mp3"
+                    },
+                    {
+                        text: "I will pay my tribute to these young airmen.",
+                        audio: "audio/churchill/beaches/145.mp3"
+                    },
+                    {
+                        text: "The great French Army was very largely, for the time being, cast back",
+                        audio: "audio/churchill/beaches/146.mp3"
+                    },
+                    {
+                        text: "and disturbed by the onrush of a few thousands of armoured vehicles.",
+                        audio: "audio/churchill/beaches/147.mp3"
+                    },
+                    {
+                        text: "May it not also be that the cause of civilisation itself",
+                        audio: "audio/churchill/beaches/148.mp3"
+                    },
+                    {
+                        text: "will be defended by the skill and devotion of a few thousand airmen?",
+                        audio: "audio/churchill/beaches/149.mp3"
+                    },
+                    {
+                        text: "There never had been, I suppose, in all the world, in all the history of war,",
+                        audio: "audio/churchill/beaches/150.mp3"
+                    },
+                    {
+                        text: "such an opportunity for youth.",
+                        audio: "audio/churchill/beaches/151.mp3"
+                    },
+                    {
+                        text: "The Knights of the Round Table, the Crusaders, all fall back into a prosaic past:",
+                        audio: "audio/churchill/beaches/152.mp3"
+                    },
+                    {
+                        text: "not only distant but prosaic;",
+                        audio: "audio/churchill/beaches/153.mp3"
+                    },
+                    {
+                        text: "but these young men, going forth every morn to guard their native land",
+                        audio: "audio/churchill/beaches/154.mp3"
+                    },
+                    {
+                        text: "and all that we stand for, holding in their hands these instruments",
+                        audio: "audio/churchill/beaches/155.mp3"
+                    },
+                    {
+                        text: "of colossal and shattering power, of whom it may be said that",
+                        audio: "audio/churchill/beaches/156.mp3"
+                    },
+                    {
+                        text: "When every morning brought a noble chance,",
+                        audio: "audio/churchill/beaches/157.mp3"
+                    },
+                    {
+                        text: "And every chance brought out a noble knight,",
+                        audio: "audio/churchill/beaches/158.mp3"
+                    },
+                    {
+                        text: "deserve our gratitude, as do all of the brave men",
+                        audio: "audio/churchill/beaches/159.mp3"
+                    },
+                    {
+                        text: "who, in so many ways and on so many occasions, are ready,",
+                        audio: "audio/churchill/beaches/160.mp3"
+                    },
+                    {
+                        text: "and continue ready, to give life and all for their native land.",
+                        audio: "audio/churchill/beaches/161.mp3"
+                    },
+
+                    {
+                        text: "Nevertheless, our thankfulness at the escape of our Army and so many men,",
+                        audio: "audio/churchill/beaches/206.mp3"
+                    },
+                    {
+                        text: "whose loved ones have passed through an agonising week,",
+                        audio: "audio/churchill/beaches/207.mp3"
+                    },
+                    {
+                        text: "must not blind us to the fact that what has happened in France and Belgium",
+                        audio: "audio/churchill/beaches/208.mp3"
+                    },
+                    {
+                        text: "is a colossal military disaster.",
+                        audio: "audio/churchill/beaches/209.mp3"
+                    },
+                    {
+                        text: "The French Army has been weakened, the Belgian Army has been lost,",
+                        audio: "audio/churchill/beaches/210.mp3"
+                    },
+                    {
+                        text: "a large part of those fortified lines upon which so much faith had been reposed is gone,",
+                        audio: "audio/churchill/beaches/211.mp3"
+                    },
+                    {
+                        text: "many valuable mining districts and factories have passed into the enemy's possession,",
+                        audio: "audio/churchill/beaches/212.mp3"
+                    },
+                    {
+                        text: "the whole of the Channel ports are in his hands,",
+                        audio: "audio/churchill/beaches/213.mp3"
+                    },
+                    {
+                        text: "with all the tragic consequences that follow from that,",
+                        audio: "audio/churchill/beaches/214.mp3"
+                    },
+                    {
+                        text: "and we must expect another blow to be struck almost immediately at us or at France.",
+                        audio: "audio/churchill/beaches/215.mp3"
+                    },
+                    {
+                        text: "We are told that Herr Hitler has a plan for invading the British Isles.",
+                        audio: "audio/churchill/beaches/216.mp3"
+                    },
+                    {
+                        text: "This has often been thought of before.",
+                        audio: "audio/churchill/beaches/217.mp3"
+                    },
+                    {
+                        text: "When Napoleon lay at Boulogne for a year with his flat-bottomed boats",
+                        audio: "audio/churchill/beaches/218.mp3"
+                    },
+                    {
+                        text: "and his Grand Army, he was told by someone,",
+                        audio: "audio/churchill/beaches/219.mp3"
+                    },
+                    {
+                        text: "\"There are bitter weeds in England.\"",
+                        audio: "audio/churchill/beaches/220.mp3"
+                    },
+                    {
+                        text: "There are certainly a great many more of them since the British Expeditionary Force returned.",
+                        audio: "audio/churchill/beaches/221.mp3"
+                    },
+
+                    {
+                        text: "I have, myself, full confidence that if all do their duty,",
+                        audio: "audio/churchill/beaches/280.mp3"
+                    },
+                    {
+                        text: "if nothing is neglected, and if the best arrangements are made, as they are being made,",
+                        audio: "audio/churchill/beaches/281.mp3"
+                    },
+                    {
+                        text: "we shall prove ourselves once again able to defend our island home,",
+                        audio: "audio/churchill/beaches/282.mp3"
+                    },
+                    {
+                        text: "to ride out the storm of war, and to outlive the menace of tyranny,",
+                        audio: "audio/churchill/beaches/283.mp3"
+                    },
+                    {
+                        text: "if necessary for years, if necessary alone.",
+                        audio: "audio/churchill/beaches/284.mp3"
+                    },
+                    {
+                        text: "At any rate, that is what we are going to try to do.",
+                        audio: "audio/churchill/beaches/285.mp3"
+                    },
+                    {
+                        text: "That is the resolve of His Majesty's Government—every man of them.",
+                        audio: "audio/churchill/beaches/286.mp3"
+                    },
+                    {
+                        text: "That is the will of Parliament and the nation.",
+                        audio: "audio/churchill/beaches/287.mp3"
+                    },
+                    {
+                        text: "The British Empire and the French Republic, linked together in their cause and in their need,",
+                        audio: "audio/churchill/beaches/288.mp3"
+                    },
+                    {
+                        text: "will defend to the death their native soil, aiding each other",
+                        audio: "audio/churchill/beaches/289.mp3"
+                    },
+                    {
+                        text: "like good comrades to the utmost of their strength.",
+                        audio: "audio/churchill/beaches/290.mp3"
+                    },
+
+                    {
+                        text: "We shall go on to the end.",
+                        audio: "audio/churchill/beaches/295.mp3"
+                    },
+                    {
+                        text: "We shall fight in France,",
+                        audio: "audio/churchill/beaches/296.mp3"
+                    },
+                    {
+                        text: "we shall fight on the seas and oceans,",
+                        audio: "audio/churchill/beaches/297.mp3"
+                    },
+                    {
+                        text: "we shall fight with growing confidence and growing strength in the air,",
+                        audio: "audio/churchill/beaches/298.mp3"
+                    },
+                    {
+                        text: "we shall defend our island, whatever the cost may be.",
+                        audio: "audio/churchill/beaches/299.mp3"
+                    },
+                    {
+                        text: "We shall fight on the beaches,",
+                        audio: "audio/churchill/beaches/300.mp3"
+                    },
+                    {
+                        text: "we shall fight on the landing grounds,",
+                        audio: "audio/churchill/beaches/301.mp3"
+                    },
+                    {
+                        text: "we shall fight in the fields and in the streets,",
+                        audio: "audio/churchill/beaches/302.mp3"
+                    },
+                    {
+                        text: "we shall fight in the hills;",
+                        audio: "audio/churchill/beaches/303.mp3"
+                    },
+                    {
+                        text: "we shall never surrender,",
+                        audio: "audio/churchill/beaches/304.mp3"
+                    },
+                    {
+                        text: "and even if, which I do not for a moment believe,",
+                        audio: "audio/churchill/beaches/305.mp3"
+                    },
+                    {
+                        text: "this island or a large part of it were subjugated and starving,",
+                        audio: "audio/churchill/beaches/306.mp3"
+                    },
+                    {
+                        text: "then our Empire beyond the seas, armed and guarded by the British Fleet,",
+                        audio: "audio/churchill/beaches/307.mp3"
+                    },
+                    {
+                        text: "would carry on the struggle, until, in God's good time,",
+                        audio: "audio/churchill/beaches/308.mp3"
+                    },
+                    {
+                        text: "the new world, with all its power and might,",
+                        audio: "audio/churchill/beaches/309.mp3"
+                    },
+                    {
+                        text: "steps forth to the rescue and the liberation of the old.",
+                        audio: "audio/churchill/beaches/310.mp3"
+                    }
 
                 ]
 
@@ -1266,6 +1459,29 @@ let performanceWaveform = [];
 
 
 /* ============================================================
+   DOM REFERENCES
+============================================================ */
+
+const speakerNameElement =
+    document.getElementById("speakerName");
+
+const speechTitleElement =
+    document.getElementById("speechTitle");
+
+const lineNumberElement =
+    document.getElementById("lineNumber");
+
+const lineTextElement =
+    document.getElementById("lineText");
+
+const lineCounterElement =
+    document.getElementById("lineCounter");
+
+const statusElement =
+    document.getElementById("status");
+
+
+/* ============================================================
    CANVAS
 ============================================================ */
 
@@ -1307,20 +1523,6 @@ const performanceCtx =
    INDEXEDDB
 ============================================================ */
 
-/*
-    IndexedDB is used instead of localStorage because
-    localStorage cannot reliably store large audio files.
-
-    Every recording is stored independently:
-
-        speech ID
-        line number
-        audio Blob
-        date recorded
-
-    Therefore logging out does NOT delete recordings.
-*/
-
 const DB_NAME =
     "OrationTrainerDB";
 
@@ -1350,10 +1552,10 @@ function openDatabase() {
                     const db =
                         event.target.result;
 
-
                     if (
-                        !db.objectStoreNames
-                            .contains(STORE_NAME)
+                        !db.objectStoreNames.contains(
+                            STORE_NAME
+                        )
                     ) {
 
                         db.createObjectStore(
@@ -1409,7 +1611,6 @@ function getSpeechID() {
             .speeches[currentSpeech]
             .title;
 
-
     return (
         speaker +
         "::" +
@@ -1450,12 +1651,10 @@ function saveLineRecording(
                     "readwrite"
                 );
 
-
             const store =
                 transaction.objectStore(
                     STORE_NAME
                 );
-
 
             store.put({
 
@@ -1478,10 +1677,8 @@ function saveLineRecording(
 
             });
 
-
             transaction.oncomplete =
                 () => resolve();
-
 
             transaction.onerror =
                 () => reject(
@@ -1511,12 +1708,10 @@ function getLineRecording(
                     "readonly"
                 );
 
-
             const store =
                 transaction.objectStore(
                     STORE_NAME
                 );
-
 
             const request =
                 store.get(
@@ -1525,16 +1720,15 @@ function getLineRecording(
                     )
                 );
 
-
             request.onsuccess =
                 () => {
 
                     resolve(
-                        request.result || null
+                        request.result ||
+                        null
                     );
 
                 };
-
 
             request.onerror =
                 () => {
@@ -1552,7 +1746,7 @@ function getLineRecording(
 
 
 /* ============================================================
-   GET ALL RECORDINGS FOR SPEECH
+   GET ALL RECORDINGS
 ============================================================ */
 
 function getAllSpeechRecordings() {
@@ -1566,16 +1760,13 @@ function getAllSpeechRecordings() {
                     "readonly"
                 );
 
-
             const store =
                 transaction.objectStore(
                     STORE_NAME
                 );
 
-
             const request =
                 store.getAll();
-
 
             request.onsuccess =
                 () => {
@@ -1583,13 +1774,14 @@ function getAllSpeechRecordings() {
                     const speechID =
                         getSpeechID();
 
-
                     const recordings =
                         request.result
                             .filter(
                                 item =>
                                     item.speechID ===
-                                    speechID
+                                    speechID &&
+                                    item.line !==
+                                    undefined
                             )
                             .sort(
                                 (a, b) =>
@@ -1597,13 +1789,11 @@ function getAllSpeechRecordings() {
                                     b.line
                             );
 
-
                     resolve(
                         recordings
                     );
 
                 };
-
 
             request.onerror =
                 () => {
@@ -1631,9 +1821,7 @@ function buildLibrary() {
             "library"
         );
 
-
     element.innerHTML = "";
-
 
     library.forEach(
         (speaker, speakerIndex) => {
@@ -1646,7 +1834,6 @@ function buildLibrary() {
             speakerDiv.className =
                 "speaker";
 
-
             const speakerButton =
                 document.createElement(
                     "button"
@@ -1657,7 +1844,6 @@ function buildLibrary() {
 
             speakerButton.textContent =
                 speaker.speaker;
-
 
             speakerButton.onclick =
                 () => {
@@ -1672,11 +1858,9 @@ function buildLibrary() {
 
                 };
 
-
             speakerDiv.appendChild(
                 speakerButton
             );
-
 
             const speechList =
                 document.createElement(
@@ -1686,7 +1870,6 @@ function buildLibrary() {
             speechList.className =
                 "speech-list";
 
-
             speaker.speeches.forEach(
                 (speech, speechIndex) => {
 
@@ -1695,14 +1878,11 @@ function buildLibrary() {
                             "button"
                         );
 
-
                     speechButton.className =
                         "speech-button";
 
-
                     speechButton.textContent =
                         speech.title;
-
 
                     speechButton.onclick =
                         () => {
@@ -1719,7 +1899,6 @@ function buildLibrary() {
 
                         };
 
-
                     speechList.appendChild(
                         speechButton
                     );
@@ -1727,11 +1906,9 @@ function buildLibrary() {
                 }
             );
 
-
             speakerDiv.appendChild(
                 speechList
             );
-
 
             element.appendChild(
                 speakerDiv
@@ -1744,7 +1921,7 @@ function buildLibrary() {
 
 
 /* ============================================================
-   GET CURRENT SPEECH
+   CURRENT SPEECH
 ============================================================ */
 
 function getCurrentSpeech() {
@@ -1767,13 +1944,11 @@ function loadSpeech() {
     const speech =
         speaker.speeches[currentSpeech];
 
-
-    speakerName.textContent =
+    speakerNameElement.textContent =
         speaker.speaker;
 
-    speechTitle.textContent =
+    speechTitleElement.textContent =
         speech.title;
-
 
     referenceAudio.pause();
     recordingAudio.pause();
@@ -1783,22 +1958,19 @@ function loadSpeech() {
 
     performanceAudio.pause();
 
-
     masterReferenceAudio =
         new Audio(
             speech.masterAudio
         );
 
-
     masterReferenceAudio.preload =
         "auto";
 
-
     referenceWaveform = [];
     recordingWaveform = [];
-
     performanceWaveform = [];
 
+    masterReferenceWaveform = [];
 
     drawWaveform(
         masterReferenceCanvas,
@@ -1807,7 +1979,6 @@ function loadSpeech() {
         null
     );
 
-
     drawWaveform(
         performanceCanvas,
         performanceCtx,
@@ -1815,26 +1986,39 @@ function loadSpeech() {
         null
     );
 
-
     document.getElementById(
         "performanceStatus"
     ).textContent = "";
-
 
     document.getElementById(
         "performanceInfo"
     ).textContent = "";
 
-
     document.getElementById(
         "performanceButton"
     ).disabled = true;
-
 
     document.getElementById(
         "downloadPerformanceButton"
     ).disabled = true;
 
+    document.getElementById(
+        "masterRecordingButton"
+    ).disabled = true;
+
+    document.getElementById(
+        "masterStatus"
+    ).textContent = "";
+
+    document.getElementById(
+        "masterReferenceButton"
+    ).textContent =
+        "▶ Listen to Speech";
+
+    document.getElementById(
+        "masterRecordingButton"
+    ).textContent =
+        "▶ Play My Master Recording";
 
     createWaveform(
         speech.masterAudio,
@@ -1842,7 +2026,6 @@ function loadSpeech() {
 
             masterReferenceWaveform =
                 data;
-
 
             drawWaveform(
                 masterReferenceCanvas,
@@ -1853,7 +2036,6 @@ function loadSpeech() {
 
         }
     );
-
 
     loadLine();
 
@@ -1872,37 +2054,39 @@ async function loadLine() {
     const line =
         speech.lines[currentLine];
 
-
     referenceAudio.pause();
     recordingAudio.pause();
-
 
     referenceAudio =
         new Audio(
             line.audio
         );
 
-
     recordingAudio =
         new Audio();
-
 
     referenceWaveform = [];
     recordingWaveform = [];
 
-
-    lineNumber.textContent =
+    lineNumberElement.textContent =
         "Line " +
         (currentLine + 1);
 
-
-    lineText.textContent =
+    lineTextElement.textContent =
         line.text;
 
-
-    lineCounter.textContent =
+    lineCounterElement.textContent =
         `${currentLine + 1} / ${speech.lines.length}`;
 
+    document.getElementById(
+        "referenceButton"
+    ).textContent =
+        "▶ Play Original";
+
+    document.getElementById(
+        "recordingButton"
+    ).textContent =
+        "▶ Play My Recording";
 
     drawWaveform(
         referenceCanvas,
@@ -1911,7 +2095,6 @@ async function loadLine() {
         null
     );
 
-
     drawWaveform(
         recordingCanvas,
         recordingCtx,
@@ -1919,17 +2102,14 @@ async function loadLine() {
         null
     );
 
-
     document.getElementById(
         "recordingButton"
     ).disabled = true;
-
 
     const saved =
         await getLineRecording(
             currentLine
         );
-
 
     if (saved) {
 
@@ -1938,10 +2118,8 @@ async function loadLine() {
                 saved.blob
             );
 
-
         recordingAudio =
             new Audio(url);
-
 
         createWaveform(
             saved.blob,
@@ -1949,7 +2127,6 @@ async function loadLine() {
 
                 recordingWaveform =
                     data;
-
 
                 drawWaveform(
                     recordingCanvas,
@@ -1961,10 +2138,8 @@ async function loadLine() {
             }
         );
 
-
-        status.innerHTML =
+        statusElement.innerHTML =
             '<span class="recorded">✓ Recording saved</span>';
-
 
         document.getElementById(
             "recordingButton"
@@ -1974,11 +2149,10 @@ async function loadLine() {
 
     else {
 
-        status.innerHTML =
+        statusElement.innerHTML =
             '<span class="not-recorded">No recording yet.</span>';
 
     }
-
 
     createWaveform(
         line.audio,
@@ -1986,7 +2160,6 @@ async function loadLine() {
 
             referenceWaveform =
                 data;
-
 
             drawWaveform(
                 referenceCanvas,
@@ -2014,7 +2187,6 @@ async function createWaveform(
 
         let buffer;
 
-
         if (
             source instanceof Blob
         ) {
@@ -2029,11 +2201,16 @@ async function createWaveform(
             const response =
                 await fetch(source);
 
+            if (!response.ok) {
+                throw new Error(
+                    `Could not load audio: ${response.status}`
+                );
+            }
+
             buffer =
                 await response.arrayBuffer();
 
         }
-
 
         const context =
             new (
@@ -2041,18 +2218,13 @@ async function createWaveform(
                 window.webkitAudioContext
             )();
 
-
         const audioBuffer =
             await context.decodeAudioData(
                 buffer
             );
 
-
         const data =
-            audioBuffer.getChannelData(
-                0
-            );
-
+            audioBuffer.getChannelData(0);
 
         const samples = 240;
 
@@ -2065,9 +2237,7 @@ async function createWaveform(
                 )
             );
 
-
         const waveform = [];
-
 
         for (
             let i = 0;
@@ -2078,17 +2248,14 @@ async function createWaveform(
             const start =
                 i * block;
 
-
             const end =
                 Math.min(
                     data.length,
                     start + block
                 );
 
-
             let min = 1;
             let max = -1;
-
 
             for (
                 let j = start;
@@ -2099,16 +2266,13 @@ async function createWaveform(
                 const value =
                     data[j];
 
-
                 if (value < min)
                     min = value;
-
 
                 if (value > max)
                     max = value;
 
             }
-
 
             waveform.push({
                 min,
@@ -2117,11 +2281,9 @@ async function createWaveform(
 
         }
 
-
         callback(
             waveform
         );
-
 
         await context.close();
 
@@ -2156,14 +2318,12 @@ function drawWaveform(
     const height =
         canvas.height;
 
-
     ctx.clearRect(
         0,
         0,
         width,
         height
     );
-
 
     ctx.fillStyle =
         "#0d0d0d";
@@ -2175,7 +2335,6 @@ function drawWaveform(
         height
     );
 
-
     if (
         !data ||
         data.length === 0
@@ -2185,9 +2344,7 @@ function drawWaveform(
 
     }
 
-
     let progress = 0;
-
 
     if (
         audio &&
@@ -2201,14 +2358,11 @@ function drawWaveform(
 
     }
 
-
     const middle =
         height / 2;
 
-
     const barWidth =
         width / data.length;
-
 
     for (
         let i = 0;
@@ -2219,20 +2373,16 @@ function drawWaveform(
         const sample =
             data[i];
 
-
         const x =
             i * barWidth;
-
 
         const top =
             middle +
             sample.min * middle;
 
-
         const bottom =
             middle +
             sample.max * middle;
-
 
         ctx.fillStyle =
             (
@@ -2241,7 +2391,6 @@ function drawWaveform(
             )
                 ? "#42d67d"
                 : "#666";
-
 
         ctx.fillRect(
             x,
@@ -2258,7 +2407,6 @@ function drawWaveform(
 
     }
 
-
     if (
         audio &&
         audio.duration &&
@@ -2267,7 +2415,6 @@ function drawWaveform(
 
         ctx.fillStyle =
             "#fff";
-
 
         ctx.fillRect(
             progress * width,
@@ -2298,7 +2445,6 @@ function animate(
         waveform,
         audio
     );
-
 
     if (
         audio &&
@@ -2342,7 +2488,6 @@ document.getElementById(
         ).textContent =
             "❚❚ Pause Original";
 
-
         animate(
             referenceCanvas,
             referenceCtx,
@@ -2382,15 +2527,12 @@ document.getElementById(
                     audio: true
                 });
 
-
         recordingChunks = [];
-
 
         mediaRecorder =
             new MediaRecorder(
                 mediaStream
             );
-
 
         mediaRecorder.ondataavailable =
             event => {
@@ -2407,7 +2549,6 @@ document.getElementById(
 
             };
 
-
         mediaRecorder.onstop =
             async () => {
 
@@ -2416,31 +2557,25 @@ document.getElementById(
                         recordingChunks,
                         {
                             type:
+                                mediaRecorder.mimeType ||
                                 "audio/webm"
                         }
                     );
-
-
-                /*
-                 * Permanently save the recording
-                 * to IndexedDB.
-                 */
 
                 await saveLineRecording(
                     currentLine,
                     blob
                 );
 
+                await registerOnlineRecording();
 
                 const url =
                     URL.createObjectURL(
                         blob
                     );
 
-
                 recordingAudio =
                     new Audio(url);
-
 
                 createWaveform(
                     blob,
@@ -2449,14 +2584,12 @@ document.getElementById(
                         recordingWaveform =
                             data;
 
-
                         drawWaveform(
                             recordingCanvas,
                             recordingCtx,
                             recordingWaveform,
                             recordingAudio
                         );
-
 
                         document.getElementById(
                             "recordingButton"
@@ -2465,35 +2598,24 @@ document.getElementById(
                     }
                 );
 
-
-                status.innerHTML =
+                statusElement.innerHTML =
                     '<span class="recorded">✓ Recording saved</span>';
-
-
-                /*
-                 * Update the Full Performance
-                 * information.
-                 */
 
                 updatePerformanceStatus();
 
             };
 
-
         mediaRecorder.start();
-
 
         document.getElementById(
             "recordButton"
         ).disabled = true;
 
-
         document.getElementById(
             "stopButton"
         ).disabled = false;
 
-
-        status.textContent =
+        statusElement.textContent =
             "Recording...";
 
     }
@@ -2502,7 +2624,7 @@ document.getElementById(
 
         console.error(error);
 
-        status.textContent =
+        statusElement.textContent =
             "Microphone access was denied or unavailable.";
 
     }
@@ -2528,7 +2650,6 @@ document.getElementById(
 
     }
 
-
     if (mediaStream) {
 
         mediaStream
@@ -2540,11 +2661,9 @@ document.getElementById(
 
     }
 
-
     document.getElementById(
         "recordButton"
     ).disabled = false;
-
 
     document.getElementById(
         "stopButton"
@@ -2569,12 +2688,10 @@ document.getElementById(
 
         recordingAudio.play();
 
-
         document.getElementById(
             "recordingButton"
         ).textContent =
             "❚❚ Pause My Recording";
-
 
         animate(
             recordingCanvas,
@@ -2588,7 +2705,6 @@ document.getElementById(
     else {
 
         recordingAudio.pause();
-
 
         document.getElementById(
             "recordingButton"
@@ -2614,12 +2730,10 @@ document.getElementById(
 
         masterReferenceAudio.play();
 
-
         document.getElementById(
             "masterReferenceButton"
         ).textContent =
             "❚❚ Pause Speech";
-
 
         animate(
             masterReferenceCanvas,
@@ -2633,7 +2747,6 @@ document.getElementById(
     else {
 
         masterReferenceAudio.pause();
-
 
         document.getElementById(
             "masterReferenceButton"
@@ -2661,15 +2774,12 @@ document.getElementById(
                     audio: true
                 });
 
-
         masterRecordingChunks = [];
-
 
         masterMediaRecorder =
             new MediaRecorder(
                 masterMediaStream
             );
-
 
         masterMediaRecorder.ondataavailable =
             event => {
@@ -2686,19 +2796,18 @@ document.getElementById(
 
             };
 
-
         masterMediaRecorder.onstop =
-            () => {
+            async () => {
 
                 const blob =
                     new Blob(
                         masterRecordingChunks,
                         {
                             type:
+                                masterMediaRecorder.mimeType ||
                                 "audio/webm"
                         }
                     );
-
 
                 masterRecordingAudio =
                     new Audio(
@@ -2707,27 +2816,32 @@ document.getElementById(
                         )
                     );
 
+                document.getElementById(
+                    "masterRecordingButton"
+                ).disabled = false;
 
                 document.getElementById(
                     "masterStatus"
-                ).textContent =
-                    "Master recording complete.";
+                ).innerHTML =
+                    '<span class="recorded">✓ Master recording complete.</span>';
+
+                await registerOnlineRecording();
 
             };
 
-
         masterMediaRecorder.start();
-
 
         document.getElementById(
             "masterRecordButton"
         ).disabled = true;
 
-
         document.getElementById(
             "masterStopButton"
         ).disabled = false;
 
+        document.getElementById(
+            "masterRecordingButton"
+        ).disabled = true;
 
         document.getElementById(
             "masterStatus"
@@ -2768,7 +2882,6 @@ document.getElementById(
 
     }
 
-
     if (masterMediaStream) {
 
         masterMediaStream
@@ -2780,11 +2893,9 @@ document.getElementById(
 
     }
 
-
     document.getElementById(
         "masterRecordButton"
     ).disabled = false;
-
 
     document.getElementById(
         "masterStopButton"
@@ -2807,7 +2918,6 @@ document.getElementById(
 
         masterRecordingAudio.play();
 
-
         document.getElementById(
             "masterRecordingButton"
         ).textContent =
@@ -2818,7 +2928,6 @@ document.getElementById(
     else {
 
         masterRecordingAudio.pause();
-
 
         document.getElementById(
             "masterRecordingButton"
@@ -2839,24 +2948,19 @@ async function updatePerformanceStatus() {
     const speech =
         getCurrentSpeech();
 
-
     const recordings =
         await getAllSpeechRecordings();
-
 
     const total =
         speech.lines.length;
 
-
     const recorded =
         recordings.length;
-
 
     document.getElementById(
         "performanceInfo"
     ).textContent =
         `${recorded} of ${total} lines recorded.`;
-
 
     if (
         recorded === total
@@ -2892,19 +2996,16 @@ async function decodeBlob(
     const arrayBuffer =
         await blob.arrayBuffer();
 
-
     const context =
         new (
             window.AudioContext ||
             window.webkitAudioContext
         )();
 
-
     const audioBuffer =
         await context.decodeAudioData(
             arrayBuffer
         );
-
 
     return {
         buffer: audioBuffer,
@@ -2918,31 +3019,6 @@ async function decodeBlob(
    ASSEMBLE COMPLETE SPEECH
 ============================================================ */
 
-/*
-    This is the important part.
-
-    Every individual recording is decoded.
-
-    Then:
-
-        Recording 1
-             ↓
-        natural pause
-             ↓
-        Recording 2
-             ↓
-        natural pause
-             ↓
-        Recording 3
-             ↓
-        ...
-
-    The result is rendered into a single WAV file.
-
-    WAV is deliberately used here because the browser can
-    create it directly without needing an external encoder.
-*/
-
 async function assemblePerformance() {
 
     const button =
@@ -2950,33 +3026,23 @@ async function assemblePerformance() {
             "buildPerformanceButton"
         );
 
-
     button.disabled = true;
-
 
     const statusElement =
         document.getElementById(
             "performanceStatus"
         );
 
-
     statusElement.textContent =
         "Building your complete speech...";
-
 
     try {
 
         const speech =
             getCurrentSpeech();
 
-
         const recordings =
             await getAllSpeechRecordings();
-
-
-        /*
-         * Make sure every line exists.
-         */
 
         if (
             recordings.length !==
@@ -2992,14 +3058,8 @@ async function assemblePerformance() {
 
         }
 
-
-        /*
-         * Make a map so line order is guaranteed.
-         */
-
         const recordingMap =
             new Map();
-
 
         recordings.forEach(
             item => {
@@ -3012,13 +3072,7 @@ async function assemblePerformance() {
             }
         );
 
-
-        /*
-         * Decode all recordings.
-         */
-
         const decoded = [];
-
 
         for (
             let i = 0;
@@ -3029,39 +3083,24 @@ async function assemblePerformance() {
             statusElement.textContent =
                 `Decoding recording ${i + 1} of ${speech.lines.length}...`;
 
-
             const blob =
                 recordingMap.get(i);
 
-
             const result =
                 await decodeBlob(blob);
-
 
             decoded.push(
                 result.buffer
             );
 
-
             await result.context.close();
 
         }
 
-
-        /*
-         * We use the sample rate of the first recording.
-         */
-
         const sampleRate =
             decoded[0].sampleRate;
 
-
-        /*
-         * Calculate total duration.
-         */
-
         let totalDuration = 0;
-
 
         for (
             let i = 0;
@@ -3071,17 +3110,6 @@ async function assemblePerformance() {
 
             totalDuration +=
                 decoded[i].duration;
-
-
-            /*
-             * Natural pause.
-
-             * This can be adjusted.
-
-             * 0.45 seconds is short enough to sound
-             * connected but long enough to distinguish
-             * most sentences.
-             */
 
             if (
                 i <
@@ -3098,11 +3126,6 @@ async function assemblePerformance() {
 
         }
 
-
-        /*
-         * Create the offline audio environment.
-         */
-
         const offline =
             new OfflineAudioContext(
                 2,
@@ -3113,13 +3136,7 @@ async function assemblePerformance() {
                 sampleRate
             );
 
-
         let position = 0;
-
-
-        /*
-         * Add every recording sequentially.
-         */
 
         for (
             let i = 0;
@@ -3130,28 +3147,22 @@ async function assemblePerformance() {
             const buffer =
                 decoded[i];
 
-
             const source =
                 offline.createBufferSource();
 
-
             source.buffer =
                 buffer;
-
 
             source.connect(
                 offline.destination
             );
 
-
             source.start(
                 position
             );
 
-
             position +=
                 buffer.duration;
-
 
             if (
                 i <
@@ -3168,39 +3179,24 @@ async function assemblePerformance() {
 
         }
 
-
         statusElement.textContent =
             "Rendering complete performance...";
 
-
         const rendered =
             await offline.startRendering();
-
-
-        /*
-         * Convert the rendered AudioBuffer
-         * into a WAV file.
-         */
 
         const wav =
             audioBufferToWav(
                 rendered
             );
 
-
         const url =
             URL.createObjectURL(
                 wav
             );
 
-
         performanceAudio =
             new Audio(url);
-
-
-        /*
-         * Create waveform.
-         */
 
         createWaveform(
             wav,
@@ -3208,7 +3204,6 @@ async function assemblePerformance() {
 
                 performanceWaveform =
                     data;
-
 
                 drawWaveform(
                     performanceCanvas,
@@ -3220,30 +3215,21 @@ async function assemblePerformance() {
             }
         );
 
-
         document.getElementById(
             "performanceButton"
         ).disabled = false;
 
-
         document.getElementById(
             "downloadPerformanceButton"
         ).disabled = false;
-
 
         document.getElementById(
             "performanceInfo"
         ).textContent =
             `Complete performance: ${formatTime(rendered.duration)}`;
 
-
         statusElement.innerHTML =
             '<span class="recorded">✓ Your complete speech has been assembled.</span>';
-
-
-        /*
-         * Save the assembled speech in IndexedDB too.
-         */
 
         await savePerformance(
             wav
@@ -3257,12 +3243,10 @@ async function assemblePerformance() {
             error
         );
 
-
         statusElement.textContent =
             "Could not assemble the speech. Check the console for details.";
 
     }
-
 
     button.disabled = false;
 
@@ -3273,24 +3257,6 @@ async function assemblePerformance() {
    NATURAL PAUSE
 ============================================================ */
 
-/*
-    The pause is based partly on the length of the sentence.
-
-    Short sentence:
-        ~0.35 seconds
-
-    Normal sentence:
-        ~0.50 seconds
-
-    Long sentence:
-        ~0.65 seconds
-
-    This makes the final recording sound less like:
-        sentence... silence... sentence... silence
-
-    and more like a continuous speech.
-*/
-
 function calculateNaturalPause(
     duration,
     line
@@ -3299,16 +3265,13 @@ function calculateNaturalPause(
     const text =
         line.text || "";
 
-
     const words =
         text
             .trim()
             .split(/\s+/)
             .length;
 
-
     let pause;
-
 
     if (words <= 5) {
 
@@ -3328,11 +3291,6 @@ function calculateNaturalPause(
 
     }
 
-
-    /*
-     * Punctuation adds a little more space.
-     */
-
     if (
         /[.!?]$/.test(text)
     ) {
@@ -3348,7 +3306,6 @@ function calculateNaturalPause(
         pause += 0.05;
 
     }
-
 
     return pause;
 
@@ -3366,50 +3323,40 @@ function audioBufferToWav(
     const numberOfChannels =
         buffer.numberOfChannels;
 
-
     const sampleRate =
         buffer.sampleRate;
-
 
     const format = 1;
 
     const bitDepth = 16;
 
-
     const channelLength =
         buffer.length;
 
-
     const bytesPerSample =
         bitDepth / 8;
-
 
     const blockAlign =
         numberOfChannels *
         bytesPerSample;
 
-
     const dataSize =
         channelLength *
         blockAlign;
 
-
     const bufferSize =
         44 +
         dataSize;
-
 
     const arrayBuffer =
         new ArrayBuffer(
             bufferSize
         );
 
-
     const view =
         new DataView(
             arrayBuffer
         );
-
 
     writeString(
         view,
@@ -3417,13 +3364,11 @@ function audioBufferToWav(
         "RIFF"
     );
 
-
     view.setUint32(
         4,
         36 + dataSize,
         true
     );
-
 
     writeString(
         view,
@@ -3431,20 +3376,17 @@ function audioBufferToWav(
         "WAVE"
     );
 
-
     writeString(
         view,
         12,
         "fmt "
     );
 
-
     view.setUint32(
         16,
         16,
         true
     );
-
 
     view.setUint16(
         20,
@@ -3452,20 +3394,17 @@ function audioBufferToWav(
         true
     );
 
-
     view.setUint16(
         22,
         numberOfChannels,
         true
     );
 
-
     view.setUint32(
         24,
         sampleRate,
         true
     );
-
 
     view.setUint32(
         28,
@@ -3474,13 +3413,11 @@ function audioBufferToWav(
         true
     );
 
-
     view.setUint16(
         32,
         blockAlign,
         true
     );
-
 
     view.setUint16(
         34,
@@ -3488,13 +3425,11 @@ function audioBufferToWav(
         true
     );
 
-
     writeString(
         view,
         36,
         "data"
     );
-
 
     view.setUint32(
         40,
@@ -3502,13 +3437,7 @@ function audioBufferToWav(
         true
     );
 
-
-    /*
-     * Interleave channels.
-     */
-
     const channels = [];
-
 
     for (
         let channel = 0;
@@ -3524,9 +3453,7 @@ function audioBufferToWav(
 
     }
 
-
     let offset = 44;
-
 
     for (
         let i = 0;
@@ -3543,7 +3470,6 @@ function audioBufferToWav(
             let sample =
                 channels[channel][i];
 
-
             sample =
                 Math.max(
                     -1,
@@ -3553,12 +3479,10 @@ function audioBufferToWav(
                     )
                 );
 
-
             const value =
                 sample < 0
                     ? sample * 0x8000
                     : sample * 0x7FFF;
-
 
             view.setInt16(
                 offset,
@@ -3566,13 +3490,11 @@ function audioBufferToWav(
                 true
             );
 
-
             offset += 2;
 
         }
 
     }
-
 
     return new Blob(
         [arrayBuffer],
@@ -3608,6 +3530,38 @@ function writeString(
 
 
 /* ============================================================
+   FORMAT TIME
+============================================================ */
+
+function formatTime(
+    seconds
+) {
+
+    const minutes =
+        Math.floor(
+            seconds / 60
+        );
+
+    const remaining =
+        Math.floor(
+            seconds % 60
+        );
+
+    return (
+        minutes +
+        ":" +
+        String(
+            remaining
+        ).padStart(
+            2,
+            "0"
+        )
+    );
+
+}
+
+
+/* ============================================================
    SAVE COMPLETED PERFORMANCE
 ============================================================ */
 
@@ -3624,12 +3578,10 @@ function savePerformance(
                     "readwrite"
                 );
 
-
             const store =
                 transaction.objectStore(
                     STORE_NAME
                 );
-
 
             store.put({
 
@@ -3651,10 +3603,8 @@ function savePerformance(
 
             });
 
-
             transaction.oncomplete =
                 () => resolve();
-
 
             transaction.onerror =
                 () => reject(
@@ -3681,12 +3631,10 @@ document.getElementById(
 
         performanceAudio.play();
 
-
         document.getElementById(
             "performanceButton"
         ).textContent =
             "❚❚ Pause My Speech";
-
 
         animate(
             performanceCanvas,
@@ -3700,7 +3648,6 @@ document.getElementById(
     else {
 
         performanceAudio.pause();
-
 
         document.getElementById(
             "performanceButton"
@@ -3729,7 +3676,6 @@ performanceAudio.ontimeupdate =
                     performanceAudio.duration
                 ) * 100;
 
-
             document.getElementById(
                 "performanceProgress"
             ).style.width =
@@ -3747,7 +3693,6 @@ performanceAudio.onended =
             "performanceButton"
         ).textContent =
             "▶ Play My Speech";
-
 
         document.getElementById(
             "performanceProgress"
@@ -3768,7 +3713,6 @@ document.getElementById(
     const recordings =
         await getAllSpeechRecordings();
 
-
     if (
         recordings.length !==
         getCurrentSpeech().lines.length
@@ -3778,24 +3722,17 @@ document.getElementById(
 
     }
 
-
-    /*
-     * The performance is already represented
-     * by performanceAudio's Blob URL.
-
-     * Fetch it back into a Blob so it can be
-     * downloaded.
-     */
+    if (!performanceAudio.src) {
+        return;
+    }
 
     const response =
         await fetch(
             performanceAudio.src
         );
 
-
     const blob =
         await response.blob();
-
 
     const speaker =
         library[currentSpeaker]
@@ -3805,7 +3742,6 @@ document.getElementById(
                 "_"
             );
 
-
     const speech =
         getCurrentSpeech()
             .title
@@ -3814,37 +3750,29 @@ document.getElementById(
                 "_"
             );
 
-
     const url =
         URL.createObjectURL(
             blob
         );
-
 
     const link =
         document.createElement(
             "a"
         );
 
-
     link.href =
         url;
 
-
     link.download =
         `${speaker}_${speech}_Full_Performance.wav`;
-
 
     document.body.appendChild(
         link
     );
 
-
     link.click();
 
-
     link.remove();
-
 
     setTimeout(
         () =>
@@ -3855,6 +3783,16 @@ document.getElementById(
     );
 
 };
+
+
+/* ============================================================
+   ASSEMBLE BUTTON
+============================================================ */
+
+document.getElementById(
+    "buildPerformanceButton"
+).onclick =
+    assemblePerformance;
 
 
 /* ============================================================
@@ -3885,7 +3823,6 @@ document.getElementById(
     const speech =
         getCurrentSpeech();
 
-
     if (
         currentLine <
         speech.lines.length - 1
@@ -3910,16 +3847,20 @@ document.addEventListener(
 
         if (
             event.target.tagName ===
-            "BUTTON"
+            "BUTTON" ||
+            event.target.tagName ===
+            "INPUT" ||
+            event.target.tagName ===
+            "TEXTAREA"
         ) {
 
             return;
 
         }
 
-
         if (
-            event.code === "ArrowLeft"
+            event.code ===
+            "ArrowLeft"
         ) {
 
             document.getElementById(
@@ -3928,9 +3869,9 @@ document.addEventListener(
 
         }
 
-
         if (
-            event.code === "ArrowRight"
+            event.code ===
+            "ArrowRight"
         ) {
 
             document.getElementById(
@@ -3940,6 +3881,510 @@ document.addEventListener(
         }
 
     }
+);
+
+
+/* ============================================================
+   SUPABASE / ONLINE LEADERBOARD
+============================================================ */
+
+let supabaseUser = null;
+
+
+/* ============================================================
+   INITIALIZE ONLINE ACCOUNT
+============================================================ */
+
+async function initializeOnlineAccount() {
+
+    try {
+
+        const {
+            data: {
+                session
+            },
+            error: sessionError
+        } =
+            await supabaseClient.auth.getSession();
+
+        if (sessionError) {
+            throw sessionError;
+        }
+
+        if (session) {
+
+            supabaseUser =
+                session.user;
+
+            console.log(
+                "Supabase session restored:",
+                supabaseUser.id
+            );
+
+            await loadStudentProfile();
+            await loadLeaderboard();
+
+            return;
+
+        }
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.auth
+                .signInAnonymously();
+
+        if (error) {
+            throw error;
+        }
+
+        supabaseUser =
+            data.user;
+
+        console.log(
+            "Created anonymous Supabase user:",
+            supabaseUser.id
+        );
+
+        await loadStudentProfile();
+        await loadLeaderboard();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Could not initialize online account:",
+            error
+        );
+
+        const status =
+            document.getElementById(
+                "profileStatus"
+            );
+
+        if (status) {
+
+            status.textContent =
+                "Online leaderboard unavailable.";
+
+        }
+
+    }
+
+}
+
+
+/* ============================================================
+   LOAD STUDENT PROFILE
+============================================================ */
+
+async function loadStudentProfile() {
+
+    if (!supabaseUser)
+        return;
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("profiles")
+            .select(
+                "display_name, recording_count"
+            )
+            .eq(
+                "id",
+                supabaseUser.id
+            )
+            .single();
+
+    if (error) {
+
+        console.error(
+            "Could not load profile:",
+            error
+        );
+
+        return;
+
+    }
+
+    const nameInput =
+        document.getElementById(
+            "displayNameInput"
+        );
+
+    if (nameInput) {
+
+        nameInput.value =
+            data.display_name ===
+            "Anonymous"
+                ? ""
+                : data.display_name;
+
+    }
+
+    updateOnlineRecordingCount(
+        data.recording_count
+    );
+
+}
+
+
+/* ============================================================
+   SAVE DISPLAY NAME
+============================================================ */
+
+async function saveDisplayName() {
+
+    if (!supabaseUser) {
+
+        alert(
+            "Your online account has not finished loading."
+        );
+
+        return;
+
+    }
+
+    const input =
+        document.getElementById(
+            "displayNameInput"
+        );
+
+    const status =
+        document.getElementById(
+            "profileStatus"
+        );
+
+    const displayName =
+        input.value.trim();
+
+    if (!displayName) {
+
+        alert(
+            "Please enter a display name."
+        );
+
+        return;
+
+    }
+
+    if (
+        displayName.length > 30
+    ) {
+
+        alert(
+            "Your display name must be 30 characters or fewer."
+        );
+
+        return;
+
+    }
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("profiles")
+            .update({
+                display_name:
+                    displayName
+            })
+            .eq(
+                "id",
+                supabaseUser.id
+            );
+
+    if (error) {
+
+        console.error(
+            "Could not save display name:",
+            error
+        );
+
+        status.textContent =
+            "Could not save your name.";
+
+        return;
+
+    }
+
+    status.textContent =
+        "Display name saved.";
+
+    await loadLeaderboard();
+
+}
+
+
+/* ============================================================
+   REGISTER ONLINE RECORDING
+============================================================ */
+
+async function registerOnlineRecording() {
+
+    if (!supabaseUser) {
+
+        console.warn(
+            "No Supabase user. Recording remains local."
+        );
+
+        return null;
+
+    }
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .rpc(
+                "record_recording"
+            );
+
+    if (error) {
+
+        console.error(
+            "Could not register recording:",
+            error
+        );
+
+        return null;
+
+    }
+
+    const newCount =
+        Number(data);
+
+    updateOnlineRecordingCount(
+        newCount
+    );
+
+    await loadLeaderboard();
+
+    return newCount;
+
+}
+
+
+/* ============================================================
+   DISPLAY CURRENT COUNT
+============================================================ */
+
+function updateOnlineRecordingCount(
+    count
+) {
+
+    let element =
+        document.getElementById(
+            "onlineRecordingCount"
+        );
+
+    if (!element) {
+
+        element =
+            document.createElement(
+                "div"
+            );
+
+        element.id =
+            "onlineRecordingCount";
+
+        element.className =
+            "online-recording-count";
+
+        const profile =
+            document.querySelector(
+                ".student-profile"
+            );
+
+        if (profile) {
+
+            profile.appendChild(
+                element
+            );
+
+        }
+
+    }
+
+    element.textContent =
+        `Your recordings: ${count}`;
+
+}
+
+
+/* ============================================================
+   LOAD LEADERBOARD
+============================================================ */
+
+async function loadLeaderboard() {
+
+    const container =
+        document.getElementById(
+            "leaderboard"
+        );
+
+    if (!container)
+        return;
+
+    container.innerHTML =
+        `<div class="leaderboard-loading">
+            Loading leaderboard...
+        </div>`;
+
+    if (!supabaseUser) {
+
+        container.innerHTML =
+            `<div class="leaderboard-error">
+                Online leaderboard unavailable.
+            </div>`;
+
+        return;
+
+    }
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from(
+                "recording_leaderboard"
+            )
+            .select(
+                "display_name, recording_count"
+            );
+
+    if (error) {
+
+        console.error(
+            "Could not load leaderboard:",
+            error
+        );
+
+        container.innerHTML =
+            `<div class="leaderboard-error">
+                Could not load leaderboard.
+            </div>`;
+
+        return;
+
+    }
+
+    if (
+        !data ||
+        data.length === 0
+    ) {
+
+        container.innerHTML =
+            `<div class="leaderboard-empty">
+                No recordings have been submitted yet.
+            </div>`;
+
+        return;
+
+    }
+
+    container.innerHTML = "";
+
+    data.forEach(
+        (student, index) => {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+            row.className =
+                "leaderboard-row";
+
+            const rank =
+                index + 1;
+
+            let medal = "";
+
+            if (rank === 1)
+                medal = "🥇";
+
+            if (rank === 2)
+                medal = "🥈";
+
+            if (rank === 3)
+                medal = "🥉";
+
+            row.innerHTML = `
+                <div class="leaderboard-rank">
+                    ${medal || rank}
+                </div>
+
+                <div class="leaderboard-name">
+                    ${escapeLeaderboardText(
+                        student.display_name
+                    )}
+                </div>
+
+                <div class="leaderboard-count">
+                    ${student.recording_count}
+                    ${
+                        student.recording_count === 1
+                            ? "recording"
+                            : "recordings"
+                    }
+                </div>
+            `;
+
+            container.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   ESCAPE LEADERBOARD TEXT
+============================================================ */
+
+function escapeLeaderboardText(
+    text
+) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+    div.textContent =
+        text;
+
+    return div.innerHTML;
+
+}
+
+
+/* ============================================================
+   LEADERBOARD BUTTONS
+============================================================ */
+
+document.getElementById(
+    "saveDisplayNameButton"
+).addEventListener(
+    "click",
+    saveDisplayName
+);
+
+
+document.getElementById(
+    "refreshLeaderboardButton"
+).addEventListener(
+    "click",
+    loadLeaderboard
 );
 
 
@@ -3978,6 +4423,8 @@ async function initialize() {
 
 
 initialize();
+
+initializeOnlineAccount();
 
 </script>
 
