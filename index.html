@@ -1,0 +1,3986 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Oration Trainer</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #111;
+    color: #eee;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    padding: 18px 25px;
+    background: #181818;
+    border-bottom: 1px solid #333;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 25px;
+}
+
+.app {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: calc(100vh - 70px);
+}
+
+.library {
+    background: #181818;
+    border-right: 1px solid #333;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.library h2 {
+    margin-top: 0;
+    color: #aaa;
+    font-size: 17px;
+}
+
+.speaker {
+    margin-bottom: 15px;
+}
+
+.speaker-button {
+    width: 100%;
+    padding: 11px;
+    border: none;
+    background: #292929;
+    color: white;
+    text-align: left;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.speaker-button:hover {
+    background: #353535;
+}
+
+.speech-list {
+    margin-top: 5px;
+    padding-left: 10px;
+}
+
+.speech-button {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: #bbb;
+    padding: 8px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.speech-button:hover,
+.speech-button.active {
+    background: #252525;
+    color: white;
+}
+
+.content {
+    padding: 30px;
+    max-width: 1200px;
+    width: 100%;
+    margin: auto;
+}
+
+#speakerName {
+    color: #999;
+    margin-bottom: 5px;
+}
+
+#speechTitle {
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 30px;
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+.section {
+    background: #181818;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 25px;
+}
+
+.section h2 {
+    margin-top: 0;
+}
+
+/* =========================
+   WAVEFORMS
+========================= */
+
+canvas {
+    display: block;
+    width: 100%;
+    height: 100px;
+    background: #0d0d0d;
+    border: 1px solid #292929;
+    border-radius: 8px;
+}
+
+.wave-label {
+    color: #aaa;
+    font-size: 13px;
+    margin: 15px 0 7px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+button {
+    border: none;
+    border-radius: 6px;
+    padding: 10px 15px;
+    background: #303030;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background: #404040;
+}
+
+button:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+.record {
+    background: #7d1d1d;
+}
+
+.record:hover {
+    background: #a12525;
+}
+
+.stop {
+    background: #555;
+}
+
+.download {
+    background: #245c38;
+}
+
+.download:hover {
+    background: #2d7448;
+}
+
+.primary {
+    background: #245a78;
+}
+
+.primary:hover {
+    background: #2f7398;
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.status {
+    color: #999;
+    font-size: 13px;
+    margin-top: 10px;
+    min-height: 18px;
+}
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress-container {
+    margin-top: 15px;
+}
+
+.progress-background {
+    height: 8px;
+    background: #292929;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: #42d67d;
+    transition: width .15s;
+}
+
+.performance-info {
+    margin-top: 10px;
+    color: #888;
+    font-size: 13px;
+}
+
+/* =========================
+   LINE PRACTICE
+========================= */
+
+#lineNumber {
+    color: #777;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+#lineText {
+    font-size: 30px;
+    line-height: 1.35;
+    margin: 0 0 25px;
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+#lineCounter {
+    color: #777;
+    align-self: center;
+}
+
+/* =========================
+   RECORDING STATUS
+========================= */
+
+.recorded {
+    color: #42d67d;
+}
+
+.not-recorded {
+    color: #777;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 800px) {
+
+    .app {
+        grid-template-columns: 1fr;
+    }
+
+    .library {
+        border-right: none;
+        border-bottom: 1px solid #333;
+    }
+
+    .content {
+        padding: 20px;
+    }
+
+    #lineText {
+        font-size: 24px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Oration Trainer</h1>
+</header>
+
+<div class="app">
+
+<aside class="library">
+
+    <h2>Speech Library</h2>
+
+    <div id="library"></div>
+
+</aside>
+
+
+<main class="content">
+
+    <div id="speakerName"></div>
+
+    <h1 id="speechTitle"></h1>
+
+
+    <!-- =====================================================
+         FULL PERFORMANCE
+    ====================================================== -->
+
+    <section class="section">
+
+        <h2>Full Performance</h2>
+
+        <p style="color:#999;">
+            Once you have recorded every line, your recordings
+            can be assembled into one complete performance.
+        </p>
+
+
+        <div class="wave-label">
+            Your Complete Speech
+        </div>
+
+        <canvas
+            id="fullPerformanceWaveform"
+            width="1200"
+            height="100">
+        </canvas>
+
+
+        <div class="controls">
+
+            <button
+                id="buildPerformanceButton"
+                class="primary">
+                Assemble My Speech
+            </button>
+
+            <button
+                id="performanceButton"
+                disabled>
+                ▶ Play My Speech
+            </button>
+
+            <button
+                id="downloadPerformanceButton"
+                class="download"
+                disabled>
+                ↓ Download Full Speech
+            </button>
+
+        </div>
+
+
+        <div class="progress-container">
+
+            <div class="progress-background">
+
+                <div
+                    id="performanceProgress"
+                    class="progress-bar">
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="performanceInfo"
+            class="performance-info">
+        </div>
+
+
+        <div
+            id="performanceStatus"
+            class="status">
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         MASTER REFERENCE
+    ====================================================== -->
+
+    <section class="section">
+
+        <h2>Master Recording</h2>
+
+        <div class="wave-label">
+            Original Speech
+        </div>
+
+        <canvas
+            id="masterReferenceWaveform"
+            width="1200"
+            height="100">
+        </canvas>
+
+
+        <div class="controls">
+
+            <button id="masterReferenceButton">
+                ▶ Listen to Speech
+            </button>
+
+        </div>
+
+
+        <div class="wave-label">
+            Record the entire speech at once
+        </div>
+
+        <div class="controls">
+
+            <button
+                id="masterRecordButton"
+                class="record">
+                ● Record Entire Speech
+            </button>
+
+            <button
+                id="masterStopButton"
+                class="stop"
+                disabled>
+                ■ Stop
+            </button>
+
+            <button
+                id="masterRecordingButton"
+                disabled>
+                ▶ Play My Master Recording
+            </button>
+
+        </div>
+
+
+        <div
+            id="masterStatus"
+            class="status">
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         LINE PRACTICE
+    ====================================================== -->
+
+    <section class="section">
+
+        <h2>Line-by-Line Practice</h2>
+
+        <div id="lineNumber"></div>
+
+        <p id="lineText"></p>
+
+
+        <!-- ORIGINAL -->
+
+        <div class="wave-label">
+            Original Recording
+        </div>
+
+        <canvas
+            id="referenceWaveform"
+            width="1200"
+            height="100">
+        </canvas>
+
+        <div class="controls">
+
+            <button id="referenceButton">
+                ▶ Play Original
+            </button>
+
+        </div>
+
+
+        <!-- USER -->
+
+        <div class="wave-label">
+            Your Recording
+        </div>
+
+        <canvas
+            id="recordingWaveform"
+            width="1200"
+            height="100">
+        </canvas>
+
+
+        <div class="controls">
+
+            <button
+                id="recordButton"
+                class="record">
+                ● Record
+            </button>
+
+            <button
+                id="stopButton"
+                class="stop"
+                disabled>
+                ■ Stop
+            </button>
+
+            <button
+                id="recordingButton"
+                disabled>
+                ▶ Play My Recording
+            </button>
+
+        </div>
+
+
+        <div
+            id="status"
+            class="status">
+        </div>
+
+
+        <div class="navigation">
+
+            <button id="previousButton">
+                ← Previous
+            </button>
+
+            <div id="lineCounter"></div>
+
+            <button id="nextButton">
+                Next →
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+</div>
+
+
+<script>
+
+/* ============================================================
+   LIBRARY
+============================================================ */
+
+const library = [
+
+    {
+        speaker: "Winston Churchill",
+
+        speeches: [
+
+            {
+                title: "We Shall Fight on the Beaches",
+
+                masterAudio:
+                    "audio/churchill/beaches/master.mp3",
+
+                lines: [
+
+                   {
+    text: "When a week ago to-day, Mr. Speaker, I asked the House",
+    audio: "audio/churchill/beaches/01.mp3"
+},
+{
+    text: "to fix this afternoon as the occasion for a statement,",
+    audio: "audio/churchill/beaches/02.mp3"
+},
+{
+    text: "I feared it would be my hard lot to announce",
+    audio: "audio/churchill/beaches/03.mp3"
+},
+{
+    text: "the greatest military disaster in our long history.",
+    audio: "audio/churchill/beaches/04.mp3"
+},
+{
+    text: "I thought—and some good judges agreed with me—that perhaps",
+    audio: "audio/churchill/beaches/05.mp3"
+},
+{
+    text: "20,000 or 30,000 men might be re-embarked.",
+    audio: "audio/churchill/beaches/06.mp3"
+},
+{
+    text: "But it certainly seemed that the whole of the French",
+    audio: "audio/churchill/beaches/07.mp3"
+},
+{
+    text: "First Army and the whole of the British Expeditionary Force",
+    audio: "audio/churchill/beaches/08.mp3"
+},
+{
+    text: "north of the Amiens-Abbeville gap, would be broken up",
+    audio: "audio/churchill/beaches/09.mp3"
+},
+{
+    text: "in the open field or else would have to capitulate",
+    audio: "audio/churchill/beaches/10.mp3"
+},
+{
+    text: "for lack of food and ammunition.",
+    audio: "audio/churchill/beaches/11.mp3"
+},
+{
+    text: "These were the hard and heavy tidings for which",
+    audio: "audio/churchill/beaches/12.mp3"
+},
+{
+    text: "I called upon the House and the nation to prepare",
+    audio: "audio/churchill/beaches/13.mp3"
+},
+{
+    text: "themselves a week ago.",
+    audio: "audio/churchill/beaches/14.mp3"
+},
+{
+    text: "The whole root and core and brain of the British Army,",
+    audio: "audio/churchill/beaches/15.mp3"
+},
+{
+    text: "on which and around which we were to build,",
+    audio: "audio/churchill/beaches/16.mp3"
+},
+{
+    text: "and are to build, the great British Armies in",
+    audio: "audio/churchill/beaches/17.mp3"
+},
+{
+    text: "the later years of the war, seemed about to perish",
+    audio: "audio/churchill/beaches/18.mp3"
+},
+{
+    text: "upon the field or to be led into an ignominious",
+    audio: "audio/churchill/beaches/19.mp3"
+},
+{
+    text: "and starving captivity.",
+    audio: "audio/churchill/beaches/20.mp3"
+},
+{
+    text: "The enemy attacked on all sides with great strength and fierceness,",
+    audio: "audio/churchill/beaches/58.mp3"
+},
+{
+    text: "and their main power, the power of their far more numerous",
+    audio: "audio/churchill/beaches/59.mp3"
+},
+{
+    text: "air force, was thrown into the battle or else concentrated",
+    audio: "audio/churchill/beaches/60.mp3"
+},
+{
+    text: "upon Dunkirk and the beaches.",
+    audio: "audio/churchill/beaches/61.mp3"
+},
+{
+    text: "Pressing in upon the narrow exit, both from the east and",
+    audio: "audio/churchill/beaches/62.mp3"
+},
+{
+    text: "from the west, the enemy began to fire with cannon",
+    audio: "audio/churchill/beaches/63.mp3"
+},
+{
+    text: "upon the beaches by which alone the shipping could approach or depart.",
+    audio: "audio/churchill/beaches/64.mp3"
+},
+{
+    text: "They sowed magnetic mines in the channels and seas;",
+    audio: "audio/churchill/beaches/65.mp3"
+},
+{
+    text: "they sent repeated waves of hostile aircraft, sometimes more than",
+    audio: "audio/churchill/beaches/66.mp3"
+},
+{
+    text: "100 strong in one formation, to cast their bombs upon",
+    audio: "audio/churchill/beaches/67.mp3"
+},
+{
+    text: "the single pier that remained, and upon the sand dunes",
+    audio: "audio/churchill/beaches/68.mp3"
+},
+{
+    text: "upon which the troops had their eyes for shelter.",
+    audio: "audio/churchill/beaches/69.mp3"
+},
+{
+    text: "Their U-boats, one of which was sunk, and their motor launches",
+    audio: "audio/churchill/beaches/70.mp3"
+},
+{
+    text: "took their toll of the vast traffic which now began.",
+    audio: "audio/churchill/beaches/71.mp3"
+},
+{
+    text: "For four or five days an intense struggle reigned.",
+    audio: "audio/churchill/beaches/72.mp3"
+},
+{
+    text: "All their armoured divisions—or what was left of them—together with",
+    audio: "audio/churchill/beaches/73.mp3"
+},
+{
+    text: "great masses of German infantry and artillery, hurled themselves in vain",
+    audio: "audio/churchill/beaches/74.mp3"
+},
+{
+    text: "upon the ever-narrowing, ever-contracting appendix within which the British",
+    audio: "audio/churchill/beaches/75.mp3"
+},
+{
+    text: "and French Armies fought.",
+    audio: "audio/churchill/beaches/76.mp3"
+},
+{
+    text: "Meanwhile, the Royal Navy, with the willing help of countless merchant seamen,",
+    audio: "audio/churchill/beaches/77.mp3"
+},
+{
+    text: "strained every nerve to embark the British and Allied troops.",
+    audio: "audio/churchill/beaches/78.mp3"
+},
+{
+    text: "Two hundred and twenty light warships and 650 other vessels were engaged.",
+    audio: "audio/churchill/beaches/79.mp3"
+},
+{
+    text: "They had to operate upon the difficult coast, often in adverse weather,",
+    audio: "audio/churchill/beaches/80.mp3"
+},
+{
+    text: "under an almost ceaseless hail of bombs and an increasing concentration",
+    audio: "audio/churchill/beaches/81.mp3"
+},
+{
+    text: "of artillery fire.",
+    audio: "audio/churchill/beaches/82.mp3"
+},
+{
+    text: "Nor  s, as I have said, themselves free",
+    audio: "audio/churchill/beaches/83.mp3"
+},
+{
+    text: "from mines and torpedoes.",
+    audio: "audio/churchill/beaches/84.mp3"
+},
+{
+    text: "It was in conditions such as these that our men carried on,",
+    audio: "audio/churchill/beaches/85.mp3"
+},
+{
+    text: "with little or no rest, for days and nights on end,",
+    audio: "audio/churchill/beaches/86.mp3"
+},
+{
+    text: "making trip after trip across the dangerous waters, bringing with them",
+    audio: "audio/churchill/beaches/87.mp3"
+},
+{
+    text: "always men whom they had rescued.",
+    audio: "audio/churchill/beaches/88.mp3"
+},
+{
+    text: "The numbers they have brought back are the measure of their devotion",
+    audio: "audio/churchill/beaches/89.mp3"
+},
+{
+    text: "and their courage.",
+    audio: "audio/churchill/beaches/90.mp3"
+},
+{
+    text: "The hospital ships, which brought off many thousands of British and French wounded,",
+    audio: "audio/churchill/beaches/91.mp3"
+},
+{
+    text: "being so plainly marked were a special target for Nazi bombs;",
+    audio: "audio/churchill/beaches/92.mp3"
+},
+{
+    text: "but the men and women on board them never faltered in their duty.",
+    audio: "audio/churchill/beaches/93.mp3"
+},
+{
+    text: "Meanwhile, the Royal Air Force, which had already been intervening in the battle,",
+    audio: "audio/churchill/beaches/94.mp3"
+},
+{
+    text: "so far as its range would allow, from home bases, now used part",
+    audio: "audio/churchill/beaches/95.mp3"
+},
+{
+    text: "of its main metropolitan fighter strength, and struck at the German bombers,",
+    audio: "audio/churchill/beaches/96.mp3"
+},
+{
+    text: "and at the fighters which in large numbers protected them.",
+    audio: "audio/churchill/beaches/97.mp3"
+},
+{
+    text: "This struggle was protracted and fierce.",
+    audio: "audio/churchill/beaches/98.mp3"
+},
+{
+    text: "Suddenly the scene has cleared, the crash and thunder has for the moment—",
+    audio: "audio/churchill/beaches/99.mp3"
+},
+{
+    text: "but only for the moment—died away.",
+    audio: "audio/churchill/beaches/100.mp3"
+},
+{
+    text: "A miracle of deliverance, achieved by valour, by perseverance, by perfect discipline,",
+    audio: "audio/churchill/beaches/101.mp3"
+},
+{
+    text: "by faultless service, by resource, by skill, by unconquerable fidelity,",
+    audio: "audio/churchill/beaches/102.mp3"
+},
+{
+    text: "is manifest to us all.",
+    audio: "audio/churchill/beaches/103.mp3"
+},
+{
+    text: "The enemy was hurled back by the retreating British and French troops.",
+    audio: "audio/churchill/beaches/104.mp3"
+},
+{
+    text: "He was so roughly handled that he did not harry their departure seriously.",
+    audio: "audio/churchill/beaches/105.mp3"
+},
+
+{
+    text: "Sir, we must be very careful not to assign to this deliverance",
+    audio: "audio/churchill/beaches/112.mp3"
+},
+{
+    text: "the attributes of a victory.",
+    audio: "audio/churchill/beaches/113.mp3"
+},
+{
+    text: "Wars are not won by evacuations.",
+    audio: "audio/churchill/beaches/114.mp3"
+},
+{
+    text: "But there was a victory inside this deliverance, which should be noted.",
+    audio: "audio/churchill/beaches/115.mp3"
+},
+{
+    text: "It was gained by the Air Force.",
+    audio: "audio/churchill/beaches/116.mp3"
+},
+{
+    text: "Many of our soldiers coming back have not seen the Air Force at work;",
+    audio: "audio/churchill/beaches/117.mp3"
+},
+{
+    text: "they saw only the bombers which escaped its protective attack.",
+    audio: "audio/churchill/beaches/118.mp3"
+},
+{
+    text: "They underrate its achievements.",
+    audio: "audio/churchill/beaches/119.mp3"
+},
+{
+    text: "I have heard much talk of this; that is why I go out of my way",
+    audio: "audio/churchill/beaches/120.mp3"
+},
+{
+    text: "to say this.",
+    audio: "audio/churchill/beaches/121.mp3"
+},
+{
+    text: "I will tell you about it.",
+    audio: "audio/churchill/beaches/122.mp3"
+},
+{
+    text: "This was a great trial of strength between the British and German Air Forces.",
+    audio: "audio/churchill/beaches/123.mp3"
+},
+{
+    text: "Can you conceive a greater objective for the Germans in the air",
+    audio: "audio/churchill/beaches/124.mp3"
+},
+{
+    text: "than to make evacuation from these beaches impossible, and to sink all these ships",
+    audio: "audio/churchill/beaches/125.mp3"
+},
+{
+    text: "which were displayed, almost to the extent of thousands?",
+    audio: "audio/churchill/beaches/126.mp3"
+},
+{
+    text: "Could there have been an objective of greater military importance and significance",
+    audio: "audio/churchill/beaches/127.mp3"
+},
+{
+    text: "for the whole purpose of the war than this?",
+    audio: "audio/churchill/beaches/128.mp3"
+},
+{
+    text: "They tried hard, and they were beaten back;",
+    audio: "audio/churchill/beaches/129.mp3"
+},
+{
+    text: "they were frustrated in their task.",
+    audio: "audio/churchill/beaches/130.mp3"
+},
+{
+    text: "We got the Army away; and they have paid fourfold",
+    audio: "audio/churchill/beaches/131.mp3"
+},
+{
+    text: "for any losses which they have inflicted.",
+    audio: "audio/churchill/beaches/132.mp3"
+},
+{
+    text: "When we consider how much greater would be our advantage in defending the air",
+    audio: "audio/churchill/beaches/142.mp3"
+},
+{
+    text: "above this island against an overseas attack, I must say that I find",
+    audio: "audio/churchill/beaches/143.mp3"
+},
+{
+    text: "in these facts a sure basis upon which practical and reassuring thoughts may rest.",
+    audio: "audio/churchill/beaches/144.mp3"
+},
+{
+    text: "I will pay my tribute to these young airmen.",
+    audio: "audio/churchill/beaches/145.mp3"
+},
+{
+    text: "The great French Army was very largely, for the time being, cast back",
+    audio: "audio/churchill/beaches/146.mp3"
+},
+{
+    text: "and disturbed by the onrush of a few thousands of armoured vehicles.",
+    audio: "audio/churchill/beaches/147.mp3"
+},
+{
+    text: "May it not also be that the cause of civilisation itself",
+    audio: "audio/churchill/beaches/148.mp3"
+},
+{
+    text: "will be defended by the skill and devotion of a few thousand airmen?",
+    audio: "audio/churchill/beaches/149.mp3"
+},
+{
+    text: "There never had been, I suppose, in all the world, in all the history of war,",
+    audio: "audio/churchill/beaches/150.mp3"
+},
+{
+    text: "such an opportunity for youth.",
+    audio: "audio/churchill/beaches/151.mp3"
+},
+{
+    text: "The Knights of the Round Table, the Crusaders, all fall back into a prosaic past:",
+    audio: "audio/churchill/beaches/152.mp3"
+},
+{
+    text: "not only distant but prosaic;",
+    audio: "audio/churchill/beaches/153.mp3"
+},
+{
+    text: "but these young men, going forth every morn to guard their native land",
+    audio: "audio/churchill/beaches/154.mp3"
+},
+{
+    text: "and all that we stand for, holding in their hands these instruments",
+    audio: "audio/churchill/beaches/155.mp3"
+},
+{
+    text: "of colossal and shattering power, of whom it may be said that",
+    audio: "audio/churchill/beaches/156.mp3"
+},
+{
+    text: "When every morning brought a noble chance,",
+    audio: "audio/churchill/beaches/157.mp3"
+},
+{
+    text: "And every chance brought out a noble knight,",
+    audio: "audio/churchill/beaches/158.mp3"
+},
+{
+    text: "deserve our gratitude, as do all of the brave men",
+    audio: "audio/churchill/beaches/159.mp3"
+},
+{
+    text: "who, in so many ways and on so many occasions, are ready,",
+    audio: "audio/churchill/beaches/160.mp3"
+},
+{
+    text: "and continue ready, to give life and all for their native land.",
+    audio: "audio/churchill/beaches/161.mp3"
+},
+{
+    text: "Nevertheless, our thankfulness at the escape of our Army and so many men,",
+    audio: "audio/churchill/beaches/206.mp3"
+},
+{
+    text: "whose loved ones have passed through an agonising week,",
+    audio: "audio/churchill/beaches/207.mp3"
+},
+{
+    text: "must not blind us to the fact that what has happened in France and Belgium",
+    audio: "audio/churchill/beaches/208.mp3"
+},
+{
+    text: "is a colossal military disaster.",
+    audio: "audio/churchill/beaches/209.mp3"
+},
+{
+    text: "The French Army has been weakened, the Belgian Army has been lost,",
+    audio: "audio/churchill/beaches/210.mp3"
+},
+{
+    text: "a large part of those fortified lines upon which so much faith had been reposed is gone,",
+    audio: "audio/churchill/beaches/211.mp3"
+},
+{
+    text: "many valuable mining districts and factories have passed into the enemy's possession,",
+    audio: "audio/churchill/beaches/212.mp3"
+},
+{
+    text: "the whole of the Channel ports are in his hands,",
+    audio: "audio/churchill/beaches/213.mp3"
+},
+{
+    text: "with all the tragic consequences that follow from that,",
+    audio: "audio/churchill/beaches/214.mp3"
+},
+{
+    text: "and we must expect another blow to be struck almost immediately at us or at France.",
+    audio: "audio/churchill/beaches/215.mp3"
+},
+{
+    text: "We are told that Herr Hitler has a plan for invading the British Isles.",
+    audio: "audio/churchill/beaches/216.mp3"
+},
+{
+    text: "This has often been thought of before.",
+    audio: "audio/churchill/beaches/217.mp3"
+},
+{
+    text: "When Napoleon lay at Boulogne for a year with his flat-bottomed boats",
+    audio: "audio/churchill/beaches/218.mp3"
+},
+{
+    text: "and his Grand Army, he was told by someone,",
+    audio: "audio/churchill/beaches/219.mp3"
+},
+{
+    text: "\"There are bitter weeds in England.\"",
+    audio: "audio/churchill/beaches/220.mp3"
+},
+{
+    text: "There are certainly a great many more of them since the British Expeditionary Force returned.",
+    audio: "audio/churchill/beaches/221.mp3"
+}, 
+{
+    text: "I have, myself, full confidence that if all do their duty,",
+    audio: "audio/churchill/beaches/280.mp3"
+},
+{
+    text: "if nothing is neglected, and if the best arrangements are made, as they are being made,",
+    audio: "audio/churchill/beaches/281.mp3"
+},
+{
+    text: "we shall prove ourselves once again able to defend our island home,",
+    audio: "audio/churchill/beaches/282.mp3"
+},
+{
+    text: "to ride out the storm of war, and to outlive the menace of tyranny,",
+    audio: "audio/churchill/beaches/283.mp3"
+},
+{
+    text: "if necessary for years, if necessary alone.",
+    audio: "audio/churchill/beaches/284.mp3"
+},
+{
+    text: "At any rate, that is what we are going to try to do.",
+    audio: "audio/churchill/beaches/285.mp3"
+},
+{
+    text: "That is the resolve of His Majesty's Government—every man of them.",
+    audio: "audio/churchill/beaches/286.mp3"
+},
+{
+    text: "That is the will of Parliament and the nation.",
+    audio: "audio/churchill/beaches/287.mp3"
+},
+{
+    text: "The British Empire and the French Republic, linked together in their cause and in their need,",
+    audio: "audio/churchill/beaches/288.mp3"
+},
+{
+    text: "will defend to the death their native soil, aiding each other",
+    audio: "audio/churchill/beaches/289.mp3"
+},
+{
+    text: "like good comrades to the utmost of their strength.",
+    audio: "audio/churchill/beaches/290.mp3"
+},
+
+{
+    text: "We shall go on to the end.",
+    audio: "audio/churchill/beaches/295.mp3"
+},
+{
+    text: "We shall fight in France,",
+    audio: "audio/churchill/beaches/296.mp3"
+},
+{
+    text: "we shall fight on the seas and oceans,",
+    audio: "audio/churchill/beaches/297.mp3"
+},
+{
+    text: "we shall fight with growing confidence and growing strength in the air,",
+    audio: "audio/churchill/beaches/298.mp3"
+},
+{
+    text: "we shall defend our island, whatever the cost may be.",
+    audio: "audio/churchill/beaches/299.mp3"
+},
+{
+    text: "We shall fight on the beaches,",
+    audio: "audio/churchill/beaches/300.mp3"
+},
+{
+    text: "we shall fight on the landing grounds,",
+    audio: "audio/churchill/beaches/301.mp3"
+},
+{
+    text: "we shall fight in the fields and in the streets,",
+    audio: "audio/churchill/beaches/302.mp3"
+},
+{
+    text: "we shall fight in the hills;",
+    audio: "audio/churchill/beaches/303.mp3"
+},
+{
+    text: "we shall never surrender,",
+    audio: "audio/churchill/beaches/304.mp3"
+},
+{
+    text: "and even if, which I do not for a moment believe,",
+    audio: "audio/churchill/beaches/305.mp3"
+},
+{
+    text: "this island or a large part of it were subjugated and starving,",
+    audio: "audio/churchill/beaches/306.mp3"
+},
+{
+    text: "then our Empire beyond the seas, armed and guarded by the British Fleet,",
+    audio: "audio/churchill/beaches/307.mp3"
+},
+{
+    text: "would carry on the struggle, until, in God's good time,",
+    audio: "audio/churchill/beaches/308.mp3"
+},
+{
+    text: "the new world, with all its power and might,",
+    audio: "audio/churchill/beaches/309.mp3"
+},
+{
+    text: "steps forth to the rescue and the liberation of the old.",
+    audio: "audio/churchill/beaches/310.mp3"
+},
+
+                ]
+
+            }
+
+        ]
+
+    }
+
+];
+
+
+/* ============================================================
+   STATE
+============================================================ */
+
+let currentSpeaker = 0;
+let currentSpeech = 0;
+let currentLine = 0;
+
+
+/* ============================================================
+   AUDIO
+============================================================ */
+
+let referenceAudio = new Audio();
+let recordingAudio = new Audio();
+
+let masterReferenceAudio = new Audio();
+let masterRecordingAudio = new Audio();
+
+let performanceAudio = new Audio();
+
+
+/* ============================================================
+   RECORDING
+============================================================ */
+
+let mediaRecorder = null;
+let mediaStream = null;
+let recordingChunks = [];
+
+
+/* ============================================================
+   MASTER RECORDING
+============================================================ */
+
+let masterMediaRecorder = null;
+let masterMediaStream = null;
+let masterRecordingChunks = [];
+
+
+/* ============================================================
+   WAVEFORM DATA
+============================================================ */
+
+let referenceWaveform = [];
+let recordingWaveform = [];
+
+let masterReferenceWaveform = [];
+let performanceWaveform = [];
+
+
+/* ============================================================
+   CANVAS
+============================================================ */
+
+const referenceCanvas =
+    document.getElementById(
+        "referenceWaveform"
+    );
+
+const recordingCanvas =
+    document.getElementById(
+        "recordingWaveform"
+    );
+
+const masterReferenceCanvas =
+    document.getElementById(
+        "masterReferenceWaveform"
+    );
+
+const performanceCanvas =
+    document.getElementById(
+        "fullPerformanceWaveform"
+    );
+
+
+const referenceCtx =
+    referenceCanvas.getContext("2d");
+
+const recordingCtx =
+    recordingCanvas.getContext("2d");
+
+const masterReferenceCtx =
+    masterReferenceCanvas.getContext("2d");
+
+const performanceCtx =
+    performanceCanvas.getContext("2d");
+
+
+/* ============================================================
+   INDEXEDDB
+============================================================ */
+
+/*
+    IndexedDB is used instead of localStorage because
+    localStorage cannot reliably store large audio files.
+
+    Every recording is stored independently:
+
+        speech ID
+        line number
+        audio Blob
+        date recorded
+
+    Therefore logging out does NOT delete recordings.
+*/
+
+const DB_NAME =
+    "OrationTrainerDB";
+
+const DB_VERSION = 1;
+
+const STORE_NAME =
+    "recordings";
+
+let database = null;
+
+
+function openDatabase() {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const request =
+                indexedDB.open(
+                    DB_NAME,
+                    DB_VERSION
+                );
+
+
+            request.onupgradeneeded =
+                event => {
+
+                    const db =
+                        event.target.result;
+
+
+                    if (
+                        !db.objectStoreNames
+                            .contains(STORE_NAME)
+                    ) {
+
+                        db.createObjectStore(
+                            STORE_NAME,
+                            {
+                                keyPath: "id"
+                            }
+                        );
+
+                    }
+
+                };
+
+
+            request.onsuccess =
+                event => {
+
+                    database =
+                        event.target.result;
+
+                    resolve(database);
+
+                };
+
+
+            request.onerror =
+                () => {
+
+                    reject(
+                        request.error
+                    );
+
+                };
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   RECORDING ID
+============================================================ */
+
+function getSpeechID() {
+
+    const speaker =
+        library[currentSpeaker]
+            .speaker;
+
+    const speech =
+        library[currentSpeaker]
+            .speeches[currentSpeech]
+            .title;
+
+
+    return (
+        speaker +
+        "::" +
+        speech
+    );
+
+}
+
+
+function getRecordingID(
+    lineIndex
+) {
+
+    return (
+        getSpeechID() +
+        "::line::" +
+        lineIndex
+    );
+
+}
+
+
+/* ============================================================
+   SAVE RECORDING
+============================================================ */
+
+function saveLineRecording(
+    lineIndex,
+    blob
+) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const transaction =
+                database.transaction(
+                    [STORE_NAME],
+                    "readwrite"
+                );
+
+
+            const store =
+                transaction.objectStore(
+                    STORE_NAME
+                );
+
+
+            store.put({
+
+                id:
+                    getRecordingID(
+                        lineIndex
+                    ),
+
+                speechID:
+                    getSpeechID(),
+
+                line:
+                    lineIndex,
+
+                blob:
+                    blob,
+
+                recordedAt:
+                    Date.now()
+
+            });
+
+
+            transaction.oncomplete =
+                () => resolve();
+
+
+            transaction.onerror =
+                () => reject(
+                    transaction.error
+                );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   GET RECORDING
+============================================================ */
+
+function getLineRecording(
+    lineIndex
+) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const transaction =
+                database.transaction(
+                    [STORE_NAME],
+                    "readonly"
+                );
+
+
+            const store =
+                transaction.objectStore(
+                    STORE_NAME
+                );
+
+
+            const request =
+                store.get(
+                    getRecordingID(
+                        lineIndex
+                    )
+                );
+
+
+            request.onsuccess =
+                () => {
+
+                    resolve(
+                        request.result || null
+                    );
+
+                };
+
+
+            request.onerror =
+                () => {
+
+                    reject(
+                        request.error
+                    );
+
+                };
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   GET ALL RECORDINGS FOR SPEECH
+============================================================ */
+
+function getAllSpeechRecordings() {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const transaction =
+                database.transaction(
+                    [STORE_NAME],
+                    "readonly"
+                );
+
+
+            const store =
+                transaction.objectStore(
+                    STORE_NAME
+                );
+
+
+            const request =
+                store.getAll();
+
+
+            request.onsuccess =
+                () => {
+
+                    const speechID =
+                        getSpeechID();
+
+
+                    const recordings =
+                        request.result
+                            .filter(
+                                item =>
+                                    item.speechID ===
+                                    speechID
+                            )
+                            .sort(
+                                (a, b) =>
+                                    a.line -
+                                    b.line
+                            );
+
+
+                    resolve(
+                        recordings
+                    );
+
+                };
+
+
+            request.onerror =
+                () => {
+
+                    reject(
+                        request.error
+                    );
+
+                };
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   BUILD LIBRARY UI
+============================================================ */
+
+function buildLibrary() {
+
+    const element =
+        document.getElementById(
+            "library"
+        );
+
+
+    element.innerHTML = "";
+
+
+    library.forEach(
+        (speaker, speakerIndex) => {
+
+            const speakerDiv =
+                document.createElement(
+                    "div"
+                );
+
+            speakerDiv.className =
+                "speaker";
+
+
+            const speakerButton =
+                document.createElement(
+                    "button"
+                );
+
+            speakerButton.className =
+                "speaker-button";
+
+            speakerButton.textContent =
+                speaker.speaker;
+
+
+            speakerButton.onclick =
+                () => {
+
+                    currentSpeaker =
+                        speakerIndex;
+
+                    currentSpeech = 0;
+                    currentLine = 0;
+
+                    loadSpeech();
+
+                };
+
+
+            speakerDiv.appendChild(
+                speakerButton
+            );
+
+
+            const speechList =
+                document.createElement(
+                    "div"
+                );
+
+            speechList.className =
+                "speech-list";
+
+
+            speaker.speeches.forEach(
+                (speech, speechIndex) => {
+
+                    const speechButton =
+                        document.createElement(
+                            "button"
+                        );
+
+
+                    speechButton.className =
+                        "speech-button";
+
+
+                    speechButton.textContent =
+                        speech.title;
+
+
+                    speechButton.onclick =
+                        () => {
+
+                            currentSpeaker =
+                                speakerIndex;
+
+                            currentSpeech =
+                                speechIndex;
+
+                            currentLine = 0;
+
+                            loadSpeech();
+
+                        };
+
+
+                    speechList.appendChild(
+                        speechButton
+                    );
+
+                }
+            );
+
+
+            speakerDiv.appendChild(
+                speechList
+            );
+
+
+            element.appendChild(
+                speakerDiv
+            );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   GET CURRENT SPEECH
+============================================================ */
+
+function getCurrentSpeech() {
+
+    return library[currentSpeaker]
+        .speeches[currentSpeech];
+
+}
+
+
+/* ============================================================
+   LOAD SPEECH
+============================================================ */
+
+function loadSpeech() {
+
+    const speaker =
+        library[currentSpeaker];
+
+    const speech =
+        speaker.speeches[currentSpeech];
+
+
+    speakerName.textContent =
+        speaker.speaker;
+
+    speechTitle.textContent =
+        speech.title;
+
+
+    referenceAudio.pause();
+    recordingAudio.pause();
+
+    masterReferenceAudio.pause();
+    masterRecordingAudio.pause();
+
+    performanceAudio.pause();
+
+
+    masterReferenceAudio =
+        new Audio(
+            speech.masterAudio
+        );
+
+
+    masterReferenceAudio.preload =
+        "auto";
+
+
+    referenceWaveform = [];
+    recordingWaveform = [];
+
+    performanceWaveform = [];
+
+
+    drawWaveform(
+        masterReferenceCanvas,
+        masterReferenceCtx,
+        [],
+        null
+    );
+
+
+    drawWaveform(
+        performanceCanvas,
+        performanceCtx,
+        [],
+        null
+    );
+
+
+    document.getElementById(
+        "performanceStatus"
+    ).textContent = "";
+
+
+    document.getElementById(
+        "performanceInfo"
+    ).textContent = "";
+
+
+    document.getElementById(
+        "performanceButton"
+    ).disabled = true;
+
+
+    document.getElementById(
+        "downloadPerformanceButton"
+    ).disabled = true;
+
+
+    createWaveform(
+        speech.masterAudio,
+        data => {
+
+            masterReferenceWaveform =
+                data;
+
+
+            drawWaveform(
+                masterReferenceCanvas,
+                masterReferenceCtx,
+                masterReferenceWaveform,
+                masterReferenceAudio
+            );
+
+        }
+    );
+
+
+    loadLine();
+
+}
+
+
+/* ============================================================
+   LOAD LINE
+============================================================ */
+
+async function loadLine() {
+
+    const speech =
+        getCurrentSpeech();
+
+    const line =
+        speech.lines[currentLine];
+
+
+    referenceAudio.pause();
+    recordingAudio.pause();
+
+
+    referenceAudio =
+        new Audio(
+            line.audio
+        );
+
+
+    recordingAudio =
+        new Audio();
+
+
+    referenceWaveform = [];
+    recordingWaveform = [];
+
+
+    lineNumber.textContent =
+        "Line " +
+        (currentLine + 1);
+
+
+    lineText.textContent =
+        line.text;
+
+
+    lineCounter.textContent =
+        `${currentLine + 1} / ${speech.lines.length}`;
+
+
+    drawWaveform(
+        referenceCanvas,
+        referenceCtx,
+        [],
+        null
+    );
+
+
+    drawWaveform(
+        recordingCanvas,
+        recordingCtx,
+        [],
+        null
+    );
+
+
+    document.getElementById(
+        "recordingButton"
+    ).disabled = true;
+
+
+    const saved =
+        await getLineRecording(
+            currentLine
+        );
+
+
+    if (saved) {
+
+        const url =
+            URL.createObjectURL(
+                saved.blob
+            );
+
+
+        recordingAudio =
+            new Audio(url);
+
+
+        createWaveform(
+            saved.blob,
+            data => {
+
+                recordingWaveform =
+                    data;
+
+
+                drawWaveform(
+                    recordingCanvas,
+                    recordingCtx,
+                    recordingWaveform,
+                    recordingAudio
+                );
+
+            }
+        );
+
+
+        status.innerHTML =
+            '<span class="recorded">✓ Recording saved</span>';
+
+
+        document.getElementById(
+            "recordingButton"
+        ).disabled = false;
+
+    }
+
+    else {
+
+        status.innerHTML =
+            '<span class="not-recorded">No recording yet.</span>';
+
+    }
+
+
+    createWaveform(
+        line.audio,
+        data => {
+
+            referenceWaveform =
+                data;
+
+
+            drawWaveform(
+                referenceCanvas,
+                referenceCtx,
+                referenceWaveform,
+                referenceAudio
+            );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   CREATE WAVEFORM
+============================================================ */
+
+async function createWaveform(
+    source,
+    callback
+) {
+
+    try {
+
+        let buffer;
+
+
+        if (
+            source instanceof Blob
+        ) {
+
+            buffer =
+                await source.arrayBuffer();
+
+        }
+
+        else {
+
+            const response =
+                await fetch(source);
+
+            buffer =
+                await response.arrayBuffer();
+
+        }
+
+
+        const context =
+            new (
+                window.AudioContext ||
+                window.webkitAudioContext
+            )();
+
+
+        const audioBuffer =
+            await context.decodeAudioData(
+                buffer
+            );
+
+
+        const data =
+            audioBuffer.getChannelData(
+                0
+            );
+
+
+        const samples = 240;
+
+        const block =
+            Math.max(
+                1,
+                Math.floor(
+                    data.length /
+                    samples
+                )
+            );
+
+
+        const waveform = [];
+
+
+        for (
+            let i = 0;
+            i < samples;
+            i++
+        ) {
+
+            const start =
+                i * block;
+
+
+            const end =
+                Math.min(
+                    data.length,
+                    start + block
+                );
+
+
+            let min = 1;
+            let max = -1;
+
+
+            for (
+                let j = start;
+                j < end;
+                j++
+            ) {
+
+                const value =
+                    data[j];
+
+
+                if (value < min)
+                    min = value;
+
+
+                if (value > max)
+                    max = value;
+
+            }
+
+
+            waveform.push({
+                min,
+                max
+            });
+
+        }
+
+
+        callback(
+            waveform
+        );
+
+
+        await context.close();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Waveform error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   DRAW WAVEFORM
+============================================================ */
+
+function drawWaveform(
+    canvas,
+    ctx,
+    data,
+    audio
+) {
+
+    const width =
+        canvas.width;
+
+    const height =
+        canvas.height;
+
+
+    ctx.clearRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    ctx.fillStyle =
+        "#0d0d0d";
+
+    ctx.fillRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    if (
+        !data ||
+        data.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    let progress = 0;
+
+
+    if (
+        audio &&
+        audio.duration &&
+        !isNaN(audio.duration)
+    ) {
+
+        progress =
+            audio.currentTime /
+            audio.duration;
+
+    }
+
+
+    const middle =
+        height / 2;
+
+
+    const barWidth =
+        width / data.length;
+
+
+    for (
+        let i = 0;
+        i < data.length;
+        i++
+    ) {
+
+        const sample =
+            data[i];
+
+
+        const x =
+            i * barWidth;
+
+
+        const top =
+            middle +
+            sample.min * middle;
+
+
+        const bottom =
+            middle +
+            sample.max * middle;
+
+
+        ctx.fillStyle =
+            (
+                i / data.length <
+                progress
+            )
+                ? "#42d67d"
+                : "#666";
+
+
+        ctx.fillRect(
+            x,
+            top,
+            Math.max(
+                1,
+                barWidth - 1
+            ),
+            Math.max(
+                1,
+                bottom - top
+            )
+        );
+
+    }
+
+
+    if (
+        audio &&
+        audio.duration &&
+        !isNaN(audio.duration)
+    ) {
+
+        ctx.fillStyle =
+            "#fff";
+
+
+        ctx.fillRect(
+            progress * width,
+            0,
+            2,
+            height
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   ANIMATION
+============================================================ */
+
+function animate(
+    canvas,
+    ctx,
+    waveform,
+    audio
+) {
+
+    drawWaveform(
+        canvas,
+        ctx,
+        waveform,
+        audio
+    );
+
+
+    if (
+        audio &&
+        !audio.paused &&
+        !audio.ended
+    ) {
+
+        requestAnimationFrame(
+            () =>
+                animate(
+                    canvas,
+                    ctx,
+                    waveform,
+                    audio
+                )
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   REFERENCE PLAYBACK
+============================================================ */
+
+document.getElementById(
+    "referenceButton"
+).onclick = () => {
+
+    if (
+        referenceAudio.paused
+    ) {
+
+        recordingAudio.pause();
+
+        referenceAudio.play();
+
+        document.getElementById(
+            "referenceButton"
+        ).textContent =
+            "❚❚ Pause Original";
+
+
+        animate(
+            referenceCanvas,
+            referenceCtx,
+            referenceWaveform,
+            referenceAudio
+        );
+
+    }
+
+    else {
+
+        referenceAudio.pause();
+
+        document.getElementById(
+            "referenceButton"
+        ).textContent =
+            "▶ Play Original";
+
+    }
+
+};
+
+
+/* ============================================================
+   RECORD LINE
+============================================================ */
+
+document.getElementById(
+    "recordButton"
+).onclick = async () => {
+
+    try {
+
+        mediaStream =
+            await navigator.mediaDevices
+                .getUserMedia({
+                    audio: true
+                });
+
+
+        recordingChunks = [];
+
+
+        mediaRecorder =
+            new MediaRecorder(
+                mediaStream
+            );
+
+
+        mediaRecorder.ondataavailable =
+            event => {
+
+                if (
+                    event.data.size > 0
+                ) {
+
+                    recordingChunks.push(
+                        event.data
+                    );
+
+                }
+
+            };
+
+
+        mediaRecorder.onstop =
+            async () => {
+
+                const blob =
+                    new Blob(
+                        recordingChunks,
+                        {
+                            type:
+                                "audio/webm"
+                        }
+                    );
+
+
+                /*
+                 * Permanently save the recording
+                 * to IndexedDB.
+                 */
+
+                await saveLineRecording(
+                    currentLine,
+                    blob
+                );
+
+
+                const url =
+                    URL.createObjectURL(
+                        blob
+                    );
+
+
+                recordingAudio =
+                    new Audio(url);
+
+
+                createWaveform(
+                    blob,
+                    data => {
+
+                        recordingWaveform =
+                            data;
+
+
+                        drawWaveform(
+                            recordingCanvas,
+                            recordingCtx,
+                            recordingWaveform,
+                            recordingAudio
+                        );
+
+
+                        document.getElementById(
+                            "recordingButton"
+                        ).disabled = false;
+
+                    }
+                );
+
+
+                status.innerHTML =
+                    '<span class="recorded">✓ Recording saved</span>';
+
+
+                /*
+                 * Update the Full Performance
+                 * information.
+                 */
+
+                updatePerformanceStatus();
+
+            };
+
+
+        mediaRecorder.start();
+
+
+        document.getElementById(
+            "recordButton"
+        ).disabled = true;
+
+
+        document.getElementById(
+            "stopButton"
+        ).disabled = false;
+
+
+        status.textContent =
+            "Recording...";
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        status.textContent =
+            "Microphone access was denied or unavailable.";
+
+    }
+
+};
+
+
+/* ============================================================
+   STOP LINE RECORDING
+============================================================ */
+
+document.getElementById(
+    "stopButton"
+).onclick = () => {
+
+    if (
+        mediaRecorder &&
+        mediaRecorder.state !==
+            "inactive"
+    ) {
+
+        mediaRecorder.stop();
+
+    }
+
+
+    if (mediaStream) {
+
+        mediaStream
+            .getTracks()
+            .forEach(
+                track =>
+                    track.stop()
+            );
+
+    }
+
+
+    document.getElementById(
+        "recordButton"
+    ).disabled = false;
+
+
+    document.getElementById(
+        "stopButton"
+    ).disabled = true;
+
+};
+
+
+/* ============================================================
+   PLAY LINE RECORDING
+============================================================ */
+
+document.getElementById(
+    "recordingButton"
+).onclick = () => {
+
+    if (
+        recordingAudio.paused
+    ) {
+
+        referenceAudio.pause();
+
+        recordingAudio.play();
+
+
+        document.getElementById(
+            "recordingButton"
+        ).textContent =
+            "❚❚ Pause My Recording";
+
+
+        animate(
+            recordingCanvas,
+            recordingCtx,
+            recordingWaveform,
+            recordingAudio
+        );
+
+    }
+
+    else {
+
+        recordingAudio.pause();
+
+
+        document.getElementById(
+            "recordingButton"
+        ).textContent =
+            "▶ Play My Recording";
+
+    }
+
+};
+
+
+/* ============================================================
+   MASTER REFERENCE
+============================================================ */
+
+document.getElementById(
+    "masterReferenceButton"
+).onclick = () => {
+
+    if (
+        masterReferenceAudio.paused
+    ) {
+
+        masterReferenceAudio.play();
+
+
+        document.getElementById(
+            "masterReferenceButton"
+        ).textContent =
+            "❚❚ Pause Speech";
+
+
+        animate(
+            masterReferenceCanvas,
+            masterReferenceCtx,
+            masterReferenceWaveform,
+            masterReferenceAudio
+        );
+
+    }
+
+    else {
+
+        masterReferenceAudio.pause();
+
+
+        document.getElementById(
+            "masterReferenceButton"
+        ).textContent =
+            "▶ Listen to Speech";
+
+    }
+
+};
+
+
+/* ============================================================
+   MASTER RECORDING
+============================================================ */
+
+document.getElementById(
+    "masterRecordButton"
+).onclick = async () => {
+
+    try {
+
+        masterMediaStream =
+            await navigator.mediaDevices
+                .getUserMedia({
+                    audio: true
+                });
+
+
+        masterRecordingChunks = [];
+
+
+        masterMediaRecorder =
+            new MediaRecorder(
+                masterMediaStream
+            );
+
+
+        masterMediaRecorder.ondataavailable =
+            event => {
+
+                if (
+                    event.data.size > 0
+                ) {
+
+                    masterRecordingChunks.push(
+                        event.data
+                    );
+
+                }
+
+            };
+
+
+        masterMediaRecorder.onstop =
+            () => {
+
+                const blob =
+                    new Blob(
+                        masterRecordingChunks,
+                        {
+                            type:
+                                "audio/webm"
+                        }
+                    );
+
+
+                masterRecordingAudio =
+                    new Audio(
+                        URL.createObjectURL(
+                            blob
+                        )
+                    );
+
+
+                document.getElementById(
+                    "masterStatus"
+                ).textContent =
+                    "Master recording complete.";
+
+            };
+
+
+        masterMediaRecorder.start();
+
+
+        document.getElementById(
+            "masterRecordButton"
+        ).disabled = true;
+
+
+        document.getElementById(
+            "masterStopButton"
+        ).disabled = false;
+
+
+        document.getElementById(
+            "masterStatus"
+        ).textContent =
+            "Recording entire speech...";
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        document.getElementById(
+            "masterStatus"
+        ).textContent =
+            "Microphone access was denied.";
+
+    }
+
+};
+
+
+/* ============================================================
+   STOP MASTER RECORDING
+============================================================ */
+
+document.getElementById(
+    "masterStopButton"
+).onclick = () => {
+
+    if (
+        masterMediaRecorder &&
+        masterMediaRecorder.state !==
+            "inactive"
+    ) {
+
+        masterMediaRecorder.stop();
+
+    }
+
+
+    if (masterMediaStream) {
+
+        masterMediaStream
+            .getTracks()
+            .forEach(
+                track =>
+                    track.stop()
+            );
+
+    }
+
+
+    document.getElementById(
+        "masterRecordButton"
+    ).disabled = false;
+
+
+    document.getElementById(
+        "masterStopButton"
+    ).disabled = true;
+
+};
+
+
+/* ============================================================
+   PLAY MASTER RECORDING
+============================================================ */
+
+document.getElementById(
+    "masterRecordingButton"
+).onclick = () => {
+
+    if (
+        masterRecordingAudio.paused
+    ) {
+
+        masterRecordingAudio.play();
+
+
+        document.getElementById(
+            "masterRecordingButton"
+        ).textContent =
+            "❚❚ Pause My Master Recording";
+
+    }
+
+    else {
+
+        masterRecordingAudio.pause();
+
+
+        document.getElementById(
+            "masterRecordingButton"
+        ).textContent =
+            "▶ Play My Master Recording";
+
+    }
+
+};
+
+
+/* ============================================================
+   PERFORMANCE STATUS
+============================================================ */
+
+async function updatePerformanceStatus() {
+
+    const speech =
+        getCurrentSpeech();
+
+
+    const recordings =
+        await getAllSpeechRecordings();
+
+
+    const total =
+        speech.lines.length;
+
+
+    const recorded =
+        recordings.length;
+
+
+    document.getElementById(
+        "performanceInfo"
+    ).textContent =
+        `${recorded} of ${total} lines recorded.`;
+
+
+    if (
+        recorded === total
+    ) {
+
+        document.getElementById(
+            "performanceStatus"
+        ).innerHTML =
+            '<span class="recorded">✓ Every line has been recorded. Your speech is ready to assemble.</span>';
+
+    }
+
+    else {
+
+        document.getElementById(
+            "performanceStatus"
+        ).textContent =
+            "Record every line to create the complete speech.";
+
+    }
+
+}
+
+
+/* ============================================================
+   AUDIO DECODING
+============================================================ */
+
+async function decodeBlob(
+    blob
+) {
+
+    const arrayBuffer =
+        await blob.arrayBuffer();
+
+
+    const context =
+        new (
+            window.AudioContext ||
+            window.webkitAudioContext
+        )();
+
+
+    const audioBuffer =
+        await context.decodeAudioData(
+            arrayBuffer
+        );
+
+
+    return {
+        buffer: audioBuffer,
+        context: context
+    };
+
+}
+
+
+/* ============================================================
+   ASSEMBLE COMPLETE SPEECH
+============================================================ */
+
+/*
+    This is the important part.
+
+    Every individual recording is decoded.
+
+    Then:
+
+        Recording 1
+             ↓
+        natural pause
+             ↓
+        Recording 2
+             ↓
+        natural pause
+             ↓
+        Recording 3
+             ↓
+        ...
+
+    The result is rendered into a single WAV file.
+
+    WAV is deliberately used here because the browser can
+    create it directly without needing an external encoder.
+*/
+
+async function assemblePerformance() {
+
+    const button =
+        document.getElementById(
+            "buildPerformanceButton"
+        );
+
+
+    button.disabled = true;
+
+
+    const statusElement =
+        document.getElementById(
+            "performanceStatus"
+        );
+
+
+    statusElement.textContent =
+        "Building your complete speech...";
+
+
+    try {
+
+        const speech =
+            getCurrentSpeech();
+
+
+        const recordings =
+            await getAllSpeechRecordings();
+
+
+        /*
+         * Make sure every line exists.
+         */
+
+        if (
+            recordings.length !==
+            speech.lines.length
+        ) {
+
+            statusElement.textContent =
+                `You have recorded ${recordings.length} of ${speech.lines.length} lines. Record the remaining lines first.`;
+
+            button.disabled = false;
+
+            return;
+
+        }
+
+
+        /*
+         * Make a map so line order is guaranteed.
+         */
+
+        const recordingMap =
+            new Map();
+
+
+        recordings.forEach(
+            item => {
+
+                recordingMap.set(
+                    item.line,
+                    item.blob
+                );
+
+            }
+        );
+
+
+        /*
+         * Decode all recordings.
+         */
+
+        const decoded = [];
+
+
+        for (
+            let i = 0;
+            i < speech.lines.length;
+            i++
+        ) {
+
+            statusElement.textContent =
+                `Decoding recording ${i + 1} of ${speech.lines.length}...`;
+
+
+            const blob =
+                recordingMap.get(i);
+
+
+            const result =
+                await decodeBlob(blob);
+
+
+            decoded.push(
+                result.buffer
+            );
+
+
+            await result.context.close();
+
+        }
+
+
+        /*
+         * We use the sample rate of the first recording.
+         */
+
+        const sampleRate =
+            decoded[0].sampleRate;
+
+
+        /*
+         * Calculate total duration.
+         */
+
+        let totalDuration = 0;
+
+
+        for (
+            let i = 0;
+            i < decoded.length;
+            i++
+        ) {
+
+            totalDuration +=
+                decoded[i].duration;
+
+
+            /*
+             * Natural pause.
+
+             * This can be adjusted.
+
+             * 0.45 seconds is short enough to sound
+             * connected but long enough to distinguish
+             * most sentences.
+             */
+
+            if (
+                i <
+                decoded.length - 1
+            ) {
+
+                totalDuration +=
+                    calculateNaturalPause(
+                        decoded[i].duration,
+                        speech.lines[i]
+                    );
+
+            }
+
+        }
+
+
+        /*
+         * Create the offline audio environment.
+         */
+
+        const offline =
+            new OfflineAudioContext(
+                2,
+                Math.ceil(
+                    totalDuration *
+                    sampleRate
+                ),
+                sampleRate
+            );
+
+
+        let position = 0;
+
+
+        /*
+         * Add every recording sequentially.
+         */
+
+        for (
+            let i = 0;
+            i < decoded.length;
+            i++
+        ) {
+
+            const buffer =
+                decoded[i];
+
+
+            const source =
+                offline.createBufferSource();
+
+
+            source.buffer =
+                buffer;
+
+
+            source.connect(
+                offline.destination
+            );
+
+
+            source.start(
+                position
+            );
+
+
+            position +=
+                buffer.duration;
+
+
+            if (
+                i <
+                decoded.length - 1
+            ) {
+
+                position +=
+                    calculateNaturalPause(
+                        buffer.duration,
+                        speech.lines[i]
+                    );
+
+            }
+
+        }
+
+
+        statusElement.textContent =
+            "Rendering complete performance...";
+
+
+        const rendered =
+            await offline.startRendering();
+
+
+        /*
+         * Convert the rendered AudioBuffer
+         * into a WAV file.
+         */
+
+        const wav =
+            audioBufferToWav(
+                rendered
+            );
+
+
+        const url =
+            URL.createObjectURL(
+                wav
+            );
+
+
+        performanceAudio =
+            new Audio(url);
+
+
+        /*
+         * Create waveform.
+         */
+
+        createWaveform(
+            wav,
+            data => {
+
+                performanceWaveform =
+                    data;
+
+
+                drawWaveform(
+                    performanceCanvas,
+                    performanceCtx,
+                    performanceWaveform,
+                    performanceAudio
+                );
+
+            }
+        );
+
+
+        document.getElementById(
+            "performanceButton"
+        ).disabled = false;
+
+
+        document.getElementById(
+            "downloadPerformanceButton"
+        ).disabled = false;
+
+
+        document.getElementById(
+            "performanceInfo"
+        ).textContent =
+            `Complete performance: ${formatTime(rendered.duration)}`;
+
+
+        statusElement.innerHTML =
+            '<span class="recorded">✓ Your complete speech has been assembled.</span>';
+
+
+        /*
+         * Save the assembled speech in IndexedDB too.
+         */
+
+        await savePerformance(
+            wav
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            error
+        );
+
+
+        statusElement.textContent =
+            "Could not assemble the speech. Check the console for details.";
+
+    }
+
+
+    button.disabled = false;
+
+}
+
+
+/* ============================================================
+   NATURAL PAUSE
+============================================================ */
+
+/*
+    The pause is based partly on the length of the sentence.
+
+    Short sentence:
+        ~0.35 seconds
+
+    Normal sentence:
+        ~0.50 seconds
+
+    Long sentence:
+        ~0.65 seconds
+
+    This makes the final recording sound less like:
+        sentence... silence... sentence... silence
+
+    and more like a continuous speech.
+*/
+
+function calculateNaturalPause(
+    duration,
+    line
+) {
+
+    const text =
+        line.text || "";
+
+
+    const words =
+        text
+            .trim()
+            .split(/\s+/)
+            .length;
+
+
+    let pause;
+
+
+    if (words <= 5) {
+
+        pause = 0.35;
+
+    }
+
+    else if (words <= 12) {
+
+        pause = 0.48;
+
+    }
+
+    else {
+
+        pause = 0.60;
+
+    }
+
+
+    /*
+     * Punctuation adds a little more space.
+     */
+
+    if (
+        /[.!?]$/.test(text)
+    ) {
+
+        pause += 0.12;
+
+    }
+
+    else if (
+        /[,;:]$/.test(text)
+    ) {
+
+        pause += 0.05;
+
+    }
+
+
+    return pause;
+
+}
+
+
+/* ============================================================
+   AUDIOBUFFER → WAV
+============================================================ */
+
+function audioBufferToWav(
+    buffer
+) {
+
+    const numberOfChannels =
+        buffer.numberOfChannels;
+
+
+    const sampleRate =
+        buffer.sampleRate;
+
+
+    const format = 1;
+
+    const bitDepth = 16;
+
+
+    const channelLength =
+        buffer.length;
+
+
+    const bytesPerSample =
+        bitDepth / 8;
+
+
+    const blockAlign =
+        numberOfChannels *
+        bytesPerSample;
+
+
+    const dataSize =
+        channelLength *
+        blockAlign;
+
+
+    const bufferSize =
+        44 +
+        dataSize;
+
+
+    const arrayBuffer =
+        new ArrayBuffer(
+            bufferSize
+        );
+
+
+    const view =
+        new DataView(
+            arrayBuffer
+        );
+
+
+    writeString(
+        view,
+        0,
+        "RIFF"
+    );
+
+
+    view.setUint32(
+        4,
+        36 + dataSize,
+        true
+    );
+
+
+    writeString(
+        view,
+        8,
+        "WAVE"
+    );
+
+
+    writeString(
+        view,
+        12,
+        "fmt "
+    );
+
+
+    view.setUint32(
+        16,
+        16,
+        true
+    );
+
+
+    view.setUint16(
+        20,
+        format,
+        true
+    );
+
+
+    view.setUint16(
+        22,
+        numberOfChannels,
+        true
+    );
+
+
+    view.setUint32(
+        24,
+        sampleRate,
+        true
+    );
+
+
+    view.setUint32(
+        28,
+        sampleRate *
+        blockAlign,
+        true
+    );
+
+
+    view.setUint16(
+        32,
+        blockAlign,
+        true
+    );
+
+
+    view.setUint16(
+        34,
+        bitDepth,
+        true
+    );
+
+
+    writeString(
+        view,
+        36,
+        "data"
+    );
+
+
+    view.setUint32(
+        40,
+        dataSize,
+        true
+    );
+
+
+    /*
+     * Interleave channels.
+     */
+
+    const channels = [];
+
+
+    for (
+        let channel = 0;
+        channel < numberOfChannels;
+        channel++
+    ) {
+
+        channels.push(
+            buffer.getChannelData(
+                channel
+            )
+        );
+
+    }
+
+
+    let offset = 44;
+
+
+    for (
+        let i = 0;
+        i < channelLength;
+        i++
+    ) {
+
+        for (
+            let channel = 0;
+            channel < numberOfChannels;
+            channel++
+        ) {
+
+            let sample =
+                channels[channel][i];
+
+
+            sample =
+                Math.max(
+                    -1,
+                    Math.min(
+                        1,
+                        sample
+                    )
+                );
+
+
+            const value =
+                sample < 0
+                    ? sample * 0x8000
+                    : sample * 0x7FFF;
+
+
+            view.setInt16(
+                offset,
+                value,
+                true
+            );
+
+
+            offset += 2;
+
+        }
+
+    }
+
+
+    return new Blob(
+        [arrayBuffer],
+        {
+            type:
+                "audio/wav"
+        }
+    );
+
+}
+
+
+function writeString(
+    view,
+    offset,
+    string
+) {
+
+    for (
+        let i = 0;
+        i < string.length;
+        i++
+    ) {
+
+        view.setUint8(
+            offset + i,
+            string.charCodeAt(i)
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   SAVE COMPLETED PERFORMANCE
+============================================================ */
+
+function savePerformance(
+    blob
+) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const transaction =
+                database.transaction(
+                    [STORE_NAME],
+                    "readwrite"
+                );
+
+
+            const store =
+                transaction.objectStore(
+                    STORE_NAME
+                );
+
+
+            store.put({
+
+                id:
+                    getSpeechID() +
+                    "::COMPLETE",
+
+                speechID:
+                    getSpeechID(),
+
+                type:
+                    "complete",
+
+                blob:
+                    blob,
+
+                recordedAt:
+                    Date.now()
+
+            });
+
+
+            transaction.oncomplete =
+                () => resolve();
+
+
+            transaction.onerror =
+                () => reject(
+                    transaction.error
+                );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   PLAY COMPLETE PERFORMANCE
+============================================================ */
+
+document.getElementById(
+    "performanceButton"
+).onclick = () => {
+
+    if (
+        performanceAudio.paused
+    ) {
+
+        performanceAudio.play();
+
+
+        document.getElementById(
+            "performanceButton"
+        ).textContent =
+            "❚❚ Pause My Speech";
+
+
+        animate(
+            performanceCanvas,
+            performanceCtx,
+            performanceWaveform,
+            performanceAudio
+        );
+
+    }
+
+    else {
+
+        performanceAudio.pause();
+
+
+        document.getElementById(
+            "performanceButton"
+        ).textContent =
+            "▶ Play My Speech";
+
+    }
+
+};
+
+
+/* ============================================================
+   PERFORMANCE PROGRESS
+============================================================ */
+
+performanceAudio.ontimeupdate =
+    () => {
+
+        if (
+            performanceAudio.duration
+        ) {
+
+            const percent =
+                (
+                    performanceAudio.currentTime /
+                    performanceAudio.duration
+                ) * 100;
+
+
+            document.getElementById(
+                "performanceProgress"
+            ).style.width =
+                percent + "%";
+
+        }
+
+    };
+
+
+performanceAudio.onended =
+    () => {
+
+        document.getElementById(
+            "performanceButton"
+        ).textContent =
+            "▶ Play My Speech";
+
+
+        document.getElementById(
+            "performanceProgress"
+        ).style.width =
+            "0%";
+
+    };
+
+
+/* ============================================================
+   DOWNLOAD COMPLETE PERFORMANCE
+============================================================ */
+
+document.getElementById(
+    "downloadPerformanceButton"
+).onclick = async () => {
+
+    const recordings =
+        await getAllSpeechRecordings();
+
+
+    if (
+        recordings.length !==
+        getCurrentSpeech().lines.length
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+     * The performance is already represented
+     * by performanceAudio's Blob URL.
+
+     * Fetch it back into a Blob so it can be
+     * downloaded.
+     */
+
+    const response =
+        await fetch(
+            performanceAudio.src
+        );
+
+
+    const blob =
+        await response.blob();
+
+
+    const speaker =
+        library[currentSpeaker]
+            .speaker
+            .replace(
+                /[^a-z0-9]/gi,
+                "_"
+            );
+
+
+    const speech =
+        getCurrentSpeech()
+            .title
+            .replace(
+                /[^a-z0-9]/gi,
+                "_"
+            );
+
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    const link =
+        document.createElement(
+            "a"
+        );
+
+
+    link.href =
+        url;
+
+
+    link.download =
+        `${speaker}_${speech}_Full_Performance.wav`;
+
+
+    document.body.appendChild(
+        link
+    );
+
+
+    link.click();
+
+
+    link.remove();
+
+
+    setTimeout(
+        () =>
+            URL.revokeObjectURL(
+                url
+            ),
+        1000
+    );
+
+};
+
+
+/* ============================================================
+   NAVIGATION
+============================================================ */
+
+document.getElementById(
+    "previousButton"
+).onclick = () => {
+
+    if (
+        currentLine > 0
+    ) {
+
+        currentLine--;
+
+        loadLine();
+
+    }
+
+};
+
+
+document.getElementById(
+    "nextButton"
+).onclick = () => {
+
+    const speech =
+        getCurrentSpeech();
+
+
+    if (
+        currentLine <
+        speech.lines.length - 1
+    ) {
+
+        currentLine++;
+
+        loadLine();
+
+    }
+
+};
+
+
+/* ============================================================
+   KEYBOARD
+============================================================ */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.target.tagName ===
+            "BUTTON"
+        ) {
+
+            return;
+
+        }
+
+
+        if (
+            event.code === "ArrowLeft"
+        ) {
+
+            document.getElementById(
+                "previousButton"
+            ).click();
+
+        }
+
+
+        if (
+            event.code === "ArrowRight"
+        ) {
+
+            document.getElementById(
+                "nextButton"
+            ).click();
+
+        }
+
+    }
+);
+
+
+/* ============================================================
+   INITIALIZATION
+============================================================ */
+
+async function initialize() {
+
+    try {
+
+        await openDatabase();
+
+        buildLibrary();
+
+        loadSpeech();
+
+        await updatePerformanceStatus();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Database initialization failed:",
+            error
+        );
+
+        alert(
+            "Could not initialize local recording storage."
+        );
+
+    }
+
+}
+
+
+initialize();
+
+</script>
+
+</body>
+</html>
+
