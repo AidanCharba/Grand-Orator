@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="https://production-blue-manor-static.s3.us-east-2.amazonaws.com/img/favicon.png">
-<title>Oration Trainer</title>
+<title>Grand Orator</title>
 
 
 </head>
@@ -13,7 +13,7 @@
 <body>
 
 <header>
-    <h1>Oration Trainer</h1>
+    <h1>Grand Orator</h1>
 </header>
 
 <div class="app">
@@ -31,18 +31,13 @@
         <div id="speakerName"></div>
 
         <h1 id="speechTitle"></h1>
-
-        <!-- =====================================================
-             FULL PERFORMANCE
-        ====================================================== -->
-
         <section class="section">
 
-            <h2>Full Performance</h2>
+            <h2>Full Recorded Speech</h2>
 
             <p style="color:#999;">
                 Once you have recorded every line, your recordings
-                can be assembled into one complete performance.
+                can be assembled into one complete masterpiece.
             </p>
 
             <div class="wave-label">
@@ -102,12 +97,6 @@
             </div>
 
         </section>
-
-
-        <!-- =====================================================
-             MASTER REFERENCE
-        ====================================================== -->
-
         <section class="section">
 
             <h2>Master Recording</h2>
@@ -163,12 +152,6 @@
             </div>
 
         </section>
-
-
-        <!-- =====================================================
-             LINE PRACTICE
-        ====================================================== -->
-
         <section class="section">
 
             <h2>Line-by-Line Practice</h2>
@@ -252,12 +235,6 @@
     </main>
 
 </div>
-
-
-<!-- ============================================================
-     LEADERBOARD
-============================================================ -->
-
 <section class="leaderboard-section">
 
     <h2> Recording Leaderboard</h2>
@@ -304,12 +281,6 @@
     </button>
 
 </section>
-
-
-<!-- ============================================================
-     SUPABASE
-============================================================ -->
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
@@ -336,11 +307,6 @@ const supabaseClient =
 
 
 <script>
-
-/* ============================================================
-   LIBRARY
-============================================================ */
-
 const library = [
     {
         speaker: "President Abraham Lincoln",
@@ -2258,71 +2224,30 @@ speeches: [
 
 ];
 
-
-/* ============================================================
-   STATE
-============================================================ */
-
 let currentSpeaker = 0;
 let currentSpeech = 0;
 let currentLine = 0;
-
-
-/* ============================================================
-   AUDIO
-============================================================ */
-
 let referenceAudio = new Audio();
 let recordingAudio = new Audio();
-
 let masterReferenceAudio = new Audio();
 let masterRecordingAudio = new Audio();
-
 let performanceAudio = new Audio();
-
-
-/* ============================================================
-   RECORDING
-============================================================ */
-
 let mediaRecorder = null;
 let mediaStream = null;
 let recordingChunks = [];
-
-
-/* ============================================================
-   MASTER RECORDING
-============================================================ */
-
 let masterMediaRecorder = null;
 let masterMediaStream = null;
 let masterRecordingChunks = [];
-
-
-/* ============================================================
-   WAVEFORM DATA
-============================================================ */
-
 let referenceWaveform = [];
 let recordingWaveform = [];
-
 let masterReferenceWaveform = [];
 let performanceWaveform = [];
-
-
-/* ============================================================
-   DOM REFERENCES
-============================================================ */
-
 const speakerNameElement =
     document.getElementById("speakerName");
-
 const speechTitleElement =
     document.getElementById("speechTitle");
-
 const lineNumberElement =
     document.getElementById("lineNumber");
-
 const lineTextElement =
     document.getElementById("lineText");
 
@@ -2331,12 +2256,6 @@ const lineCounterElement =
 
 const statusElement =
     document.getElementById("status");
-
-
-/* ============================================================
-   CANVAS
-============================================================ */
-
 const referenceCanvas =
     document.getElementById(
         "referenceWaveform"
@@ -2369,25 +2288,13 @@ const masterReferenceCtx =
 
 const performanceCtx =
     performanceCanvas.getContext("2d");
-
-
-/* ============================================================
-   INDEXEDDB
-============================================================ */
-
 const DB_NAME =
     "OrationTrainerDB";
-
 const DB_VERSION = 1;
-
 const STORE_NAME =
     "recordings";
-
 let database = null;
-
-
 function openDatabase() {
-
     return new Promise(
         (resolve, reject) => {
 
@@ -2396,8 +2303,6 @@ function openDatabase() {
                     DB_NAME,
                     DB_VERSION
                 );
-
-
             request.onupgradeneeded =
                 event => {
 
@@ -2421,37 +2326,21 @@ function openDatabase() {
 
                 };
 
-
             request.onsuccess =
                 event => {
-
                     database =
                         event.target.result;
-
                     resolve(database);
-
                 };
-
-
             request.onerror =
                 () => {
-
                     reject(
                         request.error
                     );
-
                 };
-
         }
     );
-
 }
-
-
-/* ============================================================
-   RECORDING ID
-============================================================ */
-
 function getSpeechID() {
 
     const speaker =
@@ -2483,12 +2372,6 @@ function getRecordingID(
     );
 
 }
-
-
-/* ============================================================
-   SAVE RECORDING
-============================================================ */
-
 function saveLineRecording(
     lineIndex,
     blob
@@ -2541,12 +2424,6 @@ function saveLineRecording(
     );
 
 }
-
-
-/* ============================================================
-   GET RECORDING
-============================================================ */
-
 function getLineRecording(
     lineIndex
 ) {
@@ -2595,11 +2472,6 @@ function getLineRecording(
     );
 
 }
-
-
-/* ============================================================
-   GET ALL RECORDINGS
-============================================================ */
 
 function getAllSpeechRecordings() {
 
@@ -2661,10 +2533,6 @@ function getAllSpeechRecordings() {
 
 }
 
-
-/* ============================================================
-   BUILD LIBRARY UI
-============================================================ */
 
 function buildLibrary() {
 
@@ -2771,11 +2639,6 @@ function buildLibrary() {
 
 }
 
-
-/* ============================================================
-   CURRENT SPEECH
-============================================================ */
-
 function getCurrentSpeech() {
 
     return library[currentSpeaker]
@@ -2783,10 +2646,6 @@ function getCurrentSpeech() {
 
 }
 
-
-/* ============================================================
-   LOAD SPEECH
-============================================================ */
 
 function loadSpeech() {
 
@@ -2894,9 +2753,6 @@ function loadSpeech() {
 }
 
 
-/* ============================================================
-   LOAD LINE
-============================================================ */
 
 async function loadLine() {
 
@@ -3026,9 +2882,6 @@ async function loadLine() {
 }
 
 
-/* ============================================================
-   CREATE WAVEFORM
-============================================================ */
 
 async function createWaveform(
     source,
@@ -3153,10 +3006,6 @@ async function createWaveform(
 }
 
 
-/* ============================================================
-   DRAW WAVEFORM
-============================================================ */
-
 function drawWaveform(
     canvas,
     ctx,
@@ -3280,9 +3129,6 @@ function drawWaveform(
 }
 
 
-/* ============================================================
-   ANIMATION
-============================================================ */
 
 function animate(
     canvas,
@@ -3319,9 +3165,6 @@ function animate(
 }
 
 
-/* ============================================================
-   REFERENCE PLAYBACK
-============================================================ */
 
 document.getElementById(
     "referenceButton"
@@ -3362,10 +3205,6 @@ document.getElementById(
 
 };
 
-
-/* ============================================================
-   RECORD LINE
-============================================================ */
 
 document.getElementById(
     "recordButton"
@@ -3484,10 +3323,6 @@ document.getElementById(
 };
 
 
-/* ============================================================
-   STOP LINE RECORDING
-============================================================ */
-
 document.getElementById(
     "stopButton"
 ).onclick = () => {
@@ -3524,9 +3359,6 @@ document.getElementById(
 };
 
 
-/* ============================================================
-   PLAY LINE RECORDING
-============================================================ */
 
 document.getElementById(
     "recordingButton"
@@ -3568,10 +3400,6 @@ document.getElementById(
 };
 
 
-/* ============================================================
-   MASTER REFERENCE
-============================================================ */
-
 document.getElementById(
     "masterReferenceButton"
 ).onclick = () => {
@@ -3610,9 +3438,6 @@ document.getElementById(
 };
 
 
-/* ============================================================
-   MASTER RECORDING
-============================================================ */
 
 document.getElementById(
     "masterRecordButton"
@@ -3716,9 +3541,6 @@ document.getElementById(
 };
 
 
-/* ============================================================
-   STOP MASTER RECORDING
-============================================================ */
 
 document.getElementById(
     "masterStopButton"
@@ -3756,9 +3578,6 @@ document.getElementById(
 };
 
 
-/* ============================================================
-   PLAY MASTER RECORDING
-============================================================ */
 
 document.getElementById(
     "masterRecordingButton"
@@ -3791,9 +3610,6 @@ document.getElementById(
 };
 
 
-/* ============================================================
-   PERFORMANCE STATUS
-============================================================ */
 
 async function updatePerformanceStatus() {
 
@@ -3837,9 +3653,6 @@ async function updatePerformanceStatus() {
 }
 
 
-/* ============================================================
-   AUDIO DECODING
-============================================================ */
 
 async function decodeBlob(
     blob
@@ -3867,9 +3680,7 @@ async function decodeBlob(
 }
 
 
-/* ============================================================
-   ASSEMBLE COMPLETE SPEECH
-============================================================ */
+
 
 async function assemblePerformance() {
 
@@ -4105,10 +3916,6 @@ async function assemblePerformance() {
 }
 
 
-/* ============================================================
-   NATURAL PAUSE
-============================================================ */
-
 function calculateNaturalPause(
     duration,
     line
@@ -4164,9 +3971,6 @@ function calculateNaturalPause(
 }
 
 
-/* ============================================================
-   AUDIOBUFFER → WAV
-============================================================ */
 
 function audioBufferToWav(
     buffer
@@ -4381,9 +4185,7 @@ function writeString(
 }
 
 
-/* ============================================================
-   FORMAT TIME
-============================================================ */
+
 
 function formatTime(
     seconds
@@ -4412,10 +4214,6 @@ function formatTime(
 
 }
 
-
-/* ============================================================
-   SAVE COMPLETED PERFORMANCE
-============================================================ */
 
 function savePerformance(
     blob
@@ -4469,9 +4267,6 @@ function savePerformance(
 }
 
 
-/* ============================================================
-   PLAY COMPLETE PERFORMANCE
-============================================================ */
 
 document.getElementById(
     "performanceButton"
@@ -4511,9 +4306,6 @@ document.getElementById(
 };
 
 
-/* ============================================================
-   PERFORMANCE PROGRESS
-============================================================ */
 
 performanceAudio.ontimeupdate =
     () => {
@@ -4553,10 +4345,6 @@ performanceAudio.onended =
 
     };
 
-
-/* ============================================================
-   DOWNLOAD COMPLETE PERFORMANCE
-============================================================ */
 
 document.getElementById(
     "downloadPerformanceButton"
@@ -4637,19 +4425,11 @@ document.getElementById(
 };
 
 
-/* ============================================================
-   ASSEMBLE BUTTON
-============================================================ */
-
 document.getElementById(
     "buildPerformanceButton"
 ).onclick =
     assemblePerformance;
 
-
-/* ============================================================
-   NAVIGATION
-============================================================ */
 
 document.getElementById(
     "previousButton"
@@ -4688,10 +4468,6 @@ document.getElementById(
 
 };
 
-
-/* ============================================================
-   KEYBOARD
-============================================================ */
 
 document.addEventListener(
     "keydown",
@@ -4736,16 +4512,8 @@ document.addEventListener(
 );
 
 
-/* ============================================================
-   SUPABASE / ONLINE LEADERBOARD
-============================================================ */
-
 let supabaseUser = null;
 
-
-/* ============================================================
-   INITIALIZE ONLINE ACCOUNT
-============================================================ */
 
 async function initializeOnlineAccount() {
 
@@ -4828,10 +4596,6 @@ async function initializeOnlineAccount() {
 }
 
 
-/* ============================================================
-   LOAD STUDENT PROFILE
-============================================================ */
-
 async function loadStudentProfile() {
 
     if (!supabaseUser)
@@ -4883,11 +4647,6 @@ async function loadStudentProfile() {
     );
 
 }
-
-
-/* ============================================================
-   SAVE DISPLAY NAME
-============================================================ */
 
 async function saveDisplayName() {
 
@@ -4972,10 +4731,6 @@ async function saveDisplayName() {
 }
 
 
-/* ============================================================
-   REGISTER ONLINE RECORDING
-============================================================ */
-
 async function registerOnlineRecording() {
 
     if (!supabaseUser) {
@@ -5021,11 +4776,6 @@ async function registerOnlineRecording() {
 
 }
 
-
-/* ============================================================
-   DISPLAY CURRENT COUNT
-============================================================ */
-
 function updateOnlineRecordingCount(
     count
 ) {
@@ -5068,10 +4818,6 @@ function updateOnlineRecordingCount(
 
 }
 
-
-/* ============================================================
-   LOAD LEADERBOARD
-============================================================ */
 
 async function loadLeaderboard() {
 
@@ -5198,11 +4944,6 @@ async function loadLeaderboard() {
 
 }
 
-
-/* ============================================================
-   ESCAPE LEADERBOARD TEXT
-============================================================ */
-
 function escapeLeaderboardText(
     text
 ) {
@@ -5219,11 +4960,6 @@ function escapeLeaderboardText(
 
 }
 
-
-/* ============================================================
-   LEADERBOARD BUTTONS
-============================================================ */
-
 document.getElementById(
     "saveDisplayNameButton"
 ).addEventListener(
@@ -5238,11 +4974,6 @@ document.getElementById(
     "click",
     loadLeaderboard
 );
-
-
-/* ============================================================
-   INITIALIZATION
-============================================================ */
 
 async function initialize() {
 
