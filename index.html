@@ -5,15 +5,563 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="https://production-blue-manor-static.s3.us-east-2.amazonaws.com/img/favicon.png">
-<title>Grand Orator</title>
+<title>Oration Trainer</title>
 
+
+<style>
+/* =========================
+   GLOBAL
+   ========================= */
+
+body {
+    color: #000000;
+    background-color: #f8f5e8;
+ font-family: 'Poppins', sans-serif;
+ align-items: center;
+ margin: 0 auto;
+ justify-content: center;
+}
+
+html {
+    color: #123c5a;
+    justify-content: center;
+}
+
+* {
+    box-sizing: border-box;
+}
+.app {
+    justify-content: center;
+}
+/* =========================
+   MAIN LAYOUT
+   ========================= */
+
+.speaker-button {
+        color: #f8f8f8;
+    border-color: #123c5a;
+    background-color: #123c5a;
+    width: 100%;
+    border: 3px;
+    margin: 2px;
+    text-align: center;
+    justify-content: center;
+    
+    height: 50px;
+    font-size: large;
+   
+}
+.speech-button {
+    background-color: #fbbf38;
+    width: 100%;
+        text-align: center;
+    justify-content: center;
+    border-radius: 15px;
+}
+.container {
+    background-color: #123c5a;
+}
+p {
+    justify-content: center;
+    justify-self: center;
+    background-color: #000000;
+    width: 50%;
+    color: #fbbf38;
+    height: 20%;
+}
+
+.main {
+    color: #f8f5e8;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.content {
+}
+
+.sidebar {
+}
+
+header {
+height: 88px;
+margin: 0 auto;
+display: flex;
+margin-top: 0 auto;
+align-items: center;
+align-content: center;
+width: 100%;
+justify-content: center;
+background-color: #123c5a;
+color: #f8f5e8;
+}
+
+footer {
+}
+
+
+/* =========================
+   HEADINGS / TEXT
+   ========================= */
+
+h1 {
+    justify-content: center;
+    display: flex;
+    font-weight: 100;
+     font-family: 'Poppins', sans-serif;
+}
+
+h2 {
+    justify-content: center;
+     font-family: 'Poppins', sans-serif;
+}
+
+h3 {
+    justify-content: center;
+     font-family: 'Poppins', sans-serif;
+}
+
+h4 {
+    justify-content: center;
+     font-family: 'Poppins', sans-serif;
+}
+
+
+div {
+    justify-content: center;
+}
+a {
+}
+
+small {
+}
+
+.lineText {
+    background-color: #000000;
+    font-size: large;
+}
+/* =========================
+   BUTTONS
+   ========================= */
+
+button {
+    justify-self: center;
+     display: flex;
+    font-weight: 100;
+     font-family: 'Poppins', sans-serif;
+     background-color: #fbbf38;
+     height: 35px;
+     text-align: center;
+     border-radius: 15;
+}
+.buildPerformanceButton {
+    border-radius: 10px;
+}
+.primary-button {
+}
+
+.secondary-button {
+}
+
+.ghost-button {
+}
+
+button:hover {
+}
+
+button:active {
+}
+
+button:disabled {
+}
+
+
+/* =========================
+   INPUTS / FORMS
+   ========================= */
+
+input {
+}
+
+textarea {
+}
+
+select {
+}
+
+label {
+}
+
+input:focus {
+}
+
+textarea:focus {
+}
+
+select:focus {
+}
+
+
+/* =========================
+   CARDS
+   ========================= */
+
+.card {
+}
+
+.panel {
+}
+
+.section {
+    justify-content: center;
+    text-align: center;
+}
+
+
+/* =========================
+   SPEECH
+   ========================= */
+
+.speech-container {
+}
+
+.speech-title {
+}
+
+.speech-author {
+}
+
+.speech-text {
+}
+
+.speech-line {
+}
+
+.speech-word {
+}
+
+.speech-controls {
+}
+
+
+/* =========================
+   AUDIO PLAYER
+   ========================= */
+
+.audio-player {
+}
+
+.audio-controls {
+}
+
+.play-button {
+}
+
+.pause-button {
+}
+
+.progress-bar {
+}
+
+.progress-fill {
+}
+
+.time-display {
+}
+
+
+/* =========================
+   RECORDING
+   ========================= */
+
+.recording-container {
+}
+
+.recording-controls {
+}
+
+.recordButton {
+        background-color: #c71515;
+    width: 25%;
+        text-align: center;
+    justify-content: center;
+    border-radius: 15px;
+}
+.nextButton {
+            background-color: #c71515;
+    width: 25%;
+        text-align: center;
+    justify-content: center;
+    border-radius: 15px;
+}
+.stop-button {
+}
+
+.recording-status {
+}
+
+.recording-timer {
+}
+
+
+/* =========================
+   WAVEFORMS
+   ========================= */
+
+.waveform {
+    justify-self: center;
+}
+
+.waveform-container {
+    justify-self: center;
+}
+
+.waveform canvas {
+    justify-self: center;
+}
+
+.live-waveform {
+    justify-self: center;
+}
+
+.recorded-waveform {
+    color: #fbbf38;
+    justify-self: center;
+}
+
+
+/* =========================
+   MICROPHONE
+   ========================= */
+
+.microphone {
+}
+
+.mic-button {
+}
+
+.mic-status {
+}
+
+
+/* =========================
+   LEADERBOARD
+   ========================= */
+
+.leaderboard {
+}
+
+.leaderboard-header {
+}
+
+.leaderboard-list {
+}
+
+.leaderboard-item {
+}
+
+.leaderboard-rank {
+}
+
+.leaderboard-name {
+}
+
+.leaderboard-score {
+}
+
+.leaderboard-avatar {
+}
+
+
+/* =========================
+   PROFILE
+   ========================= */
+
+.profile {
+}
+
+.profile-header {
+}
+
+.profile-avatar {
+}
+
+.profile-name {
+}
+
+.profile-stats {
+}
+
+.profile-stat {
+}
+
+
+/* =========================
+   LIBRARY
+   ========================= */
+
+.library {
+text-align: center;
+    width: 25%;
+    justify-content: center;
+    align-items: top;
+}
+
+.library-header {
+    justify-content: center;
+}
+
+.library-list {
+}
+
+.library-item {
+}
+
+.library-item-title {
+}
+
+.library-item-meta {
+}
+
+.library-item-actions {
+}
+
+.library-empty {
+}
+
+
+/* =========================
+   RECORDING / LIBRARY ITEMS
+   ========================= */
+
+.recording-item {
+}
+
+.recording-item-header {
+}
+
+.recording-item-title {
+}
+
+.recording-item-date {
+}
+
+.recording-item-actions {
+}
+
+.recording-item-play {
+}
+
+.recording-item-download {
+}
+
+.recording-item-delete {
+}
+
+
+/* =========================
+   SIDEBAR
+   ========================= */
+
+.sidebar-header {
+}
+
+.sidebar-nav {
+}
+
+.sidebar-item {
+}
+
+.sidebar-item.active {
+}
+
+.sidebar-item:hover {
+}
+
+.sidebar-divider {
+}
+
+
+/* =========================
+   MODALS
+   ========================= */
+
+.modal {
+}
+
+.modal-overlay {
+}
+
+.modal-content {
+}
+
+.modal-header {
+}
+
+.modal-body {
+}
+
+.modal-footer {
+}
+
+.modal-close {
+}
+
+
+/* =========================
+   STATUS / NOTIFICATIONS
+   ========================= */
+
+.status {
+}
+
+.success {
+}
+
+.error {
+}
+
+.warning {
+}
+
+.notification {
+}
+
+
+/* =========================
+   COUNTDOWN
+   ========================= */
+
+.countdown {
+}
+
+.countdown canvas {
+}
+
+.countdown-number {
+}
+
+.countdown-label {
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 900px) {
+}
+
+@media (max-width: 600px) {
+}
+</style>
 
 </head>
 
 <body>
 
 <header>
-    <h1>Grand Orator</h1>
+    <h1>Tracing the Master Orators</h1>
 </header>
 
 <div class="app">
@@ -31,13 +579,18 @@
         <div id="speakerName"></div>
 
         <h1 id="speechTitle"></h1>
+
+        <!-- =====================================================
+             FULL PERFORMANCE
+        ====================================================== -->
+
         <section class="section">
 
-            <h2>Full Recorded Speech</h2>
+            <h2>Full Performance</h2>
 
             <p style="color:#999;">
                 Once you have recorded every line, your recordings
-                can be assembled into one complete masterpiece.
+                can be assembled into one complete performance.
             </p>
 
             <div class="wave-label">
@@ -97,6 +650,12 @@
             </div>
 
         </section>
+
+
+        <!-- =====================================================
+             MASTER REFERENCE
+        ====================================================== -->
+
         <section class="section">
 
             <h2>Master Recording</h2>
@@ -152,6 +711,12 @@
             </div>
 
         </section>
+
+
+        <!-- =====================================================
+             LINE PRACTICE
+        ====================================================== -->
+
         <section class="section">
 
             <h2>Line-by-Line Practice</h2>
@@ -235,6 +800,12 @@
     </main>
 
 </div>
+
+
+<!-- ============================================================
+     LEADERBOARD
+============================================================ -->
+
 <section class="leaderboard-section">
 
     <h2> Recording Leaderboard</h2>
@@ -281,6 +852,12 @@
     </button>
 
 </section>
+
+
+<!-- ============================================================
+     SUPABASE
+============================================================ -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
@@ -307,6 +884,11 @@ const supabaseClient =
 
 
 <script>
+
+/* ============================================================
+   LIBRARY
+============================================================ */
+
 const library = [
     {
         speaker: "President Abraham Lincoln",
@@ -1325,256 +1907,580 @@ speeches: [
         masterAudio: "audio/hitler/reichstag/master.mp3",
         lines: [
 {
-    text: "Let me say the following about the Jewish question: It is a shameful spectacle to see today how the entire world of democracy is oozing with compassion toward the poor, tormented Jewish people, while remaining hard-heartedly stubborn in the face of what is an obvious duty to help them.",
+    text: "In connection to the Jewish Question, I have this to say: It is a shameful spectacle to see",
     audio: "audio/hitler/reichstag/01.mp3"
 },
 {
-    text: "The arguments that are used to excuse this failure actually speak only for us Germans and Italians.",
+    text: "today how the whole democratic world is oozing sympathy toward the poor, tormented Jewish people,",
     audio: "audio/hitler/reichstag/02.mp3"
 },
 {
-    text: "For it is said:",
+    text: "but remains hard-hearted and obdurate",
     audio: "audio/hitler/reichstag/03.mp3"
 },
 {
-    text: "We—we that is, the democracies—are not in a position to take in the Jews!",
+    text: "when it comes to helping them.",
     audio: "audio/hitler/reichstag/04.mp3"
 },
 {
-    text: "And yet in these world empires there are not even 10 people per square kilometer, while Germany has to feed 135 per square kilometer, and is still supposed to be able to accommodate them.",
+    text: "Which is surely, in view of its attitude",
+    audio: "audio/hitler/reichstag/0321.mp3"
+},
+{
+    text: "and obvious duty, the arguments that are brought up as an excuse",
     audio: "audio/hitler/reichstag/05.mp3"
 },
 {
-    text: "We are told: We cannot take them unless they are given, by Germany, for example, a certain amount of capital for immigration.",
+    text: "for not helping them, actually speak for us Germans and Italians.",
     audio: "audio/hitler/reichstag/06.mp3"
 },
 {
-    text: "For centuries, however, it was perfectly all right for Germany to receive these elements, though they possessed nothing except infectious political and sanitary diseases.",
+    text: "For this is what they say:",
     audio: "audio/hitler/reichstag/07.mp3"
 },
 {
-    text: "What that people possesses today, it has acquired by way of the vilest manipulations at the expense of the not-very-astute German Volk.",
+    text: "One: We—that is, the democracies—are not in",
     audio: "audio/hitler/reichstag/08.mp3"
 },
 {
-    text: "Today we are merely undoing the harm for which these people are themselves to blame.",
+    text: "a position to take in the Jews!",
     audio: "audio/hitler/reichstag/09.mp3"
 },
 {
-    text: "Back when the German Volk lost its entire savings from decades of honest work to the inflation instigated and promoted by the Jews,",
+    text: "And yet in these world empires there",
     audio: "audio/hitler/reichstag/10.mp3"
 },
 {
-    text: "when the rest of the world took away the German Volk's foreign assets, when we were dispossessed of all our colonial possessions,",
+    text: "are not even 10 people per square kilometer,",
     audio: "audio/hitler/reichstag/11.mp3"
 },
 {
-    text: "such philanthropic considerations do not seem to have had any meaningful influence on these democratic statesmen.",
+    text: "while Germany has to feed 135 per square kilometer,",
     audio: "audio/hitler/reichstag/12.mp3"
 },
 {
-    text: "Today, I can only assure these gentlemen that we, thanks to the brutal education that the democracies have inflicted upon us for fifteen years,",
+    text: "and is still supposed to be able to accommodate them.",
     audio: "audio/hitler/reichstag/13.mp3"
 },
 {
-    text: "are completely hardened against any sentimental stirrings.",
+    text: "We are told: We cannot take them unless they are given,",
     audio: "audio/hitler/reichstag/14.mp3"
 },
 {
-    text: "We witnessed how, after more than 800,000 of our children had already died of hunger and undernourishment at the end of the war,",
+    text: "by Germany, for example, a certain amount of capital",
     audio: "audio/hitler/reichstag/15.mp3"
 },
 {
-    text: "nearly a million dairy cows were driven away in accordance with the cruel provisions of a dictate that the democratic, humane apostles of the world forced upon us as a peace treaty.",
+    text: "for immigration.",
     audio: "audio/hitler/reichstag/16.mp3"
 },
 {
-    text: "We witnessed how more than a million German prisoners of war were kept in confinement for no reason at all for a whole year after the war ended.",
+    text: "For centuries, however, it was perfectly all",
     audio: "audio/hitler/reichstag/17.mp3"
 },
 {
-    text: "We had to endure that well over a million Germans in our border regions were torn from their property and possessions and driven out with almost nothing but the clothes on their backs.",
+    text: "right for Germany to receive these elements,",
     audio: "audio/hitler/reichstag/18.mp3"
 },
 {
-    text: "We had to bear millions of our Volk comrades being torn away from us, with no one offering them a hearing or leaving them even the smallest possibility of sustaining their lives.",
+    text: "though they possessed nothing except infectious political and sanitary diseases.",
     audio: "audio/hitler/reichstag/19.mp3"
 },
 {
-    text: "I could supplement these examples with dozens that are more horrendous still.",
+    text: "What that people possesses today, it has",
     audio: "audio/hitler/reichstag/20.mp3"
 },
 {
-    text: "Do not speak to us, then, of humanity.",
+    text: "acquired by way of the vilest manipulations",
     audio: "audio/hitler/reichstag/21.mp3"
 },
 {
-    text: "The German Volk does not wish for its affairs to be determined and governed by a foreign nation.",
+    text: "at the expense of the not-very-astute German Volk.",
     audio: "audio/hitler/reichstag/22.mp3"
 },
 {
-    text: "France to the French, England to the English, America to the Americans, and Germany to the Germans!",
+    text: "Today we are merely undoing the harm",
     audio: "audio/hitler/reichstag/23.mp3"
 },
 {
-    text: "We are determined to stop a foreign people from nesting here, a people that has known how to seize all leadership positions, and to deport it;",
+    text: "for which these people are themselves to blame.",
     audio: "audio/hitler/reichstag/24.mp3"
 },
 {
-    text: "for we are willing to educate our own people for these leadership positions.",
+    text: "Back when the German Volk lost its",
     audio: "audio/hitler/reichstag/25.mp3"
 },
 {
-    text: "We have hundreds of thousands of intelligent children of farmers and workers.",
+    text: "entire savings from decades of honest work",
     audio: "audio/hitler/reichstag/26.mp3"
 },
 {
-    text: "We will have them educated, and we are already educating them,",
+    text: "to the inflation instigated and promoted by the Jews,",
     audio: "audio/hitler/reichstag/27.mp3"
 },
 {
-    text: "and we want them—not the members of a people that is alien to us—to one day occupy the leading positions in the state alongside our educated classes.",
+    text: "when the rest of the world",
     audio: "audio/hitler/reichstag/28.mp3"
 },
 {
-    text: "Most of all, however, German culture is, as the very name suggests, a German and not a Jewish one,",
+    text: "took away the German Volk's foreign assets,",
     audio: "audio/hitler/reichstag/29.mp3"
 },
 {
-    text: "and its administration and care will therefore be placed in the hands of our Volk.",
+    text: "when we were dispossessed of all our colonial possessions,",
     audio: "audio/hitler/reichstag/30.mp3"
 },
 {
-    text: "If, however, the rest of the world cries out with a hypocritical mien about the barbaric expulsion from Germany of such an irreplaceable, culturally valuable element,",
+    text: "such philanthropic considerations do not seem to have",
     audio: "audio/hitler/reichstag/31.mp3"
 },
 {
-    text: "we can only be astonished by the conclusions that can be drawn from this.",
+    text: "had any meaningful influence on these democratic statesmen.",
     audio: "audio/hitler/reichstag/32.mp3"
 },
 {
-    text: "How grateful they should be to us for setting free these wonderful bearers of culture and making them available to the rest of the world.",
+    text: "Today, I can only assure these gentlemen that we,",
     audio: "audio/hitler/reichstag/33.mp3"
 },
 {
-    text: "In accordance with their own statements, the rest of the world cannot find a single reason to excuse themselves for refusing to admit these highly worthy people into their own countries.",
+    text: "thanks to the brutal education that the democracies have inflicted upon us for fifteen years,",
     audio: "audio/hitler/reichstag/34.mp3"
 },
 {
-    text: "It is, after all, impossible to understand why the members of this race are inflicted on the German Volk,",
+    text: "are completely hardened against any sentimental stirrings.",
     audio: "audio/hitler/reichstag/35.mp3"
 },
 {
-    text: "while the states that are so enthusiastic about these splendid people suddenly refuse to admit them with all kinds of excuses.",
+    text: "We witnessed how, after more than 800,000 of our children had",
     audio: "audio/hitler/reichstag/36.mp3"
 },
 {
-    text: "I believe that the sooner this problem is solved, the better.",
+    text: "already died of hunger and undernourishment at the end of the war,",
     audio: "audio/hitler/reichstag/37.mp3"
 },
 {
-    text: "For Europe will not find peace until the Jewish question has been settled.",
+    text: "nearly a million dairy cows were driven away",
     audio: "audio/hitler/reichstag/38.mp3"
 },
 {
-    text: "It is perfectly possible that this problem will lead sooner or later to an agreement in Europe,",
+    text: "in accordance with the cruel provisions of a dictate",
     audio: "audio/hitler/reichstag/39.mp3"
 },
 {
-    text: "even between nations that would otherwise not have reconciled so easily.",
+    text: "that the democratic, humane apostles of the",
     audio: "audio/hitler/reichstag/40.mp3"
 },
 {
-    text: "The world has enough settlement space,",
+    text: "world forced upon us as a peace treaty.",
     audio: "audio/hitler/reichstag/41.mp3"
 },
 {
-    text: "but one must, once and for all, break with the notion that the Jewish people have simply been chosen by the Lord God to be the beneficiaries of a certain percentage of the body and productive work of other peoples.",
+    text: "We witnessed how more than a million",
     audio: "audio/hitler/reichstag/42.mp3"
 },
 {
-    text: "Jewry will have to adjust to the kind of respectable, constructive activity that other nations are already engaged in;",
+    text: "German prisoners of war were kept in confinement",
     audio: "audio/hitler/reichstag/43.mp3"
 },
 {
-    text: "otherwise, it will succumb sooner or later to a crisis of unimaginable scope.",
+    text: "for no reason at all for",
     audio: "audio/hitler/reichstag/44.mp3"
 },
 {
-    text: "And another thing I want to say on this day, which may be memorable for others as well as us Germans:",
+    text: "a whole year after the war ended.",
     audio: "audio/hitler/reichstag/45.mp3"
 },
 {
-    text: "I was often a prophet in my life and was usually ridiculed for it.",
+    text: "We had to endure that well over a million Germans",
     audio: "audio/hitler/reichstag/46.mp3"
 },
 {
-    text: "At the time of my struggle for power, it was chiefly the Jewish people who laughed at my prophecies",
+    text: "in our border regions were torn from their property and possessions",
     audio: "audio/hitler/reichstag/47.mp3"
 },
 {
-    text: "that I would one day assume in Germany the leadership of the state and thus the entire Volk,",
+    text: "and driven out with almost nothing",
     audio: "audio/hitler/reichstag/48.mp3"
 },
 {
-    text: "and would then, among other things, also bring the Jewish problem to a solution.",
+    text: "but the clothes on their backs.",
     audio: "audio/hitler/reichstag/49.mp3"
 },
 {
-    text: "I believe, however, that the Jews in Germany have already choked on the uproarious laughter of those days.",
+    text: "We had to bear millions of our",
     audio: "audio/hitler/reichstag/50.mp3"
 },
 {
-    text: "I wish to be a prophet again today:",
+    text: "Volk comrades being torn away from us,",
     audio: "audio/hitler/reichstag/51.mp3"
 },
 {
-    text: "should international financial Jewry in and outside of Europe succeed in plunging the nations once again into a world war,",
+    text: "with no one offering them a hearing or leaving",
     audio: "audio/hitler/reichstag/52.mp3"
 },
 {
-    text: "the result will not be the Bolshevization of the world and thus the victory of Jewry,",
+    text: "them even the smallest possibility of sustaining their lives.",
     audio: "audio/hitler/reichstag/53.mp3"
 },
 {
-    text: "but the annihilation of the Jewish race in Europe.",
+    text: "I could supplement these examples with",
     audio: "audio/hitler/reichstag/54.mp3"
 },
 {
-    text: "For the time of the propagandistic impotence of the non-Jewish peoples is over.",
+    text: "dozens that are more horrendous still.",
     audio: "audio/hitler/reichstag/55.mp3"
 },
 {
-    text: "National Socialist Germany and Fascist Italy possess the institutions that allow them,",
+    text: "Do not speak to us, then, of humanity.",
     audio: "audio/hitler/reichstag/56.mp3"
 },
 {
-    text: "if necessary, to enlighten the world about the nature of a question of which many peoples are instinctively aware but have not thought clearly about.",
+    text: "The German Volk does not wish for its affairs",
     audio: "audio/hitler/reichstag/57.mp3"
 },
 {
-    text: "At the moment, Jewry may, in certain states, pursue its smear campaign under the protection of press, film, radio propaganda, theater, literature, etc., which are in its hands.",
+    text: "to be determined and governed by a foreign nation.",
     audio: "audio/hitler/reichstag/58.mp3"
 },
 {
-    text: "But should that people succeed once again in driving the nations' masses of millions into a struggle that is entirely senseless for them",
+    text: "France to the French, England to the English,",
     audio: "audio/hitler/reichstag/59.mp3"
 },
 {
-    text: "and serves only Jewish interests,",
+    text: "America to the Americans, and Germany to the Germans!",
     audio: "audio/hitler/reichstag/60.mp3"
 },
 {
-    text: "we shall see the effectiveness of an education in Germany to which Jewry has completely succumbed within a few short years.",
+    text: "We are determined to stop a foreign people from nesting here,",
     audio: "audio/hitler/reichstag/61.mp3"
 },
 {
-    text: "The nations no longer wish to die on the battlefield so that this rootless international race can profit from the business of war",
+    text: "a people that has known how to seize all leadership positions,",
     audio: "audio/hitler/reichstag/62.mp3"
 },
 {
-    text: "and satisfy its Old-Testament lust for vengeance.",
+    text: "and to deport it;",
     audio: "audio/hitler/reichstag/63.mp3"
+},
+{
+    text: "for we are willing to educate",
+    audio: "audio/hitler/reichstag/64.mp3"
+},
+{
+    text: "our own people for these leadership positions.",
+    audio: "audio/hitler/reichstag/65.mp3"
+},
+{
+    text: "We have hundreds of thousands of",
+    audio: "audio/hitler/reichstag/66.mp3"
+},
+{
+    text: "intelligent children of farmers and workers.",
+    audio: "audio/hitler/reichstag/67.mp3"
+},
+{
+    text: "We will have them educated, and we are already educating them,",
+    audio: "audio/hitler/reichstag/68.mp3"
+},
+{
+    text: "and we want them—not the members of",
+    audio: "audio/hitler/reichstag/69.mp3"
+},
+{
+    text: "a people that is alien to us—",
+    audio: "audio/hitler/reichstag/70.mp3"
+},
+{
+    text: "to one day occupy the leading positions",
+    audio: "audio/hitler/reichstag/71.mp3"
+},
+{
+    text: "in the state alongside our educated classes.",
+    audio: "audio/hitler/reichstag/72.mp3"
+},
+{
+    text: "Most of all, however, German culture is,",
+    audio: "audio/hitler/reichstag/73.mp3"
+},
+{
+    text: "as the very name suggests, a German and not a Jewish one,",
+    audio: "audio/hitler/reichstag/74.mp3"
+},
+{
+    text: "and its administration and care will therefore",
+    audio: "audio/hitler/reichstag/75.mp3"
+},
+{
+    text: "be placed in the hands of our Volk.",
+    audio: "audio/hitler/reichstag/76.mp3"
+},
+{
+    text: "If, however, the rest of the world cries out",
+    audio: "audio/hitler/reichstag/77.mp3"
+},
+{
+    text: "with a hypocritical mien about the barbaric expulsion from Germany",
+    audio: "audio/hitler/reichstag/78.mp3"
+},
+{
+    text: "of such an irreplaceable, culturally valuable element,",
+    audio: "audio/hitler/reichstag/79.mp3"
+},
+{
+    text: "we can only be astonished by the",
+    audio: "audio/hitler/reichstag/80.mp3"
+},
+{
+    text: "conclusions that can be drawn from this.",
+    audio: "audio/hitler/reichstag/81.mp3"
+},
+{
+    text: "How grateful they should be to us",
+    audio: "audio/hitler/reichstag/82.mp3"
+},
+{
+    text: "for setting free these wonderful bearers of culture",
+    audio: "audio/hitler/reichstag/83.mp3"
+},
+{
+    text: "and making them available to the rest of the world.",
+    audio: "audio/hitler/reichstag/84.mp3"
+},
+{
+    text: "In accordance with their own statements,",
+    audio: "audio/hitler/reichstag/85.mp3"
+},
+{
+    text: "the rest of the world cannot find a single reason to excuse themselves",
+    audio: "audio/hitler/reichstag/86.mp3"
+},
+{
+    text: "for refusing to admit these highly",
+    audio: "audio/hitler/reichstag/87.mp3"
+},
+{
+    text: "worthy people into their own countries.",
+    audio: "audio/hitler/reichstag/88.mp3"
+},
+{
+    text: "It is, after all, impossible to understand why the",
+    audio: "audio/hitler/reichstag/89.mp3"
+},
+{
+    text: "members of this race are inflicted on the German Volk,",
+    audio: "audio/hitler/reichstag/90.mp3"
+},
+{
+    text: "while the states that are so enthusiastic about these splendid",
+    audio: "audio/hitler/reichstag/91.mp3"
+},
+{
+    text: "people suddenly refuse to admit them with all kinds of excuses.",
+    audio: "audio/hitler/reichstag/92.mp3"
+},
+{
+    text: "I believe that the sooner this problem is solved, the better.",
+    audio: "audio/hitler/reichstag/93.mp3"
+},
+{
+    text: "For Europe will not find peace",
+    audio: "audio/hitler/reichstag/94.mp3"
+},
+{
+    text: "until the Jewish question has been settled.",
+    audio: "audio/hitler/reichstag/95.mp3"
+},
+{
+    text: "It is perfectly possible that this problem will",
+    audio: "audio/hitler/reichstag/96.mp3"
+},
+{
+    text: "lead sooner or later to an agreement in Europe,",
+    audio: "audio/hitler/reichstag/97.mp3"
+},
+{
+    text: "even between nations that would otherwise not have reconciled so easily.",
+    audio: "audio/hitler/reichstag/98.mp3"
+},
+{
+    text: "The world has enough settlement space,",
+    audio: "audio/hitler/reichstag/99.mp3"
+},
+{
+    text: "but one must, once and for all, break with the notion",
+    audio: "audio/hitler/reichstag/100.mp3"
+},
+{
+    text: "that the Jewish people have simply been chosen by the Lord God",
+    audio: "audio/hitler/reichstag/101.mp3"
+},
+{
+    text: "to be the beneficiaries of a certain percentage",
+    audio: "audio/hitler/reichstag/102.mp3"
+},
+{
+    text: "of the body and productive work of other peoples.",
+    audio: "audio/hitler/reichstag/103.mp3"
+},
+{
+    text: "Jewry will have to adjust to the kind of respectable,",
+    audio: "audio/hitler/reichstag/104.mp3"
+},
+{
+    text: "constructive activity that other nations are already engaged in;",
+    audio: "audio/hitler/reichstag/105.mp3"
+},
+{
+    text: "otherwise, it will succumb sooner or",
+    audio: "audio/hitler/reichstag/106.mp3"
+},
+{
+    text: "later to a crisis of unimaginable scope.",
+    audio: "audio/hitler/reichstag/107.mp3"
+},
+{
+    text: "And another thing I want to say on this day,",
+    audio: "audio/hitler/reichstag/108.mp3"
+},
+{
+    text: "which may be memorable for others as well as us Germans:",
+    audio: "audio/hitler/reichstag/109.mp3"
+},
+{
+    text: "I was often a prophet in my",
+    audio: "audio/hitler/reichstag/110.mp3"
+},
+{
+    text: "life and was usually ridiculed for it.",
+    audio: "audio/hitler/reichstag/111.mp3"
+},
+{
+    text: "At the time of my struggle for power,",
+    audio: "audio/hitler/reichstag/112.mp3"
+},
+{
+    text: "it was chiefly the Jewish people who laughed at my prophecies",
+    audio: "audio/hitler/reichstag/113.mp3"
+},
+{
+    text: "that I would one day assume in Germany the",
+    audio: "audio/hitler/reichstag/114.mp3"
+},
+{
+    text: "leadership of the state and thus the entire Volk,",
+    audio: "audio/hitler/reichstag/115.mp3"
+},
+{
+    text: "and would then, among other things,",
+    audio: "audio/hitler/reichstag/116.mp3"
+},
+{
+    text: "also bring the Jewish problem to a solution.",
+    audio: "audio/hitler/reichstag/117.mp3"
+},
+{
+    text: "I believe, however, that the Jews in Germany have",
+    audio: "audio/hitler/reichstag/118.mp3"
+},
+{
+    text: "already choked on the uproarious laughter of those days.",
+    audio: "audio/hitler/reichstag/119.mp3"
+},
+{
+    text: "I wish to be a prophet again today:",
+    audio: "audio/hitler/reichstag/120.mp3"
+},
+{
+    text: "should international financial Jewry in and outside of Europe succeed",
+    audio: "audio/hitler/reichstag/121.mp3"
+},
+{
+    text: "in plunging the nations once again into a world war,",
+    audio: "audio/hitler/reichstag/122.mp3"
+},
+{
+    text: "the result will not be the Bolshevization of",
+    audio: "audio/hitler/reichstag/123.mp3"
+},
+{
+    text: "the world and thus the victory of Jewry,",
+    audio: "audio/hitler/reichstag/124.mp3"
+},
+{
+    text: "but the annihilation of the Jewish race in Europe.",
+    audio: "audio/hitler/reichstag/125.mp3"
+},
+{
+    text: "For the time of the propagandistic",
+    audio: "audio/hitler/reichstag/126.mp3"
+},
+{
+    text: "impotence of the non-Jewish peoples is over.",
+    audio: "audio/hitler/reichstag/127.mp3"
+},
+{
+    text: "National Socialist Germany and Fascist Italy",
+    audio: "audio/hitler/reichstag/128.mp3"
+},
+{
+    text: "possess the institutions that allow them,",
+    audio: "audio/hitler/reichstag/129.mp3"
+},
+{
+    text: "if necessary, to enlighten the world about the nature",
+    audio: "audio/hitler/reichstag/130.mp3"
+},
+{
+    text: "of a question of which many peoples are instinctively aware",
+    audio: "audio/hitler/reichstag/131.mp3"
+},
+{
+    text: "but have not thought clearly about.",
+    audio: "audio/hitler/reichstag/132.mp3"
+},
+{
+    text: "At the moment, Jewry may, in certain states,",
+    audio: "audio/hitler/reichstag/133.mp3"
+},
+{
+    text: "pursue its smear campaign under the protection of press, film, radio propaganda, theater, literature, etc.,",
+    audio: "audio/hitler/reichstag/134.mp3"
+},
+{
+    text: "which are in its hands.",
+    audio: "audio/hitler/reichstag/135.mp3"
+},
+{
+    text: "But should that people succeed once again in driving the nations'",
+    audio: "audio/hitler/reichstag/136.mp3"
+},
+{
+    text: "masses of millions into a struggle that is entirely senseless for them",
+    audio: "audio/hitler/reichstag/137.mp3"
+},
+{
+    text: "and serves only Jewish interests,",
+    audio: "audio/hitler/reichstag/138.mp3"
+},
+{
+    text: "we shall see the effectiveness of an education in Germany",
+    audio: "audio/hitler/reichstag/139.mp3"
+},
+{
+    text: "to which Jewry has completely succumbed within a few short years.",
+    audio: "audio/hitler/reichstag/140.mp3"
+},
+{
+    text: "The nations no longer wish to die on the battlefield so",
+    audio: "audio/hitler/reichstag/141.mp3"
+},
+{
+    text: "that this rootless international race can profit from the business of war",
+    audio: "audio/hitler/reichstag/142.mp3"
+},
+{
+    text: "and satisfy its Old-Testament lust for vengeance.",
+    audio: "audio/hitler/reichstag/143.mp3"
 },
         ],
     },
@@ -2215,30 +3121,78 @@ speeches: [
 
 ];
 
+
+/* ============================================================
+   STATE
+============================================================ */
+
 let currentSpeaker = 0;
 let currentSpeech = 0;
 let currentLine = 0;
+
+
+/* ============================================================
+   AUDIO
+============================================================ */
+
 let referenceAudio = new Audio();
 let recordingAudio = new Audio();
+
 let masterReferenceAudio = new Audio();
 let masterRecordingAudio = new Audio();
+
 let performanceAudio = new Audio();
+
+
+/* ============================================================
+   RECORDING
+============================================================ */
+
 let mediaRecorder = null;
 let mediaStream = null;
 let recordingChunks = [];
+
+// Live microphone waveform state
+let recordingAudioContext = null;
+let recordingAnalyser = null;
+let recordingAnimationFrame = null;
+let recordingSourceNode = null;
+let recordingIsLive = false;
+
+
+/* ============================================================
+   MASTER RECORDING
+============================================================ */
+
 let masterMediaRecorder = null;
 let masterMediaStream = null;
 let masterRecordingChunks = [];
+
+
+/* ============================================================
+   WAVEFORM DATA
+============================================================ */
+
 let referenceWaveform = [];
 let recordingWaveform = [];
+
 let masterReferenceWaveform = [];
 let performanceWaveform = [];
+
+
+/* ============================================================
+   DOM REFERENCES
+============================================================ */
+
 const speakerNameElement =
     document.getElementById("speakerName");
+
 const speechTitleElement =
     document.getElementById("speechTitle");
+
 const lineNumberElement =
     document.getElementById("lineNumber");
+
 const lineTextElement =
     document.getElementById("lineText");
 
@@ -2247,6 +3201,12 @@ const lineCounterElement =
 
 const statusElement =
     document.getElementById("status");
+
+
+/* ============================================================
+   CANVAS
+============================================================ */
+
 const referenceCanvas =
     document.getElementById(
         "referenceWaveform"
@@ -2279,13 +3239,25 @@ const masterReferenceCtx =
 
 const performanceCtx =
     performanceCanvas.getContext("2d");
+
+
+/* ============================================================
+   INDEXEDDB
+============================================================ */
+
 const DB_NAME =
     "OrationTrainerDB";
+
 const DB_VERSION = 1;
+
 const STORE_NAME =
     "recordings";
+
 let database = null;
+
+
 function openDatabase() {
+
     return new Promise(
         (resolve, reject) => {
 
@@ -2294,6 +3266,8 @@ function openDatabase() {
                     DB_NAME,
                     DB_VERSION
                 );
+
+
             request.onupgradeneeded =
                 event => {
 
@@ -2317,21 +3291,37 @@ function openDatabase() {
 
                 };
 
+
             request.onsuccess =
                 event => {
+
                     database =
                         event.target.result;
+
                     resolve(database);
+
                 };
+
+
             request.onerror =
                 () => {
+
                     reject(
                         request.error
                     );
+
                 };
+
         }
     );
+
 }
+
+
+/* ============================================================
+   RECORDING ID
+============================================================ */
+
 function getSpeechID() {
 
     const speaker =
@@ -2363,6 +3353,12 @@ function getRecordingID(
     );
 
 }
+
+
+/* ============================================================
+   SAVE RECORDING
+============================================================ */
+
 function saveLineRecording(
     lineIndex,
     blob
@@ -2415,6 +3411,12 @@ function saveLineRecording(
     );
 
 }
+
+
+/* ============================================================
+   GET RECORDING
+============================================================ */
+
 function getLineRecording(
     lineIndex
 ) {
@@ -2463,6 +3465,11 @@ function getLineRecording(
     );
 
 }
+
+
+/* ============================================================
+   GET ALL RECORDINGS
+============================================================ */
 
 function getAllSpeechRecordings() {
 
@@ -2524,6 +3531,10 @@ function getAllSpeechRecordings() {
 
 }
 
+
+/* ============================================================
+   BUILD LIBRARY UI
+============================================================ */
 
 function buildLibrary() {
 
@@ -2630,6 +3641,11 @@ function buildLibrary() {
 
 }
 
+
+/* ============================================================
+   CURRENT SPEECH
+============================================================ */
+
 function getCurrentSpeech() {
 
     return library[currentSpeaker]
@@ -2637,6 +3653,10 @@ function getCurrentSpeech() {
 
 }
 
+
+/* ============================================================
+   LOAD SPEECH
+============================================================ */
 
 function loadSpeech() {
 
@@ -2744,6 +3764,9 @@ function loadSpeech() {
 }
 
 
+/* ============================================================
+   LOAD LINE
+============================================================ */
 
 async function loadLine() {
 
@@ -2873,6 +3896,9 @@ async function loadLine() {
 }
 
 
+/* ============================================================
+   CREATE WAVEFORM
+============================================================ */
 
 async function createWaveform(
     source,
@@ -2997,6 +4023,10 @@ async function createWaveform(
 }
 
 
+/* ============================================================
+   DRAW WAVEFORM
+============================================================ */
+
 function drawWaveform(
     canvas,
     ctx,
@@ -3120,6 +4150,9 @@ function drawWaveform(
 }
 
 
+/* ============================================================
+   ANIMATION
+============================================================ */
 
 function animate(
     canvas,
@@ -3156,6 +4189,9 @@ function animate(
 }
 
 
+/* ============================================================
+   REFERENCE PLAYBACK
+============================================================ */
 
 document.getElementById(
     "referenceButton"
@@ -3197,11 +4233,165 @@ document.getElementById(
 };
 
 
+/* ============================================================
+   LIVE RECORDING WAVEFORM
+============================================================ */
+
+function drawLiveRecordingWaveform() {
+
+    if (!recordingAnalyser || !recordingIsLive) {
+        return;
+    }
+
+    const canvas = recordingCanvas;
+    const ctx = recordingCtx;
+    const width = canvas.width;
+    const height = canvas.height;
+
+    const data = new Uint8Array(
+        recordingAnalyser.fftSize
+    );
+
+    recordingAnalyser.getByteTimeDomainData(data);
+
+    ctx.clearRect(0, 0, width, height);
+    ctx.fillStyle = "#0d0d0d";
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.beginPath();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#42d67d";
+
+    for (let i = 0; i < data.length; i++) {
+        const x = (i / (data.length - 1)) * width;
+        const y = (data[i] / 255) * height;
+
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+    }
+
+    ctx.stroke();
+
+    // Center line makes pauses easy to see.
+    ctx.strokeStyle = "rgba(255,255,255,.16)";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, height / 2);
+    ctx.lineTo(width, height / 2);
+    ctx.stroke();
+
+    recordingAnimationFrame =
+        requestAnimationFrame(drawLiveRecordingWaveform);
+}
+
+function stopLiveRecordingWaveform() {
+
+    recordingIsLive = false;
+
+    if (recordingAnimationFrame) {
+        cancelAnimationFrame(recordingAnimationFrame);
+        recordingAnimationFrame = null;
+    }
+
+    if (recordingSourceNode) {
+        try { recordingSourceNode.disconnect(); } catch (_) {}
+        recordingSourceNode = null;
+    }
+
+    if (recordingAnalyser) {
+        try { recordingAnalyser.disconnect(); } catch (_) {}
+        recordingAnalyser = null;
+    }
+
+    if (recordingAudioContext) {
+        recordingAudioContext.close().catch(() => {});
+        recordingAudioContext = null;
+    }
+}
+
+async function startLiveRecordingWaveform(stream) {
+
+    recordingAudioContext =
+        new (window.AudioContext || window.webkitAudioContext)();
+
+    if (recordingAudioContext.state === "suspended") {
+        await recordingAudioContext.resume();
+    }
+
+    recordingAnalyser =
+        recordingAudioContext.createAnalyser();
+
+    recordingAnalyser.fftSize = 1024;
+    recordingAnalyser.smoothingTimeConstant = 0.72;
+
+    recordingSourceNode =
+        recordingAudioContext.createMediaStreamSource(stream);
+
+    recordingSourceNode.connect(recordingAnalyser);
+
+    recordingIsLive = true;
+    drawLiveRecordingWaveform();
+}
+
+function showRecordingCountdown(seconds) {
+
+    return new Promise(resolve => {
+
+        let remaining = seconds;
+
+        const render = () => {
+
+            const ctx = recordingCtx;
+            const canvas = recordingCanvas;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#0d0d0d";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillStyle = "#fbbf38";
+            ctx.font = "600 42px Poppins, sans-serif";
+            ctx.fillText(
+                remaining > 0 ? remaining : "GO",
+                canvas.width / 2,
+                canvas.height / 2
+            );
+
+            if (remaining === 0) {
+                setTimeout(() => {
+                    ctx.textAlign = "start";
+                    ctx.textBaseline = "alphabetic";
+                    resolve();
+                }, 250);
+                return;
+            }
+
+            remaining--;
+            setTimeout(render, 750);
+        };
+
+        render();
+    });
+}
+
+
+/* ============================================================
+   RECORD LINE
+============================================================ */
+
+
 document.getElementById(
     "recordButton"
 ).onclick = async () => {
 
     try {
+
+        // Prevent another recording from starting while preparing.
+        document.getElementById("recordButton").disabled = true;
+        document.getElementById("stopButton").disabled = true;
+        statusElement.textContent = "Get ready...";
+        recordingCanvas.classList.add("live-recording");
 
         mediaStream =
             await navigator.mediaDevices
@@ -3210,6 +4400,9 @@ document.getElementById(
                 });
 
         recordingChunks = [];
+
+        // Give the speaker a visible 3–2–1 countdown before the microphone starts.
+        await showRecordingCountdown(3);
 
         mediaRecorder =
             new MediaRecorder(
@@ -3233,6 +4426,9 @@ document.getElementById(
 
         mediaRecorder.onstop =
             async () => {
+
+                stopLiveRecordingWaveform();
+                recordingCanvas.classList.remove("live-recording");
 
                 const blob =
                     new Blob(
@@ -3281,7 +4477,7 @@ document.getElementById(
                 );
 
                 statusElement.innerHTML =
-                    '<span class="recorded">✓ Recording saved</span>';
+                    '<span class="recorded">✓ Recording saved — your waveform is ready to review.</span>';
 
                 updatePerformanceStatus();
 
@@ -3289,22 +4485,34 @@ document.getElementById(
 
         mediaRecorder.start();
 
-        document.getElementById(
-            "recordButton"
-        ).disabled = true;
+        await startLiveRecordingWaveform(
+            mediaStream
+        );
 
         document.getElementById(
             "stopButton"
         ).disabled = false;
 
         statusElement.textContent =
-            "Recording...";
+            "Recording... speak, pause, and watch your waveform.";
 
     }
 
     catch (error) {
 
         console.error(error);
+
+        stopLiveRecordingWaveform();
+
+        if (mediaStream) {
+            mediaStream
+                .getTracks()
+                .forEach(track => track.stop());
+        }
+
+        recordingCanvas.classList.remove("live-recording");
+        document.getElementById("recordButton").disabled = false;
+        document.getElementById("stopButton").disabled = true;
 
         statusElement.textContent =
             "Microphone access was denied or unavailable.";
@@ -3314,9 +4522,16 @@ document.getElementById(
 };
 
 
+/* ============================================================
+   STOP LINE RECORDING
+============================================================ */
+
 document.getElementById(
     "stopButton"
 ).onclick = () => {
+
+    stopLiveRecordingWaveform();
+    recordingCanvas.classList.remove("live-recording");
 
     if (
         mediaRecorder &&
@@ -3350,6 +4565,9 @@ document.getElementById(
 };
 
 
+/* ============================================================
+   PLAY LINE RECORDING
+============================================================ */
 
 document.getElementById(
     "recordingButton"
@@ -3391,6 +4609,10 @@ document.getElementById(
 };
 
 
+/* ============================================================
+   MASTER REFERENCE
+============================================================ */
+
 document.getElementById(
     "masterReferenceButton"
 ).onclick = () => {
@@ -3429,6 +4651,9 @@ document.getElementById(
 };
 
 
+/* ============================================================
+   MASTER RECORDING
+============================================================ */
 
 document.getElementById(
     "masterRecordButton"
@@ -3532,6 +4757,9 @@ document.getElementById(
 };
 
 
+/* ============================================================
+   STOP MASTER RECORDING
+============================================================ */
 
 document.getElementById(
     "masterStopButton"
@@ -3569,6 +4797,9 @@ document.getElementById(
 };
 
 
+/* ============================================================
+   PLAY MASTER RECORDING
+============================================================ */
 
 document.getElementById(
     "masterRecordingButton"
@@ -3601,6 +4832,9 @@ document.getElementById(
 };
 
 
+/* ============================================================
+   PERFORMANCE STATUS
+============================================================ */
 
 async function updatePerformanceStatus() {
 
@@ -3644,6 +4878,9 @@ async function updatePerformanceStatus() {
 }
 
 
+/* ============================================================
+   AUDIO DECODING
+============================================================ */
 
 async function decodeBlob(
     blob
@@ -3671,7 +4908,9 @@ async function decodeBlob(
 }
 
 
-
+/* ============================================================
+   ASSEMBLE COMPLETE SPEECH
+============================================================ */
 
 async function assemblePerformance() {
 
@@ -3907,6 +5146,10 @@ async function assemblePerformance() {
 }
 
 
+/* ============================================================
+   NATURAL PAUSE
+============================================================ */
+
 function calculateNaturalPause(
     duration,
     line
@@ -3962,6 +5205,9 @@ function calculateNaturalPause(
 }
 
 
+/* ============================================================
+   AUDIOBUFFER → WAV
+============================================================ */
 
 function audioBufferToWav(
     buffer
@@ -4176,7 +5422,9 @@ function writeString(
 }
 
 
-
+/* ============================================================
+   FORMAT TIME
+============================================================ */
 
 function formatTime(
     seconds
@@ -4205,6 +5453,10 @@ function formatTime(
 
 }
 
+
+/* ============================================================
+   SAVE COMPLETED PERFORMANCE
+============================================================ */
 
 function savePerformance(
     blob
@@ -4258,6 +5510,9 @@ function savePerformance(
 }
 
 
+/* ============================================================
+   PLAY COMPLETE PERFORMANCE
+============================================================ */
 
 document.getElementById(
     "performanceButton"
@@ -4297,6 +5552,9 @@ document.getElementById(
 };
 
 
+/* ============================================================
+   PERFORMANCE PROGRESS
+============================================================ */
 
 performanceAudio.ontimeupdate =
     () => {
@@ -4336,6 +5594,10 @@ performanceAudio.onended =
 
     };
 
+
+/* ============================================================
+   DOWNLOAD COMPLETE PERFORMANCE
+============================================================ */
 
 document.getElementById(
     "downloadPerformanceButton"
@@ -4416,11 +5678,19 @@ document.getElementById(
 };
 
 
+/* ============================================================
+   ASSEMBLE BUTTON
+============================================================ */
+
 document.getElementById(
     "buildPerformanceButton"
 ).onclick =
     assemblePerformance;
 
+
+/* ============================================================
+   NAVIGATION
+============================================================ */
 
 document.getElementById(
     "previousButton"
@@ -4459,6 +5729,10 @@ document.getElementById(
 
 };
 
+
+/* ============================================================
+   KEYBOARD
+============================================================ */
 
 document.addEventListener(
     "keydown",
@@ -4503,8 +5777,16 @@ document.addEventListener(
 );
 
 
+/* ============================================================
+   SUPABASE / ONLINE LEADERBOARD
+============================================================ */
+
 let supabaseUser = null;
 
+
+/* ============================================================
+   INITIALIZE ONLINE ACCOUNT
+============================================================ */
 
 async function initializeOnlineAccount() {
 
@@ -4587,6 +5869,10 @@ async function initializeOnlineAccount() {
 }
 
 
+/* ============================================================
+   LOAD STUDENT PROFILE
+============================================================ */
+
 async function loadStudentProfile() {
 
     if (!supabaseUser)
@@ -4638,6 +5924,11 @@ async function loadStudentProfile() {
     );
 
 }
+
+
+/* ============================================================
+   SAVE DISPLAY NAME
+============================================================ */
 
 async function saveDisplayName() {
 
@@ -4722,6 +6013,10 @@ async function saveDisplayName() {
 }
 
 
+/* ============================================================
+   REGISTER ONLINE RECORDING
+============================================================ */
+
 async function registerOnlineRecording() {
 
     if (!supabaseUser) {
@@ -4767,6 +6062,11 @@ async function registerOnlineRecording() {
 
 }
 
+
+/* ============================================================
+   DISPLAY CURRENT COUNT
+============================================================ */
+
 function updateOnlineRecordingCount(
     count
 ) {
@@ -4809,6 +6109,10 @@ function updateOnlineRecordingCount(
 
 }
 
+
+/* ============================================================
+   LOAD LEADERBOARD
+============================================================ */
 
 async function loadLeaderboard() {
 
@@ -4935,6 +6239,11 @@ async function loadLeaderboard() {
 
 }
 
+
+/* ============================================================
+   ESCAPE LEADERBOARD TEXT
+============================================================ */
+
 function escapeLeaderboardText(
     text
 ) {
@@ -4951,6 +6260,11 @@ function escapeLeaderboardText(
 
 }
 
+
+/* ============================================================
+   LEADERBOARD BUTTONS
+============================================================ */
+
 document.getElementById(
     "saveDisplayNameButton"
 ).addEventListener(
@@ -4965,6 +6279,11 @@ document.getElementById(
     "click",
     loadLeaderboard
 );
+
+
+/* ============================================================
+   INITIALIZATION
+============================================================ */
 
 async function initialize() {
 
@@ -5002,6 +6321,12 @@ initializeOnlineAccount();
 
 </script>
 
+<script>
+window.addEventListener("beforeunload", () => {
+    stopLiveRecordingWaveform();
+    if (mediaStream) mediaStream.getTracks().forEach(track => track.stop());
+});
+</script>
+
 </body>
 </html>
-
