@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="https://production-blue-manor-static.s3.us-east-2.amazonaws.com/img/favicon.png">
-<title>Oration Trainer</title>
+<title>Grand Orator</title>
 
 
 <style>
@@ -30,10 +30,7 @@ html {
     box-sizing: border-box;
 }
 
-.app {
-    justify-content: center;
-}
-
+ 
 
 /* =========================
    MAIN LAYOUT
@@ -80,14 +77,12 @@ p {
     text-align: center;
 }
 
-.content {
-}
 
 .sidebar {
 }
 
 header {
-    height: 88px;
+    height: 135px;
     margin: 0 auto;
     display: flex;
     margin-top: 0 auto;
@@ -546,12 +541,6 @@ select:focus {
    LIBRARY
    ========================= */
 
-.library {
-    text-align: center;
-    width: 25%;
-    justify-content: center;
-    align-items: top;
-}
 
 .library-header {
     justify-content: center;
@@ -730,6 +719,356 @@ select:focus {
         font-size: 14px;
     }
 
+}
+/* =========================
+   FIXED TWO-COLUMN LAYOUT
+   ========================= */
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+}
+
+body {
+    background-color: #f8f5e8;
+    font-family: 'Poppins', sans-serif;
+}
+
+header {
+    width: 100%;
+    height: 88px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #123c5a;
+    color: #f8f5e8;
+}
+
+/* Library and workspace side by side */
+.app {
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    width: 100%;
+    min-height: calc(100vh - 88px);
+    margin: 0;
+    padding: 0;
+}
+
+/* Library occupies the entire left column */
+.app > .library {
+    display: block;
+    flex: 0 0 280px;
+    width: 280px;
+    min-width: 280px;
+    max-width: 280px;
+    min-height: calc(100vh - 88px);
+    max-height: calc(100vh - 88px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 20px 14px;
+    background-color: #123c5a;
+    color: #f8f5e8;
+    text-align: center;
+    align-self: stretch;
+}
+
+/* Right-hand workspace fills all remaining width */
+.app > .content {
+    display: block;
+    flex: 1 1 0;
+    width: calc(100% - 280px);
+    min-width: 0;
+    margin: 0;
+    padding: 30px;
+    min-height: calc(100vh - 88px);
+    overflow-x: hidden;
+    background-color: #f8f5e8;
+    color: #123c5a;
+}
+
+/* Library buttons */
+.app > .library .speaker-button,
+.app > .library .speech-button {
+    width: 100%;
+    max-width: 100%;
+    margin: 4px 0;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    cursor: pointer;
+}
+
+.app > .library .speaker-button {
+    min-height: 48px;
+    background-color: #123c5a;
+    color: #f8f5e8;
+    border: 1px solid #f8f5e8;
+    border-radius: 8px;
+}
+
+.app > .library .speech-button {
+    min-height: 42px;
+    background-color: #fbbf38;
+    color: #123c5a;
+    border: none;
+    border-radius: 8px;
+}
+
+.app > .library .speaker-button:hover,
+.app > .library .speech-button:hover {
+    filter: brightness(1.1);
+}
+
+/* Workspace tabs */
+.workspace-tabs {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.workspace-tabs button {
+    flex: 1;
+    min-width: 0;
+    min-height: 45px;
+    justify-content: center;
+    align-items: center;
+    background-color: #123c5a;
+    color: #f8f5e8;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.workspace-tabs button.active {
+    background-color: #fbbf38;
+    color: #123c5a;
+    font-weight: bold;
+}
+
+/* Only display the selected workspace */
+.workspace-view {
+    display: none;
+}
+
+.workspace-view.active {
+    display: block;
+}
+
+/* Prevent waveforms from stretching beyond the workspace */
+.app > .content canvas {
+    display: block;
+    width: 100%;
+    max-width: 1200px;
+    height: 100px;
+    margin: 10px auto;
+}
+
+/* Responsive layout */
+@media (max-width: 650px) {
+    .app {
+        flex-direction: column;
+    }
+
+    .app > .library {
+        flex: 0 0 auto;
+        width: 100%;
+        min-width: 0;
+        max-width: none;
+        min-height: 0;
+        max-height: 280px;
+    }
+
+    .app > .content {
+        width: 100%;
+        min-height: 0;
+        padding: 18px;
+    }
+
+    .workspace-tabs {
+        gap: 5px;
+    }
+
+    .workspace-tabs button {
+        font-size: 12px;
+    }
+}
+/* =========================
+   LEADERBOARD DESIGN
+   ========================= */
+
+.leaderboard-section {
+    width: 100%;
+    margin: 0;
+    padding: 45px 20px;
+    background-color: #123c5a;
+    color: #f8f5e8;
+    text-align: center;
+}
+
+.leaderboard-section h2 {
+    margin: 0 0 8px;
+    font-size: 30px;
+}
+
+.leaderboard-section .leaderboard-subtitle {
+    width: auto;
+    height: auto;
+    margin: 0 auto 25px;
+    padding: 0;
+    background: transparent;
+    color: #fbbf38;
+}
+
+#leaderboard {
+    width: min(850px, 100%);
+    margin: 0 auto 20px;
+}
+
+/* Each student row */
+.leaderboard-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    min-height: 72px;
+    margin: 10px 0;
+    padding: 15px 20px;
+    background-color: #f8f5e8;
+    color: #123c5a;
+    border-radius: 10px;
+    text-align: left;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+.leaderboard-rank {
+    flex: 0 0 210px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #123c5a;
+}
+
+.leaderboard-name {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.leaderboard-count {
+    flex: 0 0 auto;
+    text-align: right;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* Top three ranks */
+.leaderboard-row:nth-child(1) .leaderboard-rank {
+    color: #a66b00;
+}
+
+.leaderboard-row:nth-child(2) .leaderboard-rank {
+    color: #536878;
+}
+
+.leaderboard-row:nth-child(3) .leaderboard-rank {
+    color: #98552e;
+}
+
+/* Name-entry card */
+.student-profile {
+    width: min(700px, 100%);
+    margin: 0 auto 30px;
+    padding: 24px;
+    background-color: #f8f5e8;
+    color: #123c5a;
+    border-radius: 12px;
+    text-align: left;
+}
+
+.student-profile label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.profile-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-row input {
+    flex: 1;
+    min-width: 0;
+    height: 42px;
+    padding: 0 12px;
+    border: 2px solid #123c5a;
+    border-radius: 8px;
+    font: inherit;
+}
+
+.profile-row button,
+#refreshLeaderboardButton {
+    min-height: 42px;
+    padding: 0 20px;
+    background-color: #fbbf38;
+    color: #123c5a;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#refreshLeaderboardButton {
+    margin: 20px auto 0;
+}
+
+.leaderboard-loading {
+    padding: 25px;
+    background-color: #f8f5e8;
+    color: #123c5a;
+    border-radius: 10px;
+}
+
+@media (max-width: 600px) {
+    .leaderboard-row {
+        gap: 8px;
+        padding: 12px;
+    }
+
+    .leaderboard-rank {
+        flex-basis: 125px;
+        font-size: 13px;
+    }
+
+    .leaderboard-name {
+        font-size: 14px;
+    }
+
+    .leaderboard-count {
+        font-size: 12px;
+    }
+
+    .profile-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .profile-row input,
+    .profile-row button {
+        width: 100%;
+    }
 }
 </style>
 
