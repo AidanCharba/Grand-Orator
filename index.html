@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,10 +15,10 @@
 body {
     color: #000000;
     background-color: #f8f5e8;
- font-family: 'Poppins', sans-serif;
- align-items: center;
- margin: 0 auto;
- justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    align-items: center;
+    margin: 0 auto;
+    justify-content: center;
 }
 
 html {
@@ -30,15 +29,18 @@ html {
 * {
     box-sizing: border-box;
 }
+
 .app {
     justify-content: center;
 }
+
+
 /* =========================
    MAIN LAYOUT
    ========================= */
 
 .speaker-button {
-        color: #f8f8f8;
+    color: #f8f8f8;
     border-color: #123c5a;
     background-color: #123c5a;
     width: 100%;
@@ -46,21 +48,22 @@ html {
     margin: 2px;
     text-align: center;
     justify-content: center;
-    
     height: 50px;
     font-size: large;
-   
 }
+
 .speech-button {
     background-color: #fbbf38;
     width: 100%;
-        text-align: center;
+    text-align: center;
     justify-content: center;
     border-radius: 15px;
 }
+
 .container {
     background-color: #123c5a;
 }
+
 p {
     justify-content: center;
     justify-self: center;
@@ -84,16 +87,16 @@ p {
 }
 
 header {
-height: 88px;
-margin: 0 auto;
-display: flex;
-margin-top: 0 auto;
-align-items: center;
-align-content: center;
-width: 100%;
-justify-content: center;
-background-color: #123c5a;
-color: #f8f5e8;
+    height: 88px;
+    margin: 0 auto;
+    display: flex;
+    margin-top: 0 auto;
+    align-items: center;
+    align-content: center;
+    width: 100%;
+    justify-content: center;
+    background-color: #123c5a;
+    color: #f8f5e8;
 }
 
 footer {
@@ -108,28 +111,28 @@ h1 {
     justify-content: center;
     display: flex;
     font-weight: 100;
-     font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 h2 {
     justify-content: center;
-     font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 h3 {
     justify-content: center;
-     font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 h4 {
     justify-content: center;
-     font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
-
 
 div {
     justify-content: center;
 }
+
 a {
 }
 
@@ -140,23 +143,33 @@ small {
     background-color: #000000;
     font-size: large;
 }
+.workspace-view {
+    display: none;
+}
+
+.workspace-view.active {
+    display: block;
+}
+
 /* =========================
    BUTTONS
    ========================= */
 
 button {
     justify-self: center;
-     display: flex;
+    display: flex;
     font-weight: 100;
-     font-family: 'Poppins', sans-serif;
-     background-color: #fbbf38;
-     height: 35px;
-     text-align: center;
-     border-radius: 15;
+    font-family: 'Poppins', sans-serif;
+    background-color: #fbbf38;
+    height: 35px;
+    text-align: center;
+    border-radius: 15px;
 }
+
 .buildPerformanceButton {
     border-radius: 10px;
 }
+
 .primary-button {
 }
 
@@ -281,19 +294,21 @@ select:focus {
 }
 
 .recordButton {
-        background-color: #c71515;
+    background-color: #c71515;
     width: 25%;
-        text-align: center;
+    text-align: center;
     justify-content: center;
     border-radius: 15px;
 }
+
 .nextButton {
-            background-color: #c71515;
+    background-color: #c71515;
     width: 25%;
-        text-align: center;
+    text-align: center;
     justify-content: center;
     border-radius: 15px;
 }
+
 .stop-button {
 }
 
@@ -348,6 +363,40 @@ select:focus {
    LEADERBOARD
    ========================= */
 
+.leaderboard-section {
+    width: 100%;
+    padding: 50px 30px;
+    background-color: #123c5a;
+    color: #f8f5e8;
+    text-align: center;
+}
+
+.leaderboard-section h2 {
+    margin: 0 0 8px;
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.leaderboard-subtitle {
+    width: auto;
+    margin: 0 auto 30px;
+    background: none;
+    color: #fbbf38;
+    font-size: 16px;
+}
+
+#leaderboard {
+    width: min(800px, 100%);
+    margin: 0 auto 20px;
+}
+
+.leaderboard-loading {
+    padding: 30px;
+    background-color: #f8f5e8;
+    color: #123c5a;
+    border-radius: 12px;
+}
+
 .leaderboard {
 }
 
@@ -358,24 +407,121 @@ select:focus {
 }
 
 .leaderboard-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 65px;
+    margin: 8px 0;
+    padding: 10px 20px;
+    background-color: #f8f5e8;
+    color: #123c5a;
+    border-radius: 10px;
 }
 
 .leaderboard-rank {
+    width: 60px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    color: #123c5a;
 }
 
 .leaderboard-name {
+    flex: 1;
+    text-align: left;
+    font-size: 17px;
+    font-weight: 500;
 }
 
 .leaderboard-score {
+    min-width: 100px;
+    text-align: right;
+    color: #123c5a;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .leaderboard-avatar {
+    width: 40px;
+    height: 40px;
+    margin-right: 15px;
+    border-radius: 50%;
+    background-color: #fbbf38;
+}
+
+#refreshLeaderboardButton {
+    margin: 20px auto 0;
+    padding: 0 25px;
+    min-height: 42px;
+    background-color: #fbbf38;
+    color: #123c5a;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+#refreshLeaderboardButton:hover,
+.profile-row button:hover {
+    filter: brightness(1.08);
 }
 
 
 /* =========================
-   PROFILE
+   STUDENT PROFILE
    ========================= */
+
+.student-profile {
+    width: min(700px, 100%);
+    margin: 0 auto 30px;
+    padding: 25px;
+    background-color: #f8f5e8;
+    color: #123c5a;
+    border-radius: 12px;
+}
+
+.student-profile label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.profile-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-row input {
+    flex: 1;
+    min-width: 0;
+    height: 42px;
+    padding: 0 14px;
+    border: 2px solid #123c5a;
+    border-radius: 8px;
+    background-color: white;
+    color: #123c5a;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+}
+
+.profile-row input:focus {
+    outline: none;
+    border-color: #fbbf38;
+}
+
+.profile-row button {
+    height: 42px;
+    padding: 0 20px;
+    background-color: #fbbf38;
+    color: #123c5a;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+#profileStatus {
+    margin-top: 10px;
+    font-size: 14px;
+}
 
 .profile {
 }
@@ -401,7 +547,7 @@ select:focus {
    ========================= */
 
 .library {
-text-align: center;
+    text-align: center;
     width: 25%;
     justify-content: center;
     align-items: top;
@@ -553,12 +699,41 @@ text-align: center;
 }
 
 @media (max-width: 600px) {
+
+    .leaderboard-section {
+        padding: 35px 15px;
+    }
+
+    .profile-row {
+        flex-direction: column;
+    }
+
+    .profile-row input,
+    .profile-row button {
+        width: 100%;
+    }
+
+    .leaderboard-item {
+        padding: 10px;
+    }
+
+    .leaderboard-rank {
+        width: 40px;
+    }
+
+    .leaderboard-name {
+        font-size: 15px;
+    }
+
+    .leaderboard-score {
+        min-width: 70px;
+        font-size: 14px;
+    }
+
 }
 </style>
 
 </head>
-
-<body>
 
 <header>
     <h1>Tracing the Master Orators</h1>
@@ -574,228 +749,275 @@ text-align: center;
 
     </aside>
 
+
     <main class="content">
 
         <div id="speakerName"></div>
 
         <h1 id="speechTitle"></h1>
 
+
         <!-- =====================================================
-             FULL PERFORMANCE
+             WORKSPACE TABS
         ====================================================== -->
 
-        <section class="section">
+        <div class="workspace-tabs">
 
-            <h2>Full Performance</h2>
+            <button
+                id="wholeSpeechTab"
+                class="active">
+                Whole Speech
+            </button>
 
-            <p style="color:#999;">
-                Once you have recorded every line, your recordings
-                can be assembled into one complete performance.
-            </p>
+            <button id="clipsTab">
+                Clips
+            </button>
 
-            <div class="wave-label">
-                Your Complete Speech
-            </div>
+            <button id="assembleTab">
+                Assemble
+            </button>
 
-            <canvas
-                id="fullPerformanceWaveform"
-                width="1200"
-                height="100">
-            </canvas>
+        </div>
 
-            <div class="controls">
 
-                <button
-                    id="buildPerformanceButton"
-                    class="primary">
-                    Assemble My Speech
-                </button>
+        <!-- =====================================================
+             WHOLE SPEECH
+        ====================================================== -->
 
-                <button
-                    id="performanceButton"
-                    disabled>
-                    ▶ Play My Speech
-                </button>
+        <div
+            id="wholeSpeechView"
+            class="workspace-view active">
 
-                <button
-                    id="downloadPerformanceButton"
-                    class="download"
-                    disabled>
-                    ↓ Download Full Speech
-                </button>
+            <!-- =================================================
+                 MASTER REFERENCE
+            ================================================== -->
 
-            </div>
+            <section class="section">
 
-            <div class="progress-container">
+                <h2>Master Recording</h2>
 
-                <div class="progress-background">
+                <div class="wave-label">
+                    Original Speech
+                </div>
 
-                    <div
-                        id="performanceProgress"
-                        class="progress-bar">
+                <canvas
+                    id="masterReferenceWaveform"
+                    width="1200"
+                    height="100">
+                </canvas>
+
+                <div class="controls">
+
+                    <button id="masterReferenceButton">
+                        ▶ Listen to Speech
+                    </button>
+
+                </div>
+
+                <div class="wave-label">
+                    Record the entire speech at once
+                </div>
+
+                <div class="controls">
+
+                    <button
+                        id="masterRecordButton"
+                        class="record">
+                        ● Record Entire Speech
+                    </button>
+
+                    <button
+                        id="masterStopButton"
+                        class="stop"
+                        disabled>
+                        ■ Stop
+                    </button>
+
+                    <button
+                        id="masterRecordingButton"
+                        disabled>
+                        ▶ Play My Master Recording
+                    </button>
+
+                </div>
+
+                <div
+                    id="masterStatus"
+                    class="status">
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- =====================================================
+             CLIPS
+        ====================================================== -->
+
+        <div
+            id="clipsView"
+            class="workspace-view">
+
+            <section class="section">
+
+                <h2>Line-by-Line Practice</h2>
+
+                <div id="lineNumber"></div>
+
+                <p id="lineText"></p>
+
+                <div class="wave-label">
+                    Original Recording
+                </div>
+
+                <canvas
+                    id="referenceWaveform"
+                    width="1200"
+                    height="100">
+                </canvas>
+
+                <div class="controls">
+
+                    <button id="referenceButton">
+                        ▶ Play Original
+                    </button>
+
+                </div>
+
+                <div class="wave-label">
+                    Your Recording
+                </div>
+
+                <canvas
+                    id="recordingWaveform"
+                    width="1200"
+                    height="100">
+                </canvas>
+
+                <div class="controls">
+
+                    <button
+                        id="recordButton"
+                        class="record">
+                        ● Record
+                    </button>
+
+                    <button
+                        id="stopButton"
+                        class="stop"
+                        disabled>
+                        ■ Stop
+                    </button>
+
+                    <button
+                        id="recordingButton"
+                        disabled>
+                        ▶ Play My Recording
+                    </button>
+
+                </div>
+
+                <div
+                    id="status"
+                    class="status">
+                </div>
+
+                <div class="navigation">
+
+                    <button id="previousButton">
+                        ← Previous
+                    </button>
+
+                    <div id="lineCounter"></div>
+
+                    <button id="nextButton">
+                        Next →
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- =====================================================
+             ASSEMBLE
+        ====================================================== -->
+
+        <div
+            id="assembleView"
+            class="workspace-view">
+
+            <section class="section">
+
+                <h2>Full Performance</h2>
+
+                <p style="color:#999;">
+                    Once you have recorded every line, your recordings
+                    can be assembled into one complete performance.
+                </p>
+
+                <div class="wave-label">
+                    Your Complete Speech
+                </div>
+
+                <canvas
+                    id="fullPerformanceWaveform"
+                    width="1200"
+                    height="100">
+                </canvas>
+
+                <div class="controls">
+
+                    <button
+                        id="buildPerformanceButton"
+                        class="primary">
+                        Assemble My Speech
+                    </button>
+
+                    <button
+                        id="performanceButton"
+                        disabled>
+                        ▶ Play My Speech
+                    </button>
+
+                    <button
+                        id="downloadPerformanceButton"
+                        class="download"
+                        disabled>
+                        ↓ Download Full Speech
+                    </button>
+
+                </div>
+
+                <div class="progress-container">
+
+                    <div class="progress-background">
+
+                        <div
+                            id="performanceProgress"
+                            class="progress-bar">
+                        </div>
+
                     </div>
 
                 </div>
 
-            </div>
+                <div
+                    id="performanceInfo"
+                    class="performance-info">
+                </div>
 
-            <div
-                id="performanceInfo"
-                class="performance-info">
-            </div>
+                <div
+                    id="performanceStatus"
+                    class="status">
+                </div>
 
-            <div
-                id="performanceStatus"
-                class="status">
-            </div>
+            </section>
 
-        </section>
-
-
-        <!-- =====================================================
-             MASTER REFERENCE
-        ====================================================== -->
-
-        <section class="section">
-
-            <h2>Master Recording</h2>
-
-            <div class="wave-label">
-                Original Speech
-            </div>
-
-            <canvas
-                id="masterReferenceWaveform"
-                width="1200"
-                height="100">
-            </canvas>
-
-            <div class="controls">
-
-                <button id="masterReferenceButton">
-                    ▶ Listen to Speech
-                </button>
-
-            </div>
-
-            <div class="wave-label">
-                Record the entire speech at once
-            </div>
-
-            <div class="controls">
-
-                <button
-                    id="masterRecordButton"
-                    class="record">
-                    ● Record Entire Speech
-                </button>
-
-                <button
-                    id="masterStopButton"
-                    class="stop"
-                    disabled>
-                    ■ Stop
-                </button>
-
-                <button
-                    id="masterRecordingButton"
-                    disabled>
-                    ▶ Play My Master Recording
-                </button>
-
-            </div>
-
-            <div
-                id="masterStatus"
-                class="status">
-            </div>
-
-        </section>
-
-
-        <!-- =====================================================
-             LINE PRACTICE
-        ====================================================== -->
-
-        <section class="section">
-
-            <h2>Line-by-Line Practice</h2>
-
-            <div id="lineNumber"></div>
-
-            <p id="lineText"></p>
-
-            <div class="wave-label">
-                Original Recording
-            </div>
-
-            <canvas
-                id="referenceWaveform"
-                width="1200"
-                height="100">
-            </canvas>
-
-            <div class="controls">
-
-                <button id="referenceButton">
-                    ▶ Play Original
-                </button>
-
-            </div>
-
-            <div class="wave-label">
-                Your Recording
-            </div>
-
-            <canvas
-                id="recordingWaveform"
-                width="1200"
-                height="100">
-            </canvas>
-
-            <div class="controls">
-
-                <button
-                    id="recordButton"
-                    class="record">
-                    ● Record
-                </button>
-
-                <button
-                    id="stopButton"
-                    class="stop"
-                    disabled>
-                    ■ Stop
-                </button>
-
-                <button
-                    id="recordingButton"
-                    disabled>
-                    ▶ Play My Recording
-                </button>
-
-            </div>
-
-            <div
-                id="status"
-                class="status">
-            </div>
-
-            <div class="navigation">
-
-                <button id="previousButton">
-                    ← Previous
-                </button>
-
-                <div id="lineCounter"></div>
-
-                <button id="nextButton">
-                    Next →
-                </button>
-
-            </div>
-
-        </section>
+        </div>
 
     </main>
 
@@ -808,7 +1030,7 @@ text-align: center;
 
 <section class="leaderboard-section">
 
-    <h2> Recording Leaderboard</h2>
+    <h2>Recording Leaderboard</h2>
 
     <p class="leaderboard-subtitle">
         Most recordings made
@@ -880,14 +1102,64 @@ const supabaseClient =
         }
     );
 
-</script>
 
-
-<script>
 
 /* ============================================================
    LIBRARY
 ============================================================ */
+
+/* =========================
+   WORKSPACE TABS
+   ========================= */
+
+const wholeSpeechTab = document.getElementById("wholeSpeechTab");
+const clipsTab = document.getElementById("clipsTab");
+const assembleTab = document.getElementById("assembleTab");
+
+const wholeSpeechView = document.getElementById("wholeSpeechView");
+const clipsView = document.getElementById("clipsView");
+const assembleView = document.getElementById("assembleView");
+
+
+function showWorkspace(view, tab) {
+
+    // Hide all views
+    wholeSpeechView.classList.remove("active");
+    clipsView.classList.remove("active");
+    assembleView.classList.remove("active");
+
+    // Remove active state from all tabs
+    wholeSpeechTab.classList.remove("active");
+    clipsTab.classList.remove("active");
+    assembleTab.classList.remove("active");
+
+    // Show selected view
+    view.classList.add("active");
+
+    // Highlight selected tab
+    tab.classList.add("active");
+}
+
+
+/* Whole Speech */
+
+wholeSpeechTab.addEventListener("click", () => {
+    showWorkspace(wholeSpeechView, wholeSpeechTab);
+});
+
+
+/* Clips */
+
+clipsTab.addEventListener("click", () => {
+    showWorkspace(clipsView, clipsTab);
+});
+
+
+/* Assemble */
+
+assembleTab.addEventListener("click", () => {
+    showWorkspace(assembleView, assembleTab);
+});
 
 const library = [
     {
@@ -1899,593 +2171,7 @@ speeches: [
         },
     ],
 },
-{
-    speaker: "Führer Adolf Hitler",
-    speeches: [
-    {
-        title: "January 30, Reichstag",
-        masterAudio: "audio/hitler/reichstag/master.mp3",
-        lines: [
-{
-    text: "In connection to the Jewish Question, I have this to say: It is a shameful spectacle to see",
-    audio: "audio/hitler/reichstag/01.mp3"
-},
-{
-    text: "today how the whole democratic world is oozing sympathy toward the poor, tormented Jewish people,",
-    audio: "audio/hitler/reichstag/02.mp3"
-},
-{
-    text: "but remains hard-hearted and obdurate",
-    audio: "audio/hitler/reichstag/03.mp3"
-},
-{
-    text: "when it comes to helping them.",
-    audio: "audio/hitler/reichstag/04.mp3"
-},
-{
-    text: "Which is surely, in view of its attitude",
-    audio: "audio/hitler/reichstag/0321.mp3"
-},
-{
-    text: "and obvious duty, the arguments that are brought up as an excuse",
-    audio: "audio/hitler/reichstag/05.mp3"
-},
-{
-    text: "for not helping them, actually speak for us Germans and Italians.",
-    audio: "audio/hitler/reichstag/06.mp3"
-},
-{
-    text: "For this is what they say:",
-    audio: "audio/hitler/reichstag/07.mp3"
-},
-{
-    text: "One: We—that is, the democracies—are not in",
-    audio: "audio/hitler/reichstag/08.mp3"
-},
-{
-    text: "a position to take in the Jews!",
-    audio: "audio/hitler/reichstag/09.mp3"
-},
-{
-    text: "And yet in these world empires there",
-    audio: "audio/hitler/reichstag/10.mp3"
-},
-{
-    text: "are not even 10 people per square kilometer,",
-    audio: "audio/hitler/reichstag/11.mp3"
-},
-{
-    text: "while Germany has to feed 135 per square kilometer,",
-    audio: "audio/hitler/reichstag/12.mp3"
-},
-{
-    text: "and is still supposed to be able to accommodate them.",
-    audio: "audio/hitler/reichstag/13.mp3"
-},
-{
-    text: "We are told: We cannot take them unless they are given,",
-    audio: "audio/hitler/reichstag/14.mp3"
-},
-{
-    text: "by Germany, for example, a certain amount of capital",
-    audio: "audio/hitler/reichstag/15.mp3"
-},
-{
-    text: "for immigration.",
-    audio: "audio/hitler/reichstag/16.mp3"
-},
-{
-    text: "For centuries, however, it was perfectly all",
-    audio: "audio/hitler/reichstag/17.mp3"
-},
-{
-    text: "right for Germany to receive these elements,",
-    audio: "audio/hitler/reichstag/18.mp3"
-},
-{
-    text: "though they possessed nothing except infectious political and sanitary diseases.",
-    audio: "audio/hitler/reichstag/19.mp3"
-},
-{
-    text: "What that people possesses today, it has",
-    audio: "audio/hitler/reichstag/20.mp3"
-},
-{
-    text: "acquired by way of the vilest manipulations",
-    audio: "audio/hitler/reichstag/21.mp3"
-},
-{
-    text: "at the expense of the not-very-astute German Volk.",
-    audio: "audio/hitler/reichstag/22.mp3"
-},
-{
-    text: "Today we are merely undoing the harm",
-    audio: "audio/hitler/reichstag/23.mp3"
-},
-{
-    text: "for which these people are themselves to blame.",
-    audio: "audio/hitler/reichstag/24.mp3"
-},
-{
-    text: "Back when the German Volk lost its",
-    audio: "audio/hitler/reichstag/25.mp3"
-},
-{
-    text: "entire savings from decades of honest work",
-    audio: "audio/hitler/reichstag/26.mp3"
-},
-{
-    text: "to the inflation instigated and promoted by the Jews,",
-    audio: "audio/hitler/reichstag/27.mp3"
-},
-{
-    text: "when the rest of the world",
-    audio: "audio/hitler/reichstag/28.mp3"
-},
-{
-    text: "took away the German Volk's foreign assets,",
-    audio: "audio/hitler/reichstag/29.mp3"
-},
-{
-    text: "when we were dispossessed of all our colonial possessions,",
-    audio: "audio/hitler/reichstag/30.mp3"
-},
-{
-    text: "such philanthropic considerations do not seem to have",
-    audio: "audio/hitler/reichstag/31.mp3"
-},
-{
-    text: "had any meaningful influence on these democratic statesmen.",
-    audio: "audio/hitler/reichstag/32.mp3"
-},
-{
-    text: "Today, I can only assure these gentlemen that we,",
-    audio: "audio/hitler/reichstag/33.mp3"
-},
-{
-    text: "thanks to the brutal education that the democracies have inflicted upon us for fifteen years,",
-    audio: "audio/hitler/reichstag/34.mp3"
-},
-{
-    text: "are completely hardened against any sentimental stirrings.",
-    audio: "audio/hitler/reichstag/35.mp3"
-},
-{
-    text: "We witnessed how, after more than 800,000 of our children had",
-    audio: "audio/hitler/reichstag/36.mp3"
-},
-{
-    text: "already died of hunger and undernourishment at the end of the war,",
-    audio: "audio/hitler/reichstag/37.mp3"
-},
-{
-    text: "nearly a million dairy cows were driven away",
-    audio: "audio/hitler/reichstag/38.mp3"
-},
-{
-    text: "in accordance with the cruel provisions of a dictate",
-    audio: "audio/hitler/reichstag/39.mp3"
-},
-{
-    text: "that the democratic, humane apostles of the",
-    audio: "audio/hitler/reichstag/40.mp3"
-},
-{
-    text: "world forced upon us as a peace treaty.",
-    audio: "audio/hitler/reichstag/41.mp3"
-},
-{
-    text: "We witnessed how more than a million",
-    audio: "audio/hitler/reichstag/42.mp3"
-},
-{
-    text: "German prisoners of war were kept in confinement",
-    audio: "audio/hitler/reichstag/43.mp3"
-},
-{
-    text: "for no reason at all for",
-    audio: "audio/hitler/reichstag/44.mp3"
-},
-{
-    text: "a whole year after the war ended.",
-    audio: "audio/hitler/reichstag/45.mp3"
-},
-{
-    text: "We had to endure that well over a million Germans",
-    audio: "audio/hitler/reichstag/46.mp3"
-},
-{
-    text: "in our border regions were torn from their property and possessions",
-    audio: "audio/hitler/reichstag/47.mp3"
-},
-{
-    text: "and driven out with almost nothing",
-    audio: "audio/hitler/reichstag/48.mp3"
-},
-{
-    text: "but the clothes on their backs.",
-    audio: "audio/hitler/reichstag/49.mp3"
-},
-{
-    text: "We had to bear millions of our",
-    audio: "audio/hitler/reichstag/50.mp3"
-},
-{
-    text: "Volk comrades being torn away from us,",
-    audio: "audio/hitler/reichstag/51.mp3"
-},
-{
-    text: "with no one offering them a hearing or leaving",
-    audio: "audio/hitler/reichstag/52.mp3"
-},
-{
-    text: "them even the smallest possibility of sustaining their lives.",
-    audio: "audio/hitler/reichstag/53.mp3"
-},
-{
-    text: "I could supplement these examples with",
-    audio: "audio/hitler/reichstag/54.mp3"
-},
-{
-    text: "dozens that are more horrendous still.",
-    audio: "audio/hitler/reichstag/55.mp3"
-},
-{
-    text: "Do not speak to us, then, of humanity.",
-    audio: "audio/hitler/reichstag/56.mp3"
-},
-{
-    text: "The German Volk does not wish for its affairs",
-    audio: "audio/hitler/reichstag/57.mp3"
-},
-{
-    text: "to be determined and governed by a foreign nation.",
-    audio: "audio/hitler/reichstag/58.mp3"
-},
-{
-    text: "France to the French, England to the English,",
-    audio: "audio/hitler/reichstag/59.mp3"
-},
-{
-    text: "America to the Americans, and Germany to the Germans!",
-    audio: "audio/hitler/reichstag/60.mp3"
-},
-{
-    text: "We are determined to stop a foreign people from nesting here,",
-    audio: "audio/hitler/reichstag/61.mp3"
-},
-{
-    text: "a people that has known how to seize all leadership positions,",
-    audio: "audio/hitler/reichstag/62.mp3"
-},
-{
-    text: "and to deport it;",
-    audio: "audio/hitler/reichstag/63.mp3"
-},
-{
-    text: "for we are willing to educate",
-    audio: "audio/hitler/reichstag/64.mp3"
-},
-{
-    text: "our own people for these leadership positions.",
-    audio: "audio/hitler/reichstag/65.mp3"
-},
-{
-    text: "We have hundreds of thousands of",
-    audio: "audio/hitler/reichstag/66.mp3"
-},
-{
-    text: "intelligent children of farmers and workers.",
-    audio: "audio/hitler/reichstag/67.mp3"
-},
-{
-    text: "We will have them educated, and we are already educating them,",
-    audio: "audio/hitler/reichstag/68.mp3"
-},
-{
-    text: "and we want them—not the members of",
-    audio: "audio/hitler/reichstag/69.mp3"
-},
-{
-    text: "a people that is alien to us—",
-    audio: "audio/hitler/reichstag/70.mp3"
-},
-{
-    text: "to one day occupy the leading positions",
-    audio: "audio/hitler/reichstag/71.mp3"
-},
-{
-    text: "in the state alongside our educated classes.",
-    audio: "audio/hitler/reichstag/72.mp3"
-},
-{
-    text: "Most of all, however, German culture is,",
-    audio: "audio/hitler/reichstag/73.mp3"
-},
-{
-    text: "as the very name suggests, a German and not a Jewish one,",
-    audio: "audio/hitler/reichstag/74.mp3"
-},
-{
-    text: "and its administration and care will therefore",
-    audio: "audio/hitler/reichstag/75.mp3"
-},
-{
-    text: "be placed in the hands of our Volk.",
-    audio: "audio/hitler/reichstag/76.mp3"
-},
-{
-    text: "If, however, the rest of the world cries out",
-    audio: "audio/hitler/reichstag/77.mp3"
-},
-{
-    text: "with a hypocritical mien about the barbaric expulsion from Germany",
-    audio: "audio/hitler/reichstag/78.mp3"
-},
-{
-    text: "of such an irreplaceable, culturally valuable element,",
-    audio: "audio/hitler/reichstag/79.mp3"
-},
-{
-    text: "we can only be astonished by the",
-    audio: "audio/hitler/reichstag/80.mp3"
-},
-{
-    text: "conclusions that can be drawn from this.",
-    audio: "audio/hitler/reichstag/81.mp3"
-},
-{
-    text: "How grateful they should be to us",
-    audio: "audio/hitler/reichstag/82.mp3"
-},
-{
-    text: "for setting free these wonderful bearers of culture",
-    audio: "audio/hitler/reichstag/83.mp3"
-},
-{
-    text: "and making them available to the rest of the world.",
-    audio: "audio/hitler/reichstag/84.mp3"
-},
-{
-    text: "In accordance with their own statements,",
-    audio: "audio/hitler/reichstag/85.mp3"
-},
-{
-    text: "the rest of the world cannot find a single reason to excuse themselves",
-    audio: "audio/hitler/reichstag/86.mp3"
-},
-{
-    text: "for refusing to admit these highly",
-    audio: "audio/hitler/reichstag/87.mp3"
-},
-{
-    text: "worthy people into their own countries.",
-    audio: "audio/hitler/reichstag/88.mp3"
-},
-{
-    text: "It is, after all, impossible to understand why the",
-    audio: "audio/hitler/reichstag/89.mp3"
-},
-{
-    text: "members of this race are inflicted on the German Volk,",
-    audio: "audio/hitler/reichstag/90.mp3"
-},
-{
-    text: "while the states that are so enthusiastic about these splendid",
-    audio: "audio/hitler/reichstag/91.mp3"
-},
-{
-    text: "people suddenly refuse to admit them with all kinds of excuses.",
-    audio: "audio/hitler/reichstag/92.mp3"
-},
-{
-    text: "I believe that the sooner this problem is solved, the better.",
-    audio: "audio/hitler/reichstag/93.mp3"
-},
-{
-    text: "For Europe will not find peace",
-    audio: "audio/hitler/reichstag/94.mp3"
-},
-{
-    text: "until the Jewish question has been settled.",
-    audio: "audio/hitler/reichstag/95.mp3"
-},
-{
-    text: "It is perfectly possible that this problem will",
-    audio: "audio/hitler/reichstag/96.mp3"
-},
-{
-    text: "lead sooner or later to an agreement in Europe,",
-    audio: "audio/hitler/reichstag/97.mp3"
-},
-{
-    text: "even between nations that would otherwise not have reconciled so easily.",
-    audio: "audio/hitler/reichstag/98.mp3"
-},
-{
-    text: "The world has enough settlement space,",
-    audio: "audio/hitler/reichstag/99.mp3"
-},
-{
-    text: "but one must, once and for all, break with the notion",
-    audio: "audio/hitler/reichstag/100.mp3"
-},
-{
-    text: "that the Jewish people have simply been chosen by the Lord God",
-    audio: "audio/hitler/reichstag/101.mp3"
-},
-{
-    text: "to be the beneficiaries of a certain percentage",
-    audio: "audio/hitler/reichstag/102.mp3"
-},
-{
-    text: "of the body and productive work of other peoples.",
-    audio: "audio/hitler/reichstag/103.mp3"
-},
-{
-    text: "Jewry will have to adjust to the kind of respectable,",
-    audio: "audio/hitler/reichstag/104.mp3"
-},
-{
-    text: "constructive activity that other nations are already engaged in;",
-    audio: "audio/hitler/reichstag/105.mp3"
-},
-{
-    text: "otherwise, it will succumb sooner or",
-    audio: "audio/hitler/reichstag/106.mp3"
-},
-{
-    text: "later to a crisis of unimaginable scope.",
-    audio: "audio/hitler/reichstag/107.mp3"
-},
-{
-    text: "And another thing I want to say on this day,",
-    audio: "audio/hitler/reichstag/108.mp3"
-},
-{
-    text: "which may be memorable for others as well as us Germans:",
-    audio: "audio/hitler/reichstag/109.mp3"
-},
-{
-    text: "I was often a prophet in my",
-    audio: "audio/hitler/reichstag/110.mp3"
-},
-{
-    text: "life and was usually ridiculed for it.",
-    audio: "audio/hitler/reichstag/111.mp3"
-},
-{
-    text: "At the time of my struggle for power,",
-    audio: "audio/hitler/reichstag/112.mp3"
-},
-{
-    text: "it was chiefly the Jewish people who laughed at my prophecies",
-    audio: "audio/hitler/reichstag/113.mp3"
-},
-{
-    text: "that I would one day assume in Germany the",
-    audio: "audio/hitler/reichstag/114.mp3"
-},
-{
-    text: "leadership of the state and thus the entire Volk,",
-    audio: "audio/hitler/reichstag/115.mp3"
-},
-{
-    text: "and would then, among other things,",
-    audio: "audio/hitler/reichstag/116.mp3"
-},
-{
-    text: "also bring the Jewish problem to a solution.",
-    audio: "audio/hitler/reichstag/117.mp3"
-},
-{
-    text: "I believe, however, that the Jews in Germany have",
-    audio: "audio/hitler/reichstag/118.mp3"
-},
-{
-    text: "already choked on the uproarious laughter of those days.",
-    audio: "audio/hitler/reichstag/119.mp3"
-},
-{
-    text: "I wish to be a prophet again today:",
-    audio: "audio/hitler/reichstag/120.mp3"
-},
-{
-    text: "should international financial Jewry in and outside of Europe succeed",
-    audio: "audio/hitler/reichstag/121.mp3"
-},
-{
-    text: "in plunging the nations once again into a world war,",
-    audio: "audio/hitler/reichstag/122.mp3"
-},
-{
-    text: "the result will not be the Bolshevization of",
-    audio: "audio/hitler/reichstag/123.mp3"
-},
-{
-    text: "the world and thus the victory of Jewry,",
-    audio: "audio/hitler/reichstag/124.mp3"
-},
-{
-    text: "but the annihilation of the Jewish race in Europe.",
-    audio: "audio/hitler/reichstag/125.mp3"
-},
-{
-    text: "For the time of the propagandistic",
-    audio: "audio/hitler/reichstag/126.mp3"
-},
-{
-    text: "impotence of the non-Jewish peoples is over.",
-    audio: "audio/hitler/reichstag/127.mp3"
-},
-{
-    text: "National Socialist Germany and Fascist Italy",
-    audio: "audio/hitler/reichstag/128.mp3"
-},
-{
-    text: "possess the institutions that allow them,",
-    audio: "audio/hitler/reichstag/129.mp3"
-},
-{
-    text: "if necessary, to enlighten the world about the nature",
-    audio: "audio/hitler/reichstag/130.mp3"
-},
-{
-    text: "of a question of which many peoples are instinctively aware",
-    audio: "audio/hitler/reichstag/131.mp3"
-},
-{
-    text: "but have not thought clearly about.",
-    audio: "audio/hitler/reichstag/132.mp3"
-},
-{
-    text: "At the moment, Jewry may, in certain states,",
-    audio: "audio/hitler/reichstag/133.mp3"
-},
-{
-    text: "pursue its smear campaign under the protection of press, film, radio propaganda, theater, literature, etc.,",
-    audio: "audio/hitler/reichstag/134.mp3"
-},
-{
-    text: "which are in its hands.",
-    audio: "audio/hitler/reichstag/135.mp3"
-},
-{
-    text: "But should that people succeed once again in driving the nations'",
-    audio: "audio/hitler/reichstag/136.mp3"
-},
-{
-    text: "masses of millions into a struggle that is entirely senseless for them",
-    audio: "audio/hitler/reichstag/137.mp3"
-},
-{
-    text: "and serves only Jewish interests,",
-    audio: "audio/hitler/reichstag/138.mp3"
-},
-{
-    text: "we shall see the effectiveness of an education in Germany",
-    audio: "audio/hitler/reichstag/139.mp3"
-},
-{
-    text: "to which Jewry has completely succumbed within a few short years.",
-    audio: "audio/hitler/reichstag/140.mp3"
-},
-{
-    text: "The nations no longer wish to die on the battlefield so",
-    audio: "audio/hitler/reichstag/141.mp3"
-},
-{
-    text: "that this rootless international race can profit from the business of war",
-    audio: "audio/hitler/reichstag/142.mp3"
-},
-{
-    text: "and satisfy its Old-Testament lust for vengeance.",
-    audio: "audio/hitler/reichstag/143.mp3"
-},
-        ],
-    },
-    ],
-},
+
     {
 
         speaker: "Prime Minister Winston Churchill",
@@ -6314,6 +6000,60 @@ async function initialize() {
 
 }
 
+/* =========================
+   WORKSPACE NAVIGATION
+   ========================= */
+
+function showWorkspace(view) {
+
+    // Hide every workspace
+    document.querySelectorAll(".workspace-view").forEach(element => {
+        element.classList.remove("active");
+    });
+
+    // Remove active state from every tab
+    document.querySelectorAll(".workspace-tabs button").forEach(button => {
+        button.classList.remove("active");
+    });
+
+    // Show selected workspace
+    const selectedView = document.getElementById(view + "View");
+
+    if (selectedView) {
+        selectedView.classList.add("active");
+    }
+
+    // Activate selected tab
+    const selectedTab = document.getElementById(view + "Tab");
+
+    if (selectedTab) {
+        selectedTab.classList.add("active");
+    }
+}
+
+
+/* =========================
+   TAB BUTTONS
+   ========================= */
+
+document.getElementById("wholeSpeechTab").onclick = function () {
+    showWorkspace("wholeSpeech");
+};
+
+document.getElementById("clipsTab").onclick = function () {
+    showWorkspace("clips");
+};
+
+document.getElementById("assembleTab").onclick = function () {
+    showWorkspace("assemble");
+};
+
+
+/* =========================
+   DEFAULT WORKSPACE
+   ========================= */
+
+showWorkspace("wholeSpeech");
 
 initialize();
 
