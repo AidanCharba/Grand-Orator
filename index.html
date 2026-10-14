@@ -1093,6 +1093,66 @@ body{color:var(--go-ink)}
 @media(max-width:800px){.go-hero{grid-template-columns:1fr}.go-crest{position:absolute;right:14px;top:16px;width:86px;opacity:.65}.go-hero>div:first-child{position:relative;z-index:1}.go-card,.go-card.span-8,.go-card.span-6{grid-column:span 12}.go-page{padding:18px 12px 30px}.go-hero{padding:24px 20px}.go-hero p{max-width:85%}.go-section-title{align-items:flex-start;flex-direction:column}}
 @media(prefers-reduced-motion:reduce){.go-progress span,.go-button,.go-toast{transition:none}*{animation:none!important}}
 
+/* Fix text boxes, dropdowns, and input fields */
+input,
+textarea,
+select {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #b8b8b8 !important;
+    border-radius: 6px;
+    padding: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Placeholder text */
+input::placeholder,
+textarea::placeholder {
+    color: #777777 !important;
+    opacity: 1;
+}
+
+/* Dropdown options */
+select option {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+/* Focused fields */
+input:focus,
+textarea:focus,
+select:focus {
+    outline: 2px solid #123c5a;
+    outline-offset: 1px;
+    border-color: #123c5a !important;
+}
+
+/* Prevent text areas from becoming awkwardly narrow */
+textarea {
+    width: 100%;
+    min-height: 90px;
+    resize: vertical;
+}
+
+/* Keep checkboxes and radio buttons normal-sized */
+input[type="checkbox"],
+input[type="radio"] {
+    width: auto;
+    padding: 0;
+    accent-color: #123c5a;
+}
+
+/* Disabled fields */
+input:disabled,
+textarea:disabled,
+select:disabled {
+    background-color: #eeeeee !important;
+    color: #777777 !important;
+    cursor: not-allowed;
+}
+
 </style>
 
 </head>
